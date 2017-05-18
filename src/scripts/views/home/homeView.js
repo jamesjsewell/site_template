@@ -5,13 +5,20 @@ import ACTIONS from '../../actions.js'
 class HomeView extends React.Component {
   
 	constructor(props) {
-	    
-	    super(props);
-	    this.state = {date: new Date()};
-	    //ACTIONS.fetchData()
-		// STORE.on('dataUpdated', () => {
-		// 	this.setState(STORE.data)
-		// })
+
+	    super(props)
+	    this.state = { data: STORE.data }
+	   
+
+  	}
+
+  	componentWillMount() {
+
+  		//ACTIONS.fetchData()
+		STORE.on('dataUpdated', () => {
+			this.setState(STORE.data)
+		})
+
   	}
 
 	componentWillUnmount() {
@@ -20,17 +27,13 @@ class HomeView extends React.Component {
 
 	}
 
-	getInitialState() {
-
-		return STORE.data
-
-	}
-
   	render() {
-
+    	
     	return( 
 
-    		<div> Hello </div> 
+    		<div className="home-view-wrapper">  
+    			welcome to the homepage
+    		</div> 
 
     	)
 

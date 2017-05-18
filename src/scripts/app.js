@@ -17,13 +17,13 @@ const app = function() {
 
 		redirect: function() {
 
-			ReactDOM.render(<HomeView />, document.querySelector('.page-container'))
+			ReactDOM.render(<HomeView someProp="hello" />, document.querySelector('.page-container'))
 	
 		},
 
 		showHomePage: function() {
 
-			ReactDOM.render(<HomeView />, document.querySelector('.page-container'))
+			ReactDOM.render(<HomeView someProp="hello"/>, document.querySelector('.page-container'))
 
 		}
 
