@@ -2,6 +2,85 @@ import STORE from './store.js'
 import User from './modelsAndCollections/userModel.js'
 
 const ACTIONS = {
+
+	get_item: function(url, itemId) {
+
+
+	},
+
+	get_items: function(url) {
+
+
+	},
+
+	delete_item: function(itemType, itemId){
+
+		STORE._set({
+
+			dataLoaded: false
+
+			})
+
+		$.ajax({
+
+	            method: 'delete',
+	            type: 'json',
+	            url: `api/${itemType}/${itemId}`
+	        
+	        })
+	        .done((response)=>{
+
+	        	console.log('item deleted', response)
+	       		//ACTIONS.refresh_needed_data()
+	       		STORE._set({
+				dataLoaded: true
+				})
+
+	        })
+	        .fail((error)=>{
+
+	            console.log('could not delete item', error)
+
+	        })
+
+	},
+
+	post_item: function(url, itemBody){
+
+
+	},
+
+	delete_blog_post: function(postId){
+
+		STORE._set({
+
+			dataLoaded: false
+
+			})
+
+		$.ajax({
+
+	            method: 'delete',
+	            type: 'json',
+	            url: `api/blogPosts/${postId}`
+	        
+	        })
+	        .done((response)=>{
+
+	        	console.log('deleted a match', response)
+	       		ACTIONS.refresh_needed_data()
+	       		STORE._set({
+				dataLoaded: true
+				})
+
+	        })
+	        .fail((error)=>{
+
+	            console.log('could not post match', error)
+
+	        })
+
+	},
 	
 
 	logout: function() {
@@ -76,7 +155,8 @@ const ACTIONS = {
 				}
 
 			)
-	}
+	},
+
 }
 
 export default ACTIONS
