@@ -26,15 +26,24 @@ const cookifyUser = function(req,res,next) {
 }
 
 const parseQuery = function(req,res,next) {
+  
   if (req.query) {
+
     for (var prop in req.query) {
-      if (prop[0] === '$') {
+
+      if (req.query[prop][0] === '$') {
+        
         let val = req.query[prop]
-        req.query[prop] = JSON.parse(val)
+        req.query[prop] = new RegExp(req.query[prop].substr(1), 'i')
+        
       }
+
     }
+    
   }
+
   next()
+
 }
 
 module.exports = {
