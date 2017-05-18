@@ -1,11 +1,11 @@
 import Backbone from 'backbone'
-// import {someCollection} from './models/someModel'
+import {BlogPostsCollection} from './modelsAndCollections/blogPostsCollection.js'
 
 const STORE = Object.assign({}, Backbone.Events, {
 	
 	data: {
 
-		someCollection: "hi" //new someCollection() 
+		blogPosts: new BlogPostsCollection() 
 		
 	},
 
