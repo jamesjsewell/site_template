@@ -33,6 +33,7 @@ class HomeView extends React.Component {
 
     		<div className="home-view-wrapper">  
     			welcome to the homepage
+          <button onClick={function(){ACTIONS.delete_blog_post("591f2ad2fd5781483c627022")}} > delete </button>
     		</div> 
 
     	)

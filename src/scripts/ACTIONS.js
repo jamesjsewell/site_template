@@ -1,5 +1,6 @@
 import STORE from './store.js'
 import User from './modelsAndCollections/userModel.js'
+import $ from 'jquery'
 
 const ACTIONS = {
 
@@ -13,9 +14,9 @@ const ACTIONS = {
 
 	},
 
-	delete_item: function(itemType, itemId){
+	delete_item: function(itemLocation, itemId, onComplete){
 
-		STORE._set({
+		STORE.set({
 
 			dataLoaded: false
 
@@ -25,16 +26,18 @@ const ACTIONS = {
 
 	            method: 'delete',
 	            type: 'json',
-	            url: `api/${itemType}/${itemId}`
+	            url: `api/${itemLocation}/${itemId}`
 	        
 	        })
 	        .done((response)=>{
 
 	        	console.log('item deleted', response)
 	       		//ACTIONS.refresh_needed_data()
-	       		STORE._set({
+	       		STORE.set({
 				dataLoaded: true
 				})
+
+				onComplete()
 
 	        })
 	        .fail((error)=>{
@@ -52,33 +55,13 @@ const ACTIONS = {
 
 	delete_blog_post: function(postId){
 
-		STORE._set({
+		function after_delete() {
 
-			dataLoaded: false
+			console.log('deleted it!')
 
-			})
+		}
 
-		$.ajax({
-
-	            method: 'delete',
-	            type: 'json',
-	            url: `api/blogPosts/${postId}`
-	        
-	        })
-	        .done((response)=>{
-
-	        	console.log('deleted a match', response)
-	       		ACTIONS.refresh_needed_data()
-	       		STORE._set({
-				dataLoaded: true
-				})
-
-	        })
-	        .fail((error)=>{
-
-	            console.log('could not post match', error)
-
-	        })
+		this.delete_item('blogPosts', postId, after_delete)
 
 	},
 	
