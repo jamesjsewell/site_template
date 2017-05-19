@@ -16,11 +16,7 @@ const ACTIONS = {
 
 	delete_item: function(itemLocation, itemId, onComplete){
 
-		STORE.set({
-
-			dataLoaded: false
-
-			})
+		STORE.set( { aSyncDone: false } )
 
 		$.ajax({
 
@@ -32,10 +28,8 @@ const ACTIONS = {
 	        .done((response)=>{
 
 	        	console.log('item deleted', response)
-	       		//ACTIONS.refresh_needed_data()
-	       		STORE.set({
-				dataLoaded: true
-				})
+	       		
+	       		STORE.set( { aSyncDone: true } )
 
 				onComplete()
 
@@ -48,8 +42,32 @@ const ACTIONS = {
 
 	},
 
-	post_item: function(url, itemBody){
+	post_item: function(itemLocation, itemDataObj, onComplete){
 
+		STORE.set( { aSyncDone: false } )
+
+		$.ajax({
+
+	            method: 'POST',
+	            type: 'json',
+	            url: `api/${itemLocation}`,
+	            data: itemDataObj
+	        
+	        })
+	        .done((response)=>{
+
+	        	console.log('posted a new item', response)
+	        	
+	        	STORE.set( { aSyncDone: true } )
+
+				onComplete()
+
+	        })
+	        .fail((error)=>{
+
+	            console.log('could not post item', error)
+
+	        })
 
 	},
 
@@ -64,8 +82,19 @@ const ACTIONS = {
 		this.delete_item('blogPosts', postId, after_delete)
 
 	},
-	
 
+	create_blog_post: function(userInputObj){
+
+		function after_post() {
+
+			console.log('posted it!')
+
+		}
+
+		this.post_item('blogPosts', userInputObj, after_post)
+
+	},
+	
 	logout: function() {
 
 		User.logout()

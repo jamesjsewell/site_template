@@ -1,44 +1,49 @@
 import React from 'react'
 import STORE from '../../store.js'
 import ACTIONS from '../../actions.js'
-	
+
 class HomeView extends React.Component {
-  
-	constructor(props) {
 
-	    super(props)
-	    this.state = { data: STORE.data }
-	   
+    constructor(props) {
 
-  	}
+        super(props)
+        this.state = { data: STORE.data }
 
-  	componentWillMount() {
 
-  		//ACTIONS.fetchData()
-		STORE.on('dataUpdated', () => {
-			this.setState(STORE.data)
-		})
+    }
 
-  	}
+    componentWillMount() {
 
-	componentWillUnmount() {
+        //ACTIONS.fetchData()
+        STORE.on('dataUpdated', () => {
+        this.setState(STORE.data)
+        })
 
-		STORE.off('dataUpdated')
+    }
 
-	}
+    componentWillUnmount() {
 
-  	render() {
-    	
-    	return( 
+        STORE.off('dataUpdated')
 
-    		<div className="home-view-wrapper">  
-    			welcome to the homepage
-          <button onClick={function(){ACTIONS.delete_blog_post("591f2ad2fd5781483c627022")}} > delete </button>
-    		</div> 
+    }
 
-    	)
+    render() {
 
-  	}
+        return( 
+
+            <div className="home-view-wrapper">  
+
+                welcome to the homepage
+
+                <button onClick={function(){ACTIONS.delete_blog_post("591f2ad2fd5781483c627022")}} > delete </button>
+
+                <button onClick={function(){ACTIONS.create_blog_post( { title: 'my thoughts', description: 'you dont want to read my thoughts' } )}} > post </button>
+
+            </div> 
+
+        )
+
+    }
 
 }
 
