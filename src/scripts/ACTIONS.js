@@ -4,13 +4,84 @@ import $ from 'jquery'
 
 const ACTIONS = {
 
-	get_item: function(url, itemId) {
+	post_item: function(itemDestination, itemDataObj, onComplete){
 
+		STORE.set( { aSyncDone: false } )
+
+		$.ajax({
+
+	            method: 'POST',
+	            type: 'json',
+	            url: `api/${itemDestination}`,
+	            data: itemDataObj
+	        
+	        })
+	        .done((response)=>{
+
+	        	console.log('posted a new item', response)
+
+				onComplete(response)
+
+				STORE.set( { aSyncDone: true } )
+
+	        })
+	        .fail((error)=>{
+
+	            console.log('could not post item', error)
+
+	            STORE.set( { aSyncDone: true } )
+
+	        })
 
 	},
 
-	get_items: function(url) {
+	get_item_s: function(item_s, filterObj, onComplete) {
 
+		STORE.set( { aSyncDone: false } )
+
+		var itemsCollection = STORE.get(item_s)
+	
+		itemsCollection.fetch(filterObj)
+
+			.then(function() {
+				
+				onComplete(itemsCollection)
+
+				console.log(itemsCollection)
+
+				STORE.set( { aSyncDone: true } )
+
+			})
+
+	},
+
+	update_item: function(itemLocation, itemId, onComplete){
+
+		STORE.set( { aSyncDone: false } )
+
+		$.ajax({
+
+	            method: 'update',
+	            type: 'json',
+	            url: `api/${itemLocation}/${itemId}`
+	        
+	        })
+	        .done((response)=>{
+
+	        	console.log('item updated', response)
+
+				onComplete(response)
+
+				STORE.set( { aSyncDone: true } )
+
+	        })
+	        .fail((error)=>{
+
+	            console.log('could not update item', error)
+
+	            STORE.set( { aSyncDone: true } )
+
+	        })
 
 	},
 
@@ -28,70 +99,81 @@ const ACTIONS = {
 	        .done((response)=>{
 
 	        	console.log('item deleted', response)
-	       		
-	       		STORE.set( { aSyncDone: true } )
 
-				onComplete()
+				onComplete(response)
+
+				STORE.set( { aSyncDone: true } )
 
 	        })
 	        .fail((error)=>{
 
 	            console.log('could not delete item', error)
 
-	        })
-
-	},
-
-	post_item: function(itemLocation, itemDataObj, onComplete){
-
-		STORE.set( { aSyncDone: false } )
-
-		$.ajax({
-
-	            method: 'POST',
-	            type: 'json',
-	            url: `api/${itemLocation}`,
-	            data: itemDataObj
-	        
-	        })
-	        .done((response)=>{
-
-	        	console.log('posted a new item', response)
-	        	
-	        	STORE.set( { aSyncDone: true } )
-
-				onComplete()
+	            STORE.set( { aSyncDone: true } )
 
 	        })
-	        .fail((error)=>{
-
-	            console.log('could not post item', error)
-
-	        })
-
-	},
-
-	delete_blog_post: function(postId){
-
-		function after_delete() {
-
-			console.log('deleted it!')
-
-		}
-
-		this.delete_item('blogPosts', postId, after_delete)
 
 	},
 
 	create_blog_post: function(userInputObj){
 
-		function after_post() {
+		function after_post(ajaxResponse) {
 
-			console.log('posted it!')
+			console.log('on complete executed after post' ajaxResponse)
 
 		}
 
 		this.post_item('blogPosts', userInputObj, after_post)
+
+	},
+
+	get_blog_posts: function(){
+
+		function after_get(ajaxResponse) {
+
+			console.log('on complete executed after get' ajaxResponse)
+
+		}
+
+		this.get_item_s('blogPosts', {}, after_get)
+
+	},
+
+	get_a_blog_post: function(userInputObj){
+
+		function after_get(ajaxResponse) {
+
+			console.log('on complete executed after get' ajaxResponse)
+
+		}
+
+		var filterObj = {data: userInputObj}
+
+		this.get_item_s('blogPosts', filterObj, after_get)
+
+	},
+
+	update_blog_post: function(postId){
+
+		function after_update(ajaxResponse) {
+
+			console.log('on complete executed after update', ajaxResponse)
+
+		}
+
+		this.update_item('blogPosts', postId, after_update)
+
+	},
+
+	delete_blog_post: function(postId){
+
+		function after_delete(ajaxResponse) {
+
+			console.log('on complete executed after delete', ajaxResponse)
+
+		}
+
+		this.delete_item('blogPosts', postId, after_delete)
 
 	},
 	
