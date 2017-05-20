@@ -37,7 +37,7 @@ class HomeView extends React.Component {
 
                 <button onClick={function(){ACTIONS.create_blog_post( { title: 'my thoughts', description: 'you dont want to read my thoughts' } )}} > post </button>
 
-                <button onClick={function(){ACTIONS.get_a_blog_post( { title: 'my thoughts' } )}} > get filtered </button>
+                <button onClick={function(){ACTIONS.get_blog_posts( { title: 'my thoughts updated' } )}} > get filtered </button>
 
                 <button onClick={function(){ACTIONS.get_blog_posts( {} )}} > get all </button>
 

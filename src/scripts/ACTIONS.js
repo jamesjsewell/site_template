@@ -128,7 +128,7 @@ const ACTIONS = {
 
 	},
 
-	get_blog_posts: function(){
+	get_blog_posts: function(filterObj){
 
 		function after_get(ajaxResponse) {
 
@@ -136,11 +136,13 @@ const ACTIONS = {
 
 		}
 
-		this.get_item_s('blogPosts', {}, after_get)
+		var queryObj = { data: filterObj }
+
+		this.get_item_s('blogPosts', queryObj, after_get)
 
 	},
 
-	get_a_blog_post: function(userInputObj){
+	get_filtered_blog_posts: function(userInputObj){
 
 		function after_get(ajaxResponse) {
 
