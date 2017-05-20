@@ -55,15 +55,16 @@ const ACTIONS = {
 
 	},
 
-	update_item: function(itemLocation, itemId, onComplete){
+	update_item: function(itemLocation, itemId, payload, onComplete){
 
 		STORE.set( { aSyncDone: false } )
 
 		$.ajax({
 
-	            method: 'update',
+	            method: 'put',
 	            type: 'json',
-	            url: `api/${itemLocation}/${itemId}`
+	            url: `api/${itemLocation}/${itemId}`,
+	            data: payload
 	        
 	        })
 	        .done((response)=>{
@@ -119,7 +120,7 @@ const ACTIONS = {
 
 		function after_post(ajaxResponse) {
 
-			console.log('on complete executed after post' ajaxResponse)
+			console.log('on complete executed after post and recieved ajax data', ajaxResponse)
 
 		}
 
@@ -131,7 +132,7 @@ const ACTIONS = {
 
 		function after_get(ajaxResponse) {
 
-			console.log('on complete executed after get' ajaxResponse)
+			console.log('on complete executed after get and recieved ajax data', ajaxResponse)
 
 		}
 
@@ -143,7 +144,7 @@ const ACTIONS = {
 
 		function after_get(ajaxResponse) {
 
-			console.log('on complete executed after get' ajaxResponse)
+			console.log('on complete executed after get and recieved ajax data', ajaxResponse)
 
 		}
 
@@ -153,15 +154,15 @@ const ACTIONS = {
 
 	},
 
-	update_blog_post: function(postId){
+	update_blog_post: function(postId, payload){
 
 		function after_update(ajaxResponse) {
 
-			console.log('on complete executed after update', ajaxResponse)
+			console.log('on complete executed after update and recieved ajax data', ajaxResponse)
 
 		}
 
-		this.update_item('blogPosts', postId, after_update)
+		this.update_item('blogPosts', postId, payload, after_update)
 
 	},
 
@@ -169,7 +170,7 @@ const ACTIONS = {
 
 		function after_delete(ajaxResponse) {
 
-			console.log('on complete executed after delete', ajaxResponse)
+			console.log('on complete executed after delete and recieved ajax data', ajaxResponse)
 
 		}
 
