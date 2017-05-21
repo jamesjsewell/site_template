@@ -4,7 +4,7 @@ import $ from 'jquery'
 
 const ACTIONS = {
 
-	post_item: function(itemDestination, itemDataObj, onComplete){
+	post_item: function( itemDestination, itemDataObj, onComplete ){
 
 		STORE.set( { aSyncDone: false } )
 
@@ -16,16 +16,16 @@ const ACTIONS = {
 	            data: itemDataObj
 	        
 	        })
-	        .done((response)=>{
+	        .done(( response )=>{
 
 	        	console.log('posted a new item', response)
 
-				onComplete(response)
+				onComplete( response )
 
 				STORE.set( { aSyncDone: true } )
 
 	        })
-	        .fail((error)=>{
+	        .fail(( error )=>{
 
 	            console.log('could not post item', error)
 
@@ -35,7 +35,7 @@ const ACTIONS = {
 
 	},
 
-	get_item_s: function(item_s, filterObj, onComplete) {
+	get_item_s: function( item_s, filterObj, onComplete ) {
 
 		STORE.set( { aSyncDone: false } )
 
@@ -45,7 +45,7 @@ const ACTIONS = {
 
 			.then(function() {
 				
-				onComplete(itemsCollection)
+				onComplete( itemsCollection )
 
 				console.log(itemsCollection)
 
@@ -55,7 +55,7 @@ const ACTIONS = {
 
 	},
 
-	update_item: function(itemLocation, itemId, payload, onComplete){
+	update_item: function( itemLocation, itemId, payload, onComplete ){
 
 		STORE.set( { aSyncDone: false } )
 
@@ -67,16 +67,16 @@ const ACTIONS = {
 	            data: payload
 	        
 	        })
-	        .done((response)=>{
+	        .done(( response )=>{
 
 	        	console.log('item updated', response)
 
-				onComplete(response)
+				onComplete( response )
 
 				STORE.set( { aSyncDone: true } )
 
 	        })
-	        .fail((error)=>{
+	        .fail(( error )=>{
 
 	            console.log('could not update item', error)
 
@@ -86,7 +86,7 @@ const ACTIONS = {
 
 	},
 
-	delete_item: function(itemLocation, itemId, onComplete){
+	delete_item: function( itemLocation, itemId, onComplete ){
 
 		STORE.set( { aSyncDone: false } )
 
@@ -97,16 +97,16 @@ const ACTIONS = {
 	            url: `api/${itemLocation}/${itemId}`
 	        
 	        })
-	        .done((response)=>{
+	        .done(( response )=>{
 
 	        	console.log('item deleted', response)
 
-				onComplete(response)
+				onComplete( response )
 
 				STORE.set( { aSyncDone: true } )
 
 	        })
-	        .fail((error)=>{
+	        .fail(( error )=>{
 
 	            console.log('could not delete item', error)
 
@@ -116,21 +116,21 @@ const ACTIONS = {
 
 	},
 
-	create_blog_post: function(userInputObj){
+	create_blog_post: function( userInputObj ){
 
-		function after_post(ajaxResponse) {
+		function after_post( ajaxResponse ) {
 
 			console.log('on complete executed after post and recieved ajax data', ajaxResponse)
 
 		}
 
-		this.post_item('blogPosts', userInputObj, after_post)
+		this.post_item( 'blogPosts', userInputObj, after_post )
 
 	},
 
-	get_blog_posts: function(filterObj){
+	get_blog_posts: function( filterObj ){
 
-		function after_get(ajaxResponse) {
+		function after_get( ajaxResponse ) {
 
 			console.log('on complete executed after get and recieved ajax data', ajaxResponse)
 
@@ -138,13 +138,13 @@ const ACTIONS = {
 
 		var queryObj = { data: filterObj }
 
-		this.get_item_s('blogPosts', queryObj, after_get)
+		this.get_item_s( 'blogPosts', queryObj, after_get )
 
 	},
 
-	get_filtered_blog_posts: function(userInputObj){
+	get_filtered_blog_posts: function( userInputObj ){
 
-		function after_get(ajaxResponse) {
+		function after_get( ajaxResponse ) {
 
 			console.log('on complete executed after get and recieved ajax data', ajaxResponse)
 
@@ -152,31 +152,31 @@ const ACTIONS = {
 
 		var filterObj = { data: userInputObj }
 
-		this.get_item_s('blogPosts', filterObj, after_get)
+		this.get_item_s( 'blogPosts', filterObj, after_get )
 
 	},
 
-	update_blog_post: function(postId, payload){
+	update_blog_post: function( postId, payload ){
 
-		function after_update(ajaxResponse) {
+		function after_update( ajaxResponse ) {
 
 			console.log('on complete executed after update and recieved ajax data', ajaxResponse)
 
 		}
 
-		this.update_item('blogPosts', postId, payload, after_update)
+		this.update_item( 'blogPosts', postId, payload, after_update )
 
 	},
 
-	delete_blog_post: function(postId){
+	delete_blog_post: function( postId ){
 
-		function after_delete(ajaxResponse) {
+		function after_delete( ajaxResponse ) {
 
 			console.log('on complete executed after delete and recieved ajax data', ajaxResponse)
 
 		}
 
-		this.delete_item('blogPosts', postId, after_delete)
+		this.delete_item( 'blogPosts', postId, after_delete )
 
 	},
 	
