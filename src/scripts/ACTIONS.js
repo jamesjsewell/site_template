@@ -1,4 +1,4 @@
-import STORE from './store.js'
+import STORE from './STORE.js'
 import User from './modelsAndCollections/userModel.js'
 import $ from 'jquery'
 
@@ -150,7 +150,7 @@ const ACTIONS = {
 
 		}
 
-		var filterObj = {data: userInputObj}
+		var filterObj = { data: userInputObj }
 
 		this.get_item_s('blogPosts', filterObj, after_get)
 

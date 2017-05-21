@@ -1,6 +1,6 @@
 import React from 'react'
-import STORE from '../../store.js'
-import ACTIONS from '../../actions.js'
+import STORE from '../../STORE.js'
+import ACTIONS from '../../ACTIONS.js'
 
 class HomeView extends React.Component {
 
