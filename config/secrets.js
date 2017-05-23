@@ -1,3 +1,4 @@
 module.exports = {
-	sessionSecret: 'friendship'
+	sessionSecret: 'friendship',
+	jwtSecret: 'placeholderstringlol'
 }

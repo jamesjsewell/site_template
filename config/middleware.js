@@ -50,3 +50,4 @@ module.exports = {
   parseQuery: parseQuery
 }
 
+console.log('testing')

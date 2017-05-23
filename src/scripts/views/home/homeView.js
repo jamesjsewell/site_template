@@ -27,6 +27,16 @@ class HomeView extends React.Component {
 
     }
 
+    registerUser(evt) {
+        evt.preventDefault()
+        ACTIONS.registerUser({email: 'bob', password: 'bob', username: 'bob'})
+    }
+
+    loginUser(evt) {
+        evt.preventDefault()
+        ACTIONS.logUserIn('bob', 'bob')
+    }
+
     render() {
 
         return( 
@@ -44,6 +54,12 @@ class HomeView extends React.Component {
                 <button onClick={function(){ACTIONS.update_blog_post( "591f2ac7fd5781483c627021", { title: 'my thoughts updated', description: 'you still dont want to read my thoughts' } )}} > update </button>
 
                 <button onClick={function(){ACTIONS.delete_blog_post("591f2ad2fd5781483c627022")}} > delete </button>
+
+                <button onClick={this.registerUser} > register test </button>
+
+                <button onClick={this.loginUser} > login test </button>
+
+
 
             </div> 
 

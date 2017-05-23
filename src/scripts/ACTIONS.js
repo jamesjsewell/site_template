@@ -188,7 +188,7 @@ const ACTIONS = {
 
 				function(resp) {
 					alert('you logged out!')
-					location.hash = 'login'
+					
 				}
 
 			)
@@ -213,7 +213,7 @@ const ACTIONS = {
 				function(resp) {
 					alert('logged in!')
 					console.log(resp)
-					location.hash = 'issues/all'
+					
 				}
 
 			)
@@ -239,7 +239,7 @@ const ACTIONS = {
 				function(resp) {
 					alert(`new user ${resp.email} registered`)
 					console.log(resp)
-					ACTIONS.logUserIn(userData.email, userData.password)
+					//ACTIONS.logUserIn(userData.email, userData.password)
 				}
 
 			)
