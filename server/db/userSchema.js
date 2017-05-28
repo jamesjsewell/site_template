@@ -1,10 +1,10 @@
 // Importing Node packages required for schema
 const mongoose = require('mongoose');
-const bcrypt = require('bcrypt-nodejs');
-const ROLE_MEMBER = require('./config/constants').ROLE_MEMBER;
-const ROLE_CLIENT = require('./config/constants').ROLE_CLIENT;
-const ROLE_OWNER = require('./config/constants').ROLE_OWNER;
-const ROLE_ADMIN = require('./config/constants').ROLE_ADMIN;
+const bcrypt = require('bcrypt');
+const ROLE_MEMBER = require('../config/constants').ROLE_MEMBER;
+const ROLE_CLIENT = require('../config/constants').ROLE_CLIENT;
+const ROLE_OWNER = require('../config/constants').ROLE_OWNER;
+const ROLE_ADMIN = require('../config/constants').ROLE_ADMIN;
 
 const Schema = mongoose.Schema;
 
@@ -59,12 +59,15 @@ UserSchema.pre('save', function (next) {
   bcrypt.genSalt(SALT_FACTOR, (err, salt) => {
     if (err) return next(err);
 
-    bcrypt.hash(user.password, salt, null, (err, hash) => {
+    bcrypt.hash(user.password, salt, (err, hash) => {
       if (err) return next(err);
       user.password = hash;
       next();
     });
   });
+
+  //next()
+
 });
 
 // Method to compare password for login

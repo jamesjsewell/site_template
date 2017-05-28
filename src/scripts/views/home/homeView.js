@@ -29,12 +29,12 @@ class HomeView extends React.Component {
 
     registerUser(evt) {
         evt.preventDefault()
-        ACTIONS.registerUser({email: 'bob', password: 'bob', username: 'bob'})
+        //ACTIONS.registerUser({email: 'bob', password: 'bob', username: 'bob'})
     }
 
     loginUser(evt) {
         evt.preventDefault()
-        ACTIONS.logUserIn('bob', 'bob')
+        //ACTIONS.logUserIn('bob', 'bob')
     }
 
     render() {

@@ -23,14 +23,14 @@ const updateFields = function(record, resBody){
 }
 
 
-module.exports = {
-  sanitizeUser: sanitizeUser,
-  updateFields: updateFields
-}
+// module.exports = {
+//   sanitizeUser: sanitizeUser,
+//   updateFields: updateFields
+// }
 //////////////////////////////
 
 // Set user info from request
-exports.setUserInfo = function setUserInfo(request) {
+const setUserInfo = function setUserInfo(request) {
   const getUserInfo = {
     _id: request._id,
     firstName: request.profile.firstName,
@@ -42,7 +42,7 @@ exports.setUserInfo = function setUserInfo(request) {
   return getUserInfo;
 };
 
-exports.getRole = function getRole(checkRole) {
+const getRole = function getRole(checkRole) {
   let role;
 
   switch (checkRole) {
@@ -55,3 +55,10 @@ exports.getRole = function getRole(checkRole) {
 
   return role;
 };
+
+module.exports = {
+  setUserInfo: setUserInfo,
+  getRole: getRole,
+  sanitizeUser: sanitizeUser,
+  updateFields: updateFields
+}

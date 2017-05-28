@@ -11,7 +11,7 @@ const morgan = require('morgan');
 // Load Configuration
 const appMiddleWare = require('./server/config/middleware.js')
 const appSecrets = require('./server/config/secrets.js')
-const appAuthentication = require('./server/config/auth.js')
+//const appAuthentication = require('./server/config/auth.js')
 const connectToDB = require('./server/config/db-setup.js').connectToDB
 
 // Import Routers
@@ -19,7 +19,7 @@ let indexRouter = require('./server/routes/indexRouter.js')
 let router = require('./server/routes/router.js')
 
 // Load DB User Model (for appAuthentication configuration)
-let User = require('./db/userSchema.js').User
+//let User = require('./db/userSchema.js').User
 
 
 // =========

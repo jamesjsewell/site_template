@@ -1,11 +1,11 @@
 const jwt = require('jsonwebtoken');
 const crypto = require('crypto');
-const User = require('./db/userSchema.js').User
-const mailgun = require('./config/mailgun');
+const User = require('../db/userSchema.js')
+const mailgun = require('../config/mailgun');
 // const mailchimp = require('../config/mailchimp');
-const setUserInfo = require('./config/helpers').setUserInfo;
-const getRole = require('./config/helpers').getRole;
-const config = require('./config/secrets');
+const setUserInfo = require('../config/helpers').setUserInfo;
+const getRole = require('../config/helpers').getRole;
+const config = require('../config/secrets');
 
 // Generate JWT
 // TO-DO Add issuer and audience
@@ -67,7 +67,7 @@ exports.register = function (req, res, next) {
       password,
       profile: { firstName, lastName }
     });
-
+  
     user.save((err, user) => {
       if (err) { return next(err); }
 
