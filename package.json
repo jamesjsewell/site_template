@@ -53,6 +53,7 @@
     "ejs": "^2.4.2",
     "email-verification": "^0.4.6",
     "express": "^4.14.0",
+    "express-history-api-fallback": "^2.2.1",
     "express-session": "^1.14.0",
     "jquery": "^3.0.0",
     "mailgun-js": "^0.11.2",
@@ -69,9 +70,11 @@
     "react-ga": "^2.2.0",
     "react-redux": "^5.0.5",
     "react-router": "^4.1.1",
+    "react-router-dom": "^4.1.1",
     "react-thunk": "^1.0.0",
     "redux": "^3.6.0",
     "redux-form": "^6.7.0",
-    "redux-thunk": "^2.2.0"
+    "redux-thunk": "^2.2.0",
+    "universal-cookie": "^2.0.8"
   }
 }

@@ -1,5 +1,4 @@
 const PROJECT_NAME = 'site_template'
-
 const bodyParser = require('body-parser');
 const express = require('express');
 const cookieParser = require('cookie-parser');
@@ -7,6 +6,7 @@ const session = require('express-session');
 const passport = require('passport');
 const renderFile = require('ejs').renderFile
 const morgan = require('morgan');
+const fallback = require('express-history-api-fallback')
 
 // Load Configuration
 const appMiddleWare = require('./server/config/middleware.js')
@@ -45,6 +45,7 @@ connectToDB(PROJECT_NAME)
 // APPLICATION MIDDLEWARE 
 // =========
 app.use( express.static( __dirname + '/dist/assets') );
+app.use(fallback(__dirname + '/dist/views/index.html'))
 app.use( bodyParser.json() );
 //app.use( bodyParser.urlencoded() );
 //app.use( cookieParser() );
@@ -53,7 +54,7 @@ app.use(morgan('dev'));
 app.use( passport.initialize() );
 app.use(bodyParser.urlencoded({ extended: false }));
 //appAuthentication(User)
-app.use( appMiddleWare.cookifyUser )
+//app.use( appMiddleWare.cookifyUser )
 app.use( appMiddleWare.parseQuery )
 
 // =========

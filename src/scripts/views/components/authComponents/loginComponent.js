@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Field, reduxForm } from 'redux-form';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 import { loginUser } from '../../../actions/authActions';
 
 const form = reduxForm({
@@ -9,7 +9,6 @@ const form = reduxForm({
 });
 
 class Login extends Component {
-
   handleFormSubmit(formProps) {
     this.props.loginUser(formProps);
   }
@@ -25,7 +24,6 @@ class Login extends Component {
   }
 
   render() {
-
     const { handleSubmit } = this.props;
 
     return (
@@ -45,7 +43,6 @@ class Login extends Component {
         <Link to="/forgot-password">Forgot Password?</Link>
       </div>
     );
-    
   }
 }
 
