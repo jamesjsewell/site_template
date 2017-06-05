@@ -3,12 +3,12 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
 import { BrowserRouter, Route, Link } from 'react-router-dom'
-import reduxThunk from 'redux-thunk';
-import Cookies from 'universal-cookie'
+import thunk from 'redux-thunk';
 import RouteConfig from './routes';
 import reducers from './reducers/index.js';
 import ReactGA from 'react-ga';
 import { AUTH_USER } from './actions/types';
+import { protectedTest } from './actions/authActions.js'
 
 // Import stylesheets
 //import './public/stylesheets/base.scss';
@@ -16,24 +16,12 @@ import { AUTH_USER } from './actions/types';
 // Initialize Google Analytics
 ReactGA.initialize('UA-000000-01');
 
-const cookies = new Cookies();
-
 function logPageView() {
   ReactGA.pageview(window.location.pathname);
 }
 
-const createStoreWithMiddleware = applyMiddleware(reduxThunk)(createStore);
-const store = createStoreWithMiddleware(reducers);
-
-var token = cookies.get('token');
-var user = cookies.get('user')
-
-if (token && user) {
-  console.log(token)
-  console.log(user)
-  // Update application state. User has token and is probably authenticated
-  store.dispatch({ type: AUTH_USER });
-}
+const middleware = applyMiddleware(thunk)
+const store = createStore(reducers, middleware);
 
 
 ReactDOM.render(

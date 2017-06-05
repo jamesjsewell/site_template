@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Field, reduxForm } from 'redux-form';
-import { registerUser } from '../../../actions/authActions.js';
+import { registerUser } from '../../actions/authActions.js';
 
 const form = reduxForm({
   form: 'register',

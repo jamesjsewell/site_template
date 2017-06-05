@@ -8,7 +8,7 @@ const renderFile = require('ejs').renderFile
 const morgan = require('morgan');
 const fallback = require('express-history-api-fallback')
 
-// Load Configuration
+
 const appMiddleWare = require('./server/config/middleware.js')
 const appSecrets = require('./server/config/secrets.js')
 //const appAuthentication = require('./server/config/auth.js')
@@ -45,7 +45,6 @@ connectToDB(PROJECT_NAME)
 // APPLICATION MIDDLEWARE 
 // =========
 app.use( express.static( __dirname + '/dist/assets') );
-app.use(fallback(__dirname + '/dist/views/index.html'))
 app.use( bodyParser.json() );
 //app.use( bodyParser.urlencoded() );
 //app.use( cookieParser() );
@@ -61,13 +60,15 @@ app.use( appMiddleWare.parseQuery )
 // ROUTERS
 // =========
 
-app.use( '/', indexRouter )
-app.use( '/auth', router.auth )
-app.use( '/user', router.user )
-app.use( '/api', router.api )
+app.use( '/api', router)
 
 app.use(appMiddleWare.errorHandler);
 
 app.listen(PORT,function() {
   console.log('\n\n===== listening for requests on port ' + PORT + ' =====\n\n')
 })
+
+app.get('*', function(req, res, next) {
+  if (req.url.includes('/api') === false){app.use(fallback(__dirname + '/dist/views/index.html'))}
+  return next()
+});

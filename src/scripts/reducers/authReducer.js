@@ -8,27 +8,27 @@ export default function (state = INITIAL_STATE, action) {
   switch (action.type) {
 
     case AUTH_USER: {
-      return _.extend( state, { error: '', message: '', authenticated: true } );
+      return _.extend( {}, state, {error: '', message: '', authenticated: true } )   
     }
     
     case UNAUTH_USER: {
-      return _.extend( state, { authenticated: false, error: action.payload } );
+      return _.extend( {}, state, { authenticated: false, error: action.payload } );
     }
     
     case AUTH_ERROR: {
-      return _.extend( state, { error: action.payload } );
+      return _.extend( {}, state, { error: action.payload } );
     }
     
     case FORGOT_PASSWORD_REQUEST: {
-      return _.extend( state, { message: action.payload.message } );
+      return _.extend( {}, state, { message: action.payload.message } );
     }
     
     case RESET_PASSWORD_REQUEST: {
-      return _.extend( state, { message: action.payload.message } );
+      return _.extend( {}, state, { message: action.payload.message } );
     }
     
     case PROTECTED_TEST: {
-      return _.extend( state, { content: action.payload.message } );
+      return _.extend( {}, state, { content: action.payload.message } );
     }
 
   }

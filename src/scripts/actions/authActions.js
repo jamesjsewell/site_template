@@ -87,18 +87,26 @@ export function resetPassword(token, { password }) {
 }
 
 export function protectedTest() {
-  return function (dispatch) {
+  return function (dispatch) { 
     axios.get(`${API_URL}/protected`, {
       headers: { Authorization: cookies.get('token') },
     })
     .then((response) => {
-      dispatch({
-        type: PROTECTED_TEST,
-        payload: response.data.content,
-      });
+      console.log(response.data)
+      if (response.data) {
+        if (response.data.authenticated) {
+          dispatch({
+            type: AUTH_USER,
+            payload: response.data.content
+          });
+        }
+      }
+      
     })
     .catch((error) => {
-      errorHandler(dispatch, error.response, AUTH_ERROR);
+      console.log(error)
+      //errorHandler(dispatch, error.response, AUTH_ERROR);
     });
   };
 }
+

@@ -6,9 +6,9 @@ const INITIAL_STATE = { profile: {}, message: '', error: '' };
 export default function (state = INITIAL_STATE, action) {
   switch (action.type) {
     case FETCH_USER:
-      return _.extend( state, { profile: action.payload.user } );
+      return _.extend( {}, state, { profile: action.payload.user } );
     case ERROR_RESPONSE:
-      return _.extend( state, { error: action.payload } );
+      return _.extend( {}, state, { error: action.payload } );
   }
 
   return state;
