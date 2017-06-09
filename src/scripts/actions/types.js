@@ -27,4 +27,5 @@ export const FETCH_CONVERSATIONS = 'fetch_conversations',
 // Page Actions
 //= =====================
 export const SEND_CONTACT_FORM = 'send_contact_form',
-  STATIC_ERROR = 'static_error';
+  STATIC_ERROR = 'static_error',
+  GET_ACTIVE_NAV_LINK = 'get_active_nav_link'

@@ -5,6 +5,7 @@ import {
   Link,
   Switch
 } from 'react-router-dom'
+import Navbar from "./components/pages/navBarComponent.js"
 
 import Register from './components/authComponents/registerComponent.js';
 import Login from './components/authComponents/loginComponent.js';
@@ -17,11 +18,7 @@ const RouteConfig = () => (
 
     <div>
 
-      <ul>
-        <li><Link to="/register">register</Link></li>
-        <li><Link to="/login">login</Link></li>
-      </ul>
-
+      <Navbar />
       <Authentication />
      
       <Switch>
