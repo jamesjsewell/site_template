@@ -13,23 +13,29 @@ import { logoutUser } from "../../actions/authActions.js"
 class Navbar extends Component {
     constructor(props) {
         super(props)
-        this.state = { visible: false }
-       
+        this.state = {
+            logoutPath: this.props.routes.logout,
+            loginPath: this.props.routes.login,
+            homePath: this.props.routes.home
+        }
+        
     }
+
     handleItemClick(e) {
         e.preventDefault()
         var selectedItem = e.target.id.toLowerCase()
         this.props.setActiveNavLink(selectedItem)
 
-        if (selectedItem === "logout") {
+        if (selectedItem === this.state.logoutPath) {
             this.props.logoutUser()
-            selectedItem = 'login'
+            selectedItem = this.state.loginPath
         }
 
         this.props.hideSidebar()
 
         this.props.history.push(selectedItem)
     }
+
     showHideSideBar(e) {
         e.preventDefault()
         if (this.props.sidebarVisible) {
@@ -62,9 +68,9 @@ class Navbar extends Component {
                             <Menu.Menu>
                                 <Menu.Item
                                     header
-                                    id="home" //the url
+                                    id={this.state.homePath} //the url
                                     name="home"
-                                    active={activeItem.includes("/home")}
+                                    active={activeItem.includes(this.state.homePath)}
                                     onClick={this.handleItemClick.bind(this)}
                                 />
                             </Menu.Menu>
@@ -74,18 +80,18 @@ class Navbar extends Component {
                                     header
                                     id={
                                         this.props.authenticated
-                                            ? "logout"
-                                            : "login"
+                                            ? this.state.logoutPath
+                                            : this.state.loginPath
                                     } //the url
                                     name={
                                         this.props.authenticated
-                                            ? "logout"
-                                            : "login"
+                                            ? this.state.logoutPath
+                                            : this.state.loginPath
                                     }
                                     active={activeItem.includes(
                                         this.props.authenticated
-                                            ? "/logout"
-                                            : "/login"
+                                            ? this.state.logoutPath
+                                            : this.state.loginPath
                                     )}
                                     onClick={this.handleItemClick.bind(this)}
                                 />
@@ -119,9 +125,9 @@ class Navbar extends Component {
                             <Menu.Menu>
                                 <Menu.Item
                                     header
-                                    id="home" //the url
+                                    id={this.state.homePath} //the url
                                     name="home"
-                                    active={activeItem.includes("/home")}
+                                    active={activeItem.includes(this.state.homePath)}
                                     onClick={this.handleItemClick.bind(this)}
                                 />
                             </Menu.Menu>
@@ -131,18 +137,18 @@ class Navbar extends Component {
                                     header
                                     id={
                                         this.props.authenticated
-                                            ? "logout"
-                                            : "login"
+                                            ? this.state.logoutPath
+                                            : this.state.loginPath
                                     } //the url
                                     name={
                                         this.props.authenticated
-                                            ? "logout"
-                                            : "login"
+                                            ? this.state.logoutPath
+                                            : this.state.loginPath
                                     }
                                     active={activeItem.includes(
                                         this.props.authenticated
-                                            ? "/logout"
-                                            : "/login"
+                                            ? this.state.logoutPath
+                                            : this.state.loginPath
                                     )}
                                     onClick={this.handleItemClick.bind(this)}
                                 />
@@ -160,6 +166,7 @@ class Navbar extends Component {
 
 function mapStateToProps(state) {
     return {
+        routes: state.nav.routes,
         authenticated: state.auth.authenticated,
         activeItem: state.nav.activeItem,
         sidebarVisible: state.nav.sidebarVisible,

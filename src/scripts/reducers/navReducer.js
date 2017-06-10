@@ -1,7 +1,8 @@
 import { SET_ACTIVE_NAV_LINK, ACTIVATE_SIDEBAR } from "../actions/types.js"
 import _ from "underscore"
-
-const INITIAL_STATE = { activeItem: "", sideBarVisible: false }
+import { ROUTES } from "../routes.js"
+console.log(ROUTES)
+const INITIAL_STATE = { routes: ROUTES, activeItem: "", sideBarVisible: false }
 
 export default function(state = INITIAL_STATE, action) {
 	switch (action.type) {
