@@ -1,76 +1,84 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { Field, reduxForm } from 'redux-form';
-import { getForgotPasswordToken } from '../../actions/authActions';
-import PropTypes from 'prop-types'
+import React, { Component } from "react"
+import { connect } from "react-redux"
+import { Field, reduxForm } from "redux-form"
+import { getForgotPasswordToken } from "../../actions/authActions"
+import PropTypes from "prop-types"
 
 const form = reduxForm({
-  form: 'forgotPassword',
-});
+    form: "forgotPassword"
+})
 
 class ForgotPassword extends Component {
+    constructor(props) {
+        super(props)
+        this.state = {
+            color: "red"
+        }
 
-  constructor(props) {
-    
-    super(props);
-    this.state = {
-      color: 'red'
-    };
-
-    contextTypes = {
-      router: PropTypes.object.isRequired
+        contextTypes = {
+            router: PropTypes.object.isRequired
+        }
     }
 
-  }
-
-  componentWillMount() {
-    if (this.props.authenticated) {
-      this.context.router.push('/dashboard');
+    componentWillMount() {
+        if (this.props.authenticated) {
+            this.context.router.push("/dashboard")
+        }
     }
-  }
 
-  componentWillUpdate(nextProps) {
-    if (nextProps.authenticated) {
-      this.context.router.push('/dashboard');
+    componentWillUpdate(nextProps) {
+        if (nextProps.authenticated) {
+            this.context.router.push("/dashboard")
+        }
     }
-  }
 
-  handleFormSubmit(formProps) {
-    this.props.getForgotPasswordToken(formProps);
-  }
-
-  renderAlert() {
-    if (this.props.errorMessage) {
-      return (
-        <div>
-          <span><strong>Error!</strong> {this.props.errorMessage}</span>
-        </div>
-      );
+    handleFormSubmit(formProps) {
+        this.props.getForgotPasswordToken(formProps)
     }
-  }
 
-  render() {
-    const { handleSubmit } = this.props;
+    renderAlert() {
+        if (this.props.errorMessage) {
+            return (
+                <div>
+                    <span>
+                        <strong>Error!</strong> {this.props.errorMessage}
+                    </span>
+                </div>
+            )
+        }
+    }
 
-    return (
-      <form onSubmit={handleSubmit(this.handleFormSubmit.bind(this))}>
-        <div>
-          {this.renderAlert()}
-          <label>Email</label>
-          <Field name="email" className="form-control" component="input" type="text" />
-        </div>
-        <button type="submit" className="btn btn-primary">Reset Password</button>
-      </form>
-    );
-  }
+    render() {
+        const { handleSubmit } = this.props
+
+        return (
+            <form onSubmit={handleSubmit(this.handleFormSubmit.bind(this))}>
+                <div>
+                    {this.renderAlert()}
+                    <label>Email</label>
+                    <Field
+                        name="email"
+                        className="form-control"
+                        component="input"
+                        type="text"
+                    />
+                </div>
+                <button type="submit" className="btn btn-primary">
+                    Reset Password
+                </button>
+            </form>
+        )
+    }
 }
 
 function mapStateToProps(state) {
-  return {
-    errorMessage: state.auth.error,
-    message: state.auth.message,
-    authenticated: state.auth.authenticated,
-  };
+    return {
+        errorMessage: state.auth.error,
+        message: state.auth.message,
+        authenticated: state.auth.authenticated
+    }
 }
 
-export default connect(mapStateToProps, { getForgotPasswordToken })(form(ForgotPassword));
+export default connect(mapStateToProps, { getForgotPasswordToken })(
+    form(ForgotPassword)
+)

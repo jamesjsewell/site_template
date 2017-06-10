@@ -24,29 +24,11 @@ class HomePage extends Component {
 
     render() {
         return (
+            
             <div>
 
-                <Grid columns={"2"} divided inverted padded>
+               <h3>Welcome to my template</h3>
 
-                    <Grid.Row color="black" stretched>
-
-                        <Grid.Column width={4}>
-
-                            <Segment inverted color={"grey"}>
-
-                                <Login isInverted={true} />
-
-                            </Segment>
-
-                        </Grid.Column>
-
-                        <Grid.Column width={"width"}>
-                            <Login isInverted={true} />
-                        </Grid.Column>
-
-                    </Grid.Row>
-
-                </Grid>
             </div>
         )
     }

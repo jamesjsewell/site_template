@@ -1,98 +1,115 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { Field, reduxForm } from 'redux-form';
-import { registerUser } from '../../actions/authActions.js';
+import React, { Component } from "react"
+import { connect } from "react-redux"
+import { Field, reduxForm } from "redux-form"
+import { registerUser } from "../../actions/authActions.js"
+import { Button, Grid, Segment, Input, Form } from "semantic-ui-react"
 
 const form = reduxForm({
-  form: 'register',
-  validate,
-});
+    form: "register",
+    validate
+})
 
-const renderField = field => (
-  <div>
-    <input className="form-control" {...field.input} />
-    {field.touched && field.error && <div className="error">{field.error}</div>}
-  </div>
-);
+const FormField = props => (
+    <Form.Field required>
+        <label>{props.label}</label>
+        <Input
+            type={props.type}
+            value={props.input.value}
+            onChange={(param, data) => props.input.onChange(data.value)}
+            placeholder={props.label}
+        />
+    </Form.Field>
+)
 
 function validate(formProps) {
-  const errors = {};
+    const errors = {}
 
-  if (!formProps.firstName) {
-    errors.firstName = 'Please enter a first name';
-  }
+    if (!formProps.firstName) {
+        errors.firstName = "Please enter a first name"
+    }
 
-  if (!formProps.lastName) {
-    errors.lastName = 'Please enter a last name';
-  }
+    if (!formProps.lastName) {
+        errors.lastName = "Please enter a last name"
+    }
 
-  if (!formProps.email) {
-    errors.email = 'Please enter an email';
-  }
+    if (!formProps.email) {
+        errors.email = "Please enter an email"
+    }
 
-  if (!formProps.password) {
-    errors.password = 'Please enter a password';
-  }
+    if (!formProps.password) {
+        errors.password = "Please enter a password"
+    }
 
-  return errors;
+    return errors
 }
 
 class Register extends Component {
-
-  handleFormSubmit(formProps) {
-    this.props.registerUser(formProps);
-  }
-
-  renderAlert() {
-    if (this.props.errorMessage) {
-      return (
-        <div>
-          <span><strong>Error!</strong> {this.props.errorMessage}</span>
-        </div>
-      );
+    handleFormSubmit(formProps) {
+        this.props.registerUser(formProps)
     }
-  }
 
-  render() {
-    const { handleSubmit } = this.props;
+    renderAlert() {
+        if (this.props.errorMessage) {
+            return (
+                <div>
+                    <span>
+                        <strong>Error!</strong> {this.props.errorMessage}
+                    </span>
+                </div>
+            )
+        }
+    }
 
-    return (
-      <form onSubmit={handleSubmit(this.handleFormSubmit.bind(this))}>
-        {this.renderAlert()}
-        <div className="row">
-          <div className="col-md-6">
-            <label>First Name</label>
-            <Field name="firstName" className="form-control" component={renderField} type="text" />
-          </div>
-          <div className="col-md-6">
-            <label>Last Name</label>
-            <Field name="lastName" className="form-control" component={renderField} type="text" />
-          </div>
-        </div>
-        <div className="row">
-          <div className="col-md-12">
-            <label>Email</label>
-            <Field name="email" className="form-control" component={renderField} type="text" />
-          </div>
-        </div>
-        <div className="row">
-          <div className="col-md-12">
-            <label>Password</label>
-            <Field name="password" className="form-control" component={renderField} type="password" />
-          </div>
-        </div>
-        <button type="submit" className="btn btn-primary">Register</button>
-      </form>
-    );
-  }
+    render() {
+        const { handleSubmit } = this.props
+
+        return (
+            <Form onSubmit={handleSubmit(this.handleFormSubmit.bind(this))} inverted={this.props.isInverted}>
+                {this.renderAlert()}
+
+                <Field
+                    name="firstName"
+                    component={FormField}
+                    type="text"
+                    label="First Name"
+                />
+
+                <Field
+                    name="lastName"
+                    component={FormField}
+                    type="text"
+                    label="Last Name"
+                />
+
+                <Field
+                    name="email"
+                    component={FormField}
+                    type="text"
+                    label="Email"
+                />
+
+                <Field
+                    name="password"
+                    component={FormField}
+                    type="password"
+                    label="Password"
+                />
+
+                <Button type="submit">
+                    Register
+                </Button>
+
+            </Form>
+        )
+    }
 }
 
 function mapStateToProps(state) {
-  return {
-    errorMessage: state.auth.error,
-    message: state.auth.message,
-    authenticated: state.auth.authenticated,
-  };
+    return {
+        errorMessage: state.auth.error,
+        message: state.auth.message,
+        authenticated: state.auth.authenticated
+    }
 }
 
-export default connect(mapStateToProps, { registerUser })(form(Register));
+export default connect(mapStateToProps, { registerUser })(form(Register))

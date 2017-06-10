@@ -1,76 +1,177 @@
 import React, { Component } from "react"
-import { Menu, Segment } from "semantic-ui-react"
+import { Menu, Segment, Grid, Sidebar, Header, Button } from "semantic-ui-react"
 import { connect } from "react-redux"
-import { Link } from "react-router-dom"
-import { setActiveNavLink } from "../../actions/navActions.js"
+import { Link, NavLink } from "react-router-dom"
+import { withRouter } from "react-router"
+import {
+    setActiveNavLink,
+    hideSidebar,
+    activateSidebar
+} from "../../actions/navActions.js"
+import { logoutUser } from "../../actions/authActions.js"
 
 class Navbar extends Component {
-  handleItemClick(e) {
-    var selectedItem = e.target.text.toLowerCase()
-    console.log(selectedItem)
-    this.props.setActiveNavLink(selectedItem)
+    constructor(props) {
+        super(props)
+        this.state = { visible: false }
+    }
+    handleItemClick(e) {
+        e.preventDefault()
+        var selectedItem = e.target.id.toLowerCase()
+        this.props.setActiveNavLink(selectedItem)
+        this.props.history.push(selectedItem)
 
-  }
+        if (selectedItem === "logout") {
+            this.props.logoutUser()
+        }
+        this.props.hideSidebar()
+    }
+    showHideSideBar(e) {
+        e.preventDefault()
+        if (this.props.sidebarVisible) {
+            this.props.hideSidebar()
+        } else {
+            this.props.activateSidebar()
+        }
+    }
 
-  render() {
-    const { activeItem } = this.props
+    render() {
+        var activeItem = window.location.pathname
 
-    return (
-      <Menu size={'massive'} pointing secondary padded container>
+        return (
+            <Grid centered padded>
 
-        <Link to="/register">
-        <Menu.Item
-          header
-          name="register"
-          active={activeItem === "register"}
-          onClick={this.handleItemClick.bind(this)}
+                <Grid.Row centered columns={1} only="computer">
 
-        />
-        </Link>
-       
+                    <Grid.Column width={3} />
 
-        <Link to="/login">
-        <Menu.Item
-          header
-          name="login"
-          href="login"
-          active={activeItem === "login"}
-          onClick={this.handleItemClick.bind(this)}
-        />
-        </Link>
+                    <Grid.Column width={10}>
 
-        <Link to="/home">
-        <Menu.Item
-          header
-          name="home"
-          href="home"
-          active={activeItem === "home"}
-          onClick={this.handleItemClick.bind(this)}
-        />
-        </Link>
+                        <Menu
+                            size={"massive"}
+                            pointing
+                            secondary
+                            padded
+                            container
+                        >
 
-        <Link to="/logout">
-        <Menu.Menu position="right">
-          <Menu.Item
-            header
-            name="logout"
-            href="logout"
-            active={activeItem === "logout"}
-            onClick={this.handleItemClick.bind(this)} 
-        />
-        </Menu.Menu>
-        </Link>
+                            <Menu.Menu>
+                                <Menu.Item
+                                    header
+                                    id="home" //the url
+                                    name="home"
+                                    active={activeItem.includes("/home")}
+                                    onClick={this.handleItemClick.bind(this)}
+                                />
+                            </Menu.Menu>
 
+                            <Menu.Menu position="right">
+                                <Menu.Item
+                                    header
+                                    id={
+                                        this.props.authenticated
+                                            ? "logout"
+                                            : "login"
+                                    } //the url
+                                    name={
+                                        this.props.authenticated
+                                            ? "logout"
+                                            : "login"
+                                    }
+                                    active={activeItem.includes(
+                                        this.props.authenticated
+                                            ? "/logout"
+                                            : "/login"
+                                    )}
+                                    onClick={this.handleItemClick.bind(this)}
+                                />
+                            </Menu.Menu>
 
-      </Menu>
-    )
-  }
+                        </Menu>
+
+                    </Grid.Column>
+
+                    <Grid.Column width={3} />
+
+                </Grid.Row>
+
+                <Grid.Row>
+
+                    <Grid.Column only="tablet mobile">
+
+                        <Button onClick={this.showHideSideBar.bind(this)}>
+                            Menu
+                        </Button>
+
+                        <Sidebar
+                            as={Menu}
+                            animation="push"
+                            width="thin"
+                            visible={this.props.sidebarVisible}
+                            icon="labeled"
+                            vertical
+                            inverted
+                        >
+                            <Menu.Menu>
+                                <Menu.Item
+                                    header
+                                    id="home" //the url
+                                    name="home"
+                                    active={activeItem.includes("/home")}
+                                    onClick={
+                                        this.handleItemClick.bind(this)
+                                    }
+                                />
+                            </Menu.Menu>
+
+                            <Menu.Menu position="right">
+                                <Menu.Item
+                                    header
+                                    id={
+                                        this.props.authenticated
+                                            ? "logout"
+                                            : "login"
+                                    } //the url
+                                    name={
+                                        this.props.authenticated
+                                            ? "logout"
+                                            : "login"
+                                    }
+                                    active={activeItem.includes(
+                                        this.props.authenticated
+                                            ? "/logout"
+                                            : "/login"
+                                    )}
+                                    onClick={
+                                        this.handleItemClick.bind(this)
+                                    }
+                                />
+                            </Menu.Menu>
+                        </Sidebar>
+
+                    </Grid.Column>
+
+                </Grid.Row>
+
+            </Grid>
+        )
+    }
 }
 
 function mapStateToProps(state) {
-  return {
-    activeItem: state.nav.activeItem
-  }
+    return {
+        authenticated: state.auth.authenticated,
+        activeItem: state.nav.activeItem,
+        sidebarVisible: state.nav.sidebarVisible,
+        currentLocation: state.nav.currentLocation
+    }
 }
 
-export default connect(mapStateToProps, { setActiveNavLink })(Navbar)
+export default withRouter(
+    connect(mapStateToProps, {
+        setActiveNavLink,
+        activateSidebar,
+        hideSidebar,
+        logoutUser
+    })(Navbar)
+)

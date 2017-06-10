@@ -23,7 +23,8 @@ const FormField = props => (
 
 class Login extends Component {
     handleFormSubmit(formProps) {
-        this.props.loginUser(formProps)
+        var login = this.props.loginUser(formProps)
+   
     }
 
     renderAlert() {
@@ -42,9 +43,7 @@ class Login extends Component {
         }
     }
 
-    componentWillUnMount() {
-        console.log(this.props)
-    }
+    componentWillUnMount() {}
 
     render() {
         var { handleSubmit } = this.props
@@ -80,7 +79,7 @@ class Login extends Component {
                     </Button>
 
                 </Form>
-                
+
             </div>
         )
     }

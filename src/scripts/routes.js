@@ -1,41 +1,77 @@
-import React from 'react'
-import {
-  BrowserRouter as Router,
-  Route,
-  Link,
-  Switch
-} from 'react-router-dom'
+import React, { Component } from "react"
+import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom"
+import { connect } from "react-redux"
+import { withRouter } from "react-router"
+import createHistory from "history/createBrowserHistory"
 import Navbar from "./components/pages/navBarComponent.js"
+import Register from "./components/authComponents/registerComponent.js"
+import Login from "./components/authComponents/loginComponent.js"
+import Authentication from "./components/authComponents/requireAuthComponent.js"
+import HomePage from "./components/pages/homePage/homePageComponent.js"
+import AuthPage from "./components/pages/authPage/authPageComponent.js"
+import {
+    setActiveNavLink,
+    hideSidebar,
+    activateSidebar
+} from "./actions/navActions.js"
+import {
+    Menu,
+    Segment,
+    Grid,
+    Sidebar,
+    Header,
+    Button,
+    Dimmer
+} from "semantic-ui-react"
 
-import Register from './components/authComponents/registerComponent.js';
-import Login from './components/authComponents/loginComponent.js';
-import Authentication from './components/authComponents/requireAuthComponent.js';
-import HomePage from './components/pages/homePage/homePageComponent.js';
+class RouteConfig extends Component {
 
-const RouteConfig = () => (
+    handleHideSidebar() {
+        this.props.hideSidebar()
+    }
 
-  <Router baseName="">
+    render() {
+        return (
+            <Router>
 
-    <div>
+                <div>
 
-      <Navbar />
-      <Authentication />
-     
-      <Switch>
-        <Route path='/login' component={Login}/>
-        <Route path='/register' component={Register}/>
-        <Route exact path='/' component={HomePage}/>
-        <Route path='*' component={HomePage}/>
-      </Switch>
+                    <Authentication />
 
-    </div>
-    
-  </Router>
+                    <Navbar />
 
+                    <Dimmer.Dimmable
+                        as={Segment}
+                        dimmed={this.props.sidebarVisible}
+                    >
+                        <Dimmer
+                            active={this.props.sidebarVisible}
+                            onClickOutside={this.handleHideSidebar.bind(this)}
+                        />
+
+                        <Switch>
+                            <Route path="/login" component={AuthPage} />
+                            <Route path="/register" component={AuthPage} />
+                            <Route exact path="/" component={HomePage} />
+                            <Route path="*" component={HomePage} />
+                        </Switch>
+
+                    </Dimmer.Dimmable>
+
+                </div>
+
+            </Router>
+        )
+    }
+}
+
+function mapStateToProps(state) {
+    return { sidebarVisible: state.nav.sidebarVisible }
+}
+
+export default withRouter(
+    connect(mapStateToProps, { setActiveNavLink, hideSidebar })(RouteConfig)
 )
-
-export default RouteConfig
-
 
 // import React from 'react';
 // import { Route, IndexRoute } from 'react-router';
@@ -89,7 +125,7 @@ export default RouteConfig
 // //     <Route path="login" component={Login} />
 // //     <Route path="logout" component={Logout} />
 // //     <Route path="forgot-password" component={ForgotPassword} />
-// //     <Route path="reset-password/:resetToken" component={ResetPassword} /> 
+// //     <Route path="reset-password/:resetToken" component={ResetPassword} />
 // //     <Route path="admin" component={RequireAuth(AdminDashboard)} />
 // //     <Route path="*" component={NotFoundPage} />
 
@@ -101,6 +137,3 @@ export default RouteConfig
 //     </Route>
 
 // );
-
-
-

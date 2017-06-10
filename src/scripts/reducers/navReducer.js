@@ -1,20 +1,18 @@
-import { GET_ACTIVE_NAV_LINK } from '../actions/types.js';
-import _ from 'underscore'
+import { SET_ACTIVE_NAV_LINK, ACTIVATE_SIDEBAR } from "../actions/types.js"
+import _ from "underscore"
 
-const INITIAL_STATE = { activeItem: ""};
+const INITIAL_STATE = { activeItem: "", sideBarVisible: false }
 
-export default function (state = INITIAL_STATE, action) {
+export default function(state = INITIAL_STATE, action) {
+	switch (action.type) {
+		case SET_ACTIVE_NAV_LINK: {
+			return _.extend({}, state, { activeItem: action.payload })
+		}
 
-  switch (action.type) {
+		case ACTIVATE_SIDEBAR: {
+			return _.extend({}, state, { sidebarVisible: action.payload })
+		}
+	}
 
-    case GET_ACTIVE_NAV_LINK: {
-      console.log('reducing active nav link to', action.payload)
-      console.log(_.extend( {}, state, {activeItem: action.payload } )  )
-      return _.extend( {}, state, {activeItem: action.payload } )   
-    }
-
-  }
-
-  return state;
-
+	return state
 }
