@@ -37,13 +37,10 @@
     "babel-preset-react": "^6.5.0",
     "babelify": "^7.3.0",
     "node-sass": "^3.7.0",
-<<<<<<< HEAD
-    "watchify": "^3.7.0"
-=======
+    "watchify": "^3.7.0",
     "watchify": "^3.7.0",
     "nodemon": "^1.11.0",
     "morgan": "^1.8.1"
->>>>>>> authV2
   },
   "dependencies": {
     "axios": "^0.16.1",
@@ -57,14 +54,7 @@
     "express-history-api-fallback": "^2.2.1",
     "express-session": "^1.14.0",
     "jquery": "^3.0.0",
-<<<<<<< HEAD
     "mongoose": "^4.10.4",
-=======
-    "mailgun-js": "^0.11.2",
-    "mongoose": "^4.10.4",
-    "morgan": "^1.8.1",
-    "nodemon": "^1.11.0",
->>>>>>> authV2
     "passport": "^0.3.2",
     "passport-jwt": "^2.2.1",
     "passport-local": "^1.0.0",
