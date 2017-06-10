@@ -14,17 +14,21 @@ class Navbar extends Component {
     constructor(props) {
         super(props)
         this.state = { visible: false }
+       
     }
     handleItemClick(e) {
         e.preventDefault()
         var selectedItem = e.target.id.toLowerCase()
         this.props.setActiveNavLink(selectedItem)
-        this.props.history.push(selectedItem)
 
         if (selectedItem === "logout") {
             this.props.logoutUser()
+            selectedItem = 'login'
         }
+
         this.props.hideSidebar()
+
+        this.props.history.push(selectedItem)
     }
     showHideSideBar(e) {
         e.preventDefault()
@@ -118,9 +122,7 @@ class Navbar extends Component {
                                     id="home" //the url
                                     name="home"
                                     active={activeItem.includes("/home")}
-                                    onClick={
-                                        this.handleItemClick.bind(this)
-                                    }
+                                    onClick={this.handleItemClick.bind(this)}
                                 />
                             </Menu.Menu>
 
@@ -142,9 +144,7 @@ class Navbar extends Component {
                                             ? "/logout"
                                             : "/login"
                                     )}
-                                    onClick={
-                                        this.handleItemClick.bind(this)
-                                    }
+                                    onClick={this.handleItemClick.bind(this)}
                                 />
                             </Menu.Menu>
                         </Sidebar>

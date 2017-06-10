@@ -1,7 +1,7 @@
 import React, { Component } from "react"
 import { connect } from "react-redux"
 import { Link } from "react-router-dom"
-import { Button, Grid, Segment, Input } from "semantic-ui-react"
+import { Button, Grid, Segment, Input, Header } from "semantic-ui-react"
 import Login from "../../authComponents/loginComponent.js"
 import Register from "../../authComponents/registerComponent.js"
 import Navbar from "../navBarComponent.js"
@@ -27,14 +27,14 @@ class AuthPage extends Component {
         return (
             <div>
 
-                <Grid columns={"2"} divided inverted padded>
+                <Grid columns={"2"} divided inverted padded stackable>
 
                     <Grid.Row color="black" stretched>
 
                         <Grid.Column width={4}>
 
-                            <Segment inverted color={"grey"}>
-
+                            <Segment inverted color={"green"} padded>
+                                <Header>login</Header>
                                 <Login isInverted={true} />
 
                             </Segment>
@@ -42,7 +42,12 @@ class AuthPage extends Component {
                         </Grid.Column>
 
                         <Grid.Column width={"width"}>
-                            <Register isInverted={true} />
+
+                            <Segment inverted color={"grey"} padded>
+                                <Header>register</Header>
+                                <Register isInverted={true} />
+                            </Segment>
+
                         </Grid.Column>
 
                     </Grid.Row>

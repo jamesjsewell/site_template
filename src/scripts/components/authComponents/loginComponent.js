@@ -3,7 +3,7 @@ import { connect } from "react-redux"
 import { Field, reduxForm } from "redux-form"
 import { Link } from "react-router-dom"
 import { loginUser } from "../../actions/authActions"
-import { Button, Grid, Segment, Input, Form } from "semantic-ui-react"
+import { Button, Grid, Segment, Input, Form, Header } from "semantic-ui-react"
 
 const form = reduxForm({
     form: "loginForm"

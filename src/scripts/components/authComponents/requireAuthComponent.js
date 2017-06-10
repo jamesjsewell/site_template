@@ -4,6 +4,7 @@ import bindActionCreators from "redux"
 import PropTypes from "prop-types"
 import Cookies from "universal-cookie"
 import { protectedTest } from "../../actions/authActions"
+import { withRouter } from "react-router"
 
 const cookies = new Cookies()
 var token = cookies.get("token")
@@ -30,7 +31,13 @@ class Authentication extends Component {
         }
 
         if (nextProps.authenticated) {
-            //this.context.router.push('/login');
+            if(this.props.location.pathname.includes('/login')){
+                this.props.history.push('/home')
+            }
+            // if(window.location.includes('login')){
+            //     this.context.router.push('/home');
+            // }
+            
         }
     }
 
@@ -48,4 +55,4 @@ function mapStateToProps(state) {
     return { authenticated: state.auth.authenticated }
 }
 
-export default connect(mapStateToProps, { protectedTest })(Authentication)
+export default withRouter(connect(mapStateToProps, { protectedTest })(Authentication))
