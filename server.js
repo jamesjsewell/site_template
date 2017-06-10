@@ -1,29 +1,25 @@
 const PROJECT_NAME = 'site_template'
-
-// x..x..x..x..x..x..x..x..x..x..x..x..x..x..x..x..x..x..x..x..x..x
-
-
-
 const bodyParser = require('body-parser');
 const express = require('express');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
 const passport = require('passport');
 const renderFile = require('ejs').renderFile
+const morgan = require('morgan');
+const fallback = require('express-history-api-fallback')
 
-// Load Configuration
-const appMiddleWare = require('./config/middleware.js')
-const appSecrets = require('./config/secrets.js')
-const appAuthentication = require('./config/auth.js')
-const connectToDB = require('./config/db-setup.js').connectToDB
+
+const appMiddleWare = require('./server/config/middleware.js')
+const appSecrets = require('./server/config/secrets.js')
+//const appAuthentication = require('./server/config/auth.js')
+const connectToDB = require('./server/config/db-setup.js').connectToDB
 
 // Import Routers
-let indexRouter = require('./routes/indexRouter.js')
-let authRouter = require('./routes/authRouter.js')
-let apiRouter = require('./routes/apiRouter.js')
+let indexRouter = require('./server/routes/indexRouter.js')
+let router = require('./server/routes/router.js')
 
 // Load DB User Model (for appAuthentication configuration)
-let User = require('./db/schema.js').User
+//let User = require('./db/userSchema.js').User
 
 
 // =========
@@ -50,25 +46,29 @@ connectToDB(PROJECT_NAME)
 // =========
 app.use( express.static( __dirname + '/dist/assets') );
 app.use( bodyParser.json() );
-app.use( bodyParser.urlencoded() );
-app.use( cookieParser() );
-app.use( session({secret: appSecrets.sessionSecret }) );
+//app.use( bodyParser.urlencoded() );
+//app.use( cookieParser() );
+//app.use( session({secret: appSecrets.sessionSecret }) );
+app.use(morgan('dev'));
 app.use( passport.initialize() );
-app.use( passport.session() );
-appAuthentication(User)
-app.use( appMiddleWare.cookifyUser )
+app.use(bodyParser.urlencoded({ extended: false }));
+//appAuthentication(User)
+//app.use( appMiddleWare.cookifyUser )
 app.use( appMiddleWare.parseQuery )
-// 
+
 // =========
 // ROUTERS
 // =========
 
-app.use( '/', indexRouter )
-app.use( '/auth', authRouter )
-app.use( '/api', apiRouter )
+app.use( '/api', router)
 
 app.use(appMiddleWare.errorHandler);
 
 app.listen(PORT,function() {
   console.log('\n\n===== listening for requests on port ' + PORT + ' =====\n\n')
 })
+
+app.get('*', function(req, res, next) {
+  if (req.url.includes('/api') === false){app.use(fallback(__dirname + '/dist/views/index.html'))}
+  return next()
+});

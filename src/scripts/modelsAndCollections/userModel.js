@@ -38,7 +38,7 @@ UserAuthModel.login = function(email, password) {
 			password: password
 		}
 	}).then((userData) => {
-		localStorage.setItem(app_name + '_user',JSON.stringify(userData))
+		//localStorage.setItem(app_name + '_user',JSON.stringify(userData))
 		return userData
 	},(err)=> {
 		throw new Error(err.responseText)
