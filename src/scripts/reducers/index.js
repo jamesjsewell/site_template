@@ -3,6 +3,7 @@ import { reducer as formReducer } from 'redux-form';
 import authReducer from './authReducer';
 import userReducer from './userReducer';
 import navReducer from './navReducer'
+import dataReducer from './dataReducer'
 //import communicationReducer from './communication_reducer';
 //import customerReducer from './customer_reducer';
 // communication: communicationReducer,
@@ -12,7 +13,8 @@ const rootReducer = combineReducers({
   form: formReducer,
   auth: authReducer,
   user: userReducer,
-  nav: navReducer
+  nav: navReducer,
+  data: dataReducer
 });
 
 export default rootReducer;

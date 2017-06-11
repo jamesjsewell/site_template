@@ -14,6 +14,7 @@ import {
     hideSidebar,
     activateSidebar
 } from "./actions/navActions.js"
+import { dataIsLoading } from "./actions/testActions.js"
 import {
     Menu,
     Segment,
@@ -21,7 +22,11 @@ import {
     Sidebar,
     Header,
     Button,
-    Dimmer
+    Dimmer,
+    Loader,
+    Container,
+    Icon,
+    Divider
 } from "semantic-ui-react"
 
 class RouteConfig extends Component {
@@ -35,24 +40,48 @@ class RouteConfig extends Component {
 
                 <div>
 
+                    <Dimmer active={this.props.loadingData} page>
+
+                        <Grid columns='equal' padded>
+
+                            <Grid.Row>
+
+                                <Grid.Column>
+                                    <Loader size="big">Loading</Loader>
+                                </Grid.Column>
+
+                            </Grid.Row>
+
+                            <Divider hidden />
+
+                            <Grid.Row>
+
+                                <Grid.Column>
+                                    <Button
+                                        onClick={() => {
+                                            this.props.dataIsLoading(false)
+                                        }}
+                                    >
+                                        Finish Testing
+                                    </Button>
+                                </Grid.Column>
+
+                            </Grid.Row>
+
+                        </Grid>
+
+                    </Dimmer>
+
                     <Authentication />
 
                     <Navbar />
 
-                    <Dimmer.Dimmable as={Segment} dimmed={false}>
-                        <Dimmer
-                            active={false}
-                            onClickOutside={this.handleHideSidebar.bind(this)}
-                        />
-
-                        <Switch>
-                            <Route path="/login" component={AuthPage} />
-                            <Route path="/register" component={AuthPage} />
-                            <Route exact path="/" component={HomePage} />
-                            <Route path="*" component={HomePage} />
-                        </Switch>
-
-                    </Dimmer.Dimmable>
+                    <Switch>
+                        <Route path="/login" component={AuthPage} />
+                        <Route path="/register" component={AuthPage} />
+                        <Route exact path="/" component={HomePage} />
+                        <Route path="*" component={HomePage} />
+                    </Switch>
 
                 </div>
 
@@ -62,11 +91,18 @@ class RouteConfig extends Component {
 }
 
 function mapStateToProps(state) {
-    return { sidebarVisible: state.nav.sidebarVisible }
+    return {
+        sidebarVisible: state.nav.sidebarVisible,
+        loadingData: state.data.loadingData
+    }
 }
 
 export default withRouter(
-    connect(mapStateToProps, { setActiveNavLink, hideSidebar })(RouteConfig)
+    connect(mapStateToProps, {
+        setActiveNavLink,
+        hideSidebar,
+        dataIsLoading
+    })(RouteConfig)
 )
 
 // import React from 'react';

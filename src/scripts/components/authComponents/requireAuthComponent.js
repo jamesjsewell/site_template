@@ -31,8 +31,8 @@ class Authentication extends Component {
         }
 
         if (nextProps.authenticated) {
-            if(this.props.location.pathname.includes('/login')){
-                this.props.history.push('/home')
+            if(this.props.location.pathname.includes(this.props.routes.login)){
+                this.props.history.push('/'+this.props.routes.home)
             }
             // if(window.location.includes('login')){
             //     this.context.router.push('/home');
@@ -52,7 +52,8 @@ class Authentication extends Component {
 }
 
 function mapStateToProps(state) {
-    return { authenticated: state.auth.authenticated }
+    return { authenticated: state.auth.authenticated,
+    routes: state.nav.routes }
 }
 
 export default withRouter(connect(mapStateToProps, { protectedTest })(Authentication))

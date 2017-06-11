@@ -1,4 +1,4 @@
-import { SET_ACTIVE_NAV_LINK, ACTIVATE_SIDEBAR } from "./types"
+import { SET_ACTIVE_NAV_LINK, ACTIVATE_SIDEBAR, LOADING_DATA, DATA_LOADED } from "./types"
 
 export function setActiveNavLink(selectedItemName) {
 	return function(dispatch) {

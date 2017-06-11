@@ -1,7 +1,7 @@
 import axios from "axios"
 import { browserHistory } from "react-router"
 import Cookies from "universal-cookie"
-import { API_URL, CLIENT_ROOT_URL, errorHandler } from "./index"
+import { API_URL, CLIENT_ROOT_URL, LOADING_DATA, DATA_LOADED, errorHandler } from "./index"
 import {
     AUTH_USER,
     AUTH_ERROR,
