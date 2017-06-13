@@ -3,45 +3,19 @@ import { connect } from "react-redux"
 import { Field, reduxForm } from "redux-form"
 import { registerUser } from "../../actions/authActions.js"
 import { Button, Grid, Segment, Input, Form } from "semantic-ui-react"
+import { FormField } from '../helpers/formFields.js'
+import {
+    required,
+    maxLength,
+    minLength,
+    alphaNumeric,
+    email
+} from "../helpers/formValidation.js"
 
 const form = reduxForm({
-    form: "register",
-    validate
+    form: "register"
 })
 
-const FormField = props => (
-    <Form.Field required>
-        <label>{props.label}</label>
-        <Input
-            type={props.type}
-            value={props.input.value}
-            onChange={(param, data) => props.input.onChange(data.value)}
-            placeholder={props.label}
-        />
-    </Form.Field>
-)
-
-function validate(formProps) {
-    const errors = {}
-
-    if (!formProps.firstName) {
-        errors.firstName = "Please enter a first name"
-    }
-
-    if (!formProps.lastName) {
-        errors.lastName = "Please enter a last name"
-    }
-
-    if (!formProps.email) {
-        errors.email = "Please enter an email"
-    }
-
-    if (!formProps.password) {
-        errors.password = "Please enter a password"
-    }
-
-    return errors
-}
 
 class Register extends Component {
     handleFormSubmit(formProps) {
@@ -72,6 +46,8 @@ class Register extends Component {
                     component={FormField}
                     type="text"
                     label="First Name"
+                    validate={[required, minLength(2), maxLength(14)]}
+                    warn={[required, minLength(2)]}
                 />
 
                 <Field
@@ -79,6 +55,8 @@ class Register extends Component {
                     component={FormField}
                     type="text"
                     label="Last Name"
+                    validate={[required, minLength(2), maxLength(14)]}
+                    warn={[required, minLength(2)]}
                 />
 
                 <Field
@@ -86,6 +64,8 @@ class Register extends Component {
                     component={FormField}
                     type="text"
                     label="Email"
+                    validate={[required, email, minLength(2)]}
+                    warn={[required, minLength(2)]}
                 />
 
                 <Field
@@ -93,6 +73,8 @@ class Register extends Component {
                     component={FormField}
                     type="password"
                     label="Password"
+                    validate={[required, minLength(6), maxLength(14)]}
+                    warn={[required, minLength(6)]}
                 />
 
                 <Button type="submit">
