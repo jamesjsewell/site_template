@@ -27,25 +27,25 @@ class AuthPage extends Component {
         return (
             <div>
 
-                <Grid columns={"2"} divided inverted padded stackable>
+                <Grid columns={"2"} divided stackable stretched container>
 
-                    <Grid.Row color="black" stretched>
+                    <Grid.Row stretched>
 
-                        <Grid.Column width={4}>
+                        <Grid.Column >
 
-                            <Segment inverted color={"green"} padded>
+                            <Segment  padded>
                                 <Header>login</Header>
-                                <Login isInverted={true} />
+                                <Login isInverted={false} />
 
                             </Segment>
 
                         </Grid.Column>
 
-                        <Grid.Column width={"width"}>
+                        <Grid.Column >
 
-                            <Segment inverted color={"grey"} padded>
+                            <Segment  padded>
                                 <Header>register</Header>
-                                <Register isInverted={true} />
+                                <Register isInverted={false} />
                             </Segment>
 
                         </Grid.Column>

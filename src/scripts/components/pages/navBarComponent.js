@@ -49,20 +49,16 @@ class Navbar extends Component {
         var activeItem = window.location.pathname
 
         return (
-            <Grid centered padded>
+            <Grid columns={1} container centered divided>
 
-                <Grid.Row centered columns={1} only="computer">
+                <Grid.Row centered only="computer" padded>
 
-                    <Grid.Column width={3} />
-
-                    <Grid.Column width={10}>
+                    <Grid.Column >
 
                         <Menu
                             size={"massive"}
                             pointing
-                            secondary
-                            padded
-                            container
+                            primary
                         >
 
                             <Menu.Menu>
@@ -101,7 +97,7 @@ class Navbar extends Component {
 
                     </Grid.Column>
 
-                    <Grid.Column width={3} />
+                   
 
                 </Grid.Row>
 
