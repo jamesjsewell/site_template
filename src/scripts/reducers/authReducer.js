@@ -1,13 +1,17 @@
-import { AUTH_USER, UNAUTH_USER, AUTH_ERROR, FORGOT_PASSWORD_REQUEST, RESET_PASSWORD_REQUEST, PROTECTED_TEST, LOGIN_ERROR, REGISTER_ERROR} from '../actions/types.js';
+import { AUTH_USER, GET_LOGGED_IN_USER, UNAUTH_USER, AUTH_ERROR, FORGOT_PASSWORD_REQUEST, RESET_PASSWORD_REQUEST, PROTECTED_TEST, LOGIN_ERROR, REGISTER_ERROR} from '../actions/types.js';
 import _ from 'underscore'
 
-const INITIAL_STATE = { login_error: undefined, register_error: undefined, auth_error: '', message: '', content: '', authenticated: false };
+const INITIAL_STATE = { login_error: undefined, register_error: undefined, auth_error: undefined, message: undefined, content: undefined, authenticated: false, user: undefined };
 
 export default function (state = INITIAL_STATE, action) {
 
   switch (action.type) {
 
     case AUTH_USER: {
+      return _.extend( {}, state, {error: '', message: '', authenticated: true, user: action.payload } )   
+    }
+
+    case GET_LOGGED_IN_USER: {
       return _.extend( {}, state, {error: '', message: '', authenticated: true } )   
     }
     

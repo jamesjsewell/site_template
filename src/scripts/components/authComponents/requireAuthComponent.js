@@ -16,7 +16,7 @@ class Authentication extends Component {
             // Update application state. User has token and is probably authenticated
             //store.dispatch({ type: AUTH_USER });
             if (!this.props.authenticated) {
-                this.props.protectedTest()
+                this.props.protectedTest(user)
             }
         }
     }

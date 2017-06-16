@@ -1,10 +1,17 @@
 import axios from "axios"
 import cookie from "react-cookie"
 import { logoutUser } from "./authActions"
-import { STATIC_ERROR, LOGIN_ERROR, REGISTER_ERROR, FETCH_USER, LOADING_DATA, DATA_LOADED } from "./types"
+import {
+    STATIC_ERROR,
+    LOGIN_ERROR,
+    REGISTER_ERROR,
+    FETCH_USER,
+    LOADING_DATA,
+    DATA_LOADED
+} from "./types"
 export const API_URL = "http://localhost:3000/api"
 export const CLIENT_ROOT_URL = "http://localhost:8080"
-import { SubmissionError } from 'redux-form'
+import { SubmissionError } from "redux-form"
 
 //= ===============================
 // Utility actions
@@ -32,11 +39,17 @@ export function errorHandler(dispatch, error, type) {
 
     let errorMessage = error.response ? error.response.data : error
 
-    if(type === LOGIN_ERROR){
+    if (type === LOGIN_ERROR) {
         errorMessage = error.data ? error.data : error
     }
-    if(type === REGISTER_ERROR){
+    if (type === REGISTER_ERROR) {
         errorMessage = error.data.error ? error.data.error : error
+    }
+    if (type === AUTH_ERROR) {
+        if (error.status === 401 || error.response.status === 401) {
+            errorMessage = "You are not authorized to do this."
+            return dispatch(logoutUser(errorMessage))
+        }
     }
 
     dispatch({
@@ -44,7 +57,6 @@ export function errorHandler(dispatch, error, type) {
         payload: errorMessage
     })
 
-    // //NOT AUTHENTICATED ERROR
     // if (error.status === 401 || error.response.status === 401) {
     //     errorMessage = "You are not authorized to do this."
     //     return dispatch(logoutUser(errorMessage))

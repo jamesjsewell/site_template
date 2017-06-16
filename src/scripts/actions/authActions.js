@@ -1,7 +1,13 @@
 import axios from "axios"
 import { browserHistory } from "react-router"
 import Cookies from "universal-cookie"
-import { API_URL, CLIENT_ROOT_URL, LOADING_DATA, DATA_LOADED, errorHandler } from "./index"
+import {
+    API_URL,
+    CLIENT_ROOT_URL,
+    LOADING_DATA,
+    DATA_LOADED,
+    errorHandler
+} from "./index"
 import {
     AUTH_USER,
     AUTH_ERROR,
@@ -28,14 +34,13 @@ export function loginUser({ email, password }) {
                 console.log(response)
                 cookies.set("token", response.data.token, { path: "/" })
                 cookies.set("user", response.data.user, { path: "/" })
-                dispatch({ type: AUTH_USER })
-                
+                dispatch({ type: AUTH_USER, payload: response.data.user })
+
                 //window.location.href = `${CLIENT_ROOT_URL}/dashboard`;
             })
             .catch(error => {
                 console.log(error)
                 errorHandler(dispatch, error.response, LOGIN_ERROR)
-
             })
     }
 }
@@ -107,7 +112,7 @@ export function resetPassword(token, { password }) {
     }
 }
 
-export function protectedTest() {
+export function protectedTest(user) {
     return function(dispatch) {
         axios
             .get(`${API_URL}/protected`, {
@@ -118,14 +123,13 @@ export function protectedTest() {
                     if (response.data.authenticated) {
                         dispatch({
                             type: AUTH_USER,
-                            payload: response.data.content
+                            payload: user
                         })
                     }
                 }
             })
             .catch(error => {
-                console.log(error)
-                //errorHandler(dispatch, error.response, AUTH_ERROR);
+                errorHandler(dispatch, error.response, AUTH_ERROR)
             })
     }
 }

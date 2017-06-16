@@ -9,6 +9,7 @@ import Login from "./components/authComponents/loginComponent.js"
 import Authentication from "./components/authComponents/requireAuthComponent.js"
 import HomePage from "./components/pages/homePage/homePageComponent.js"
 import AuthPage from "./components/pages/authPage/authPageComponent.js"
+import ProfilePage from "./components/pages/profilePage/profilePageComponent.js"
 import {
     setActiveNavLink,
     hideSidebar,
@@ -77,6 +78,7 @@ class RouteConfig extends Component {
                     <Navbar />
 
                     <Switch>
+                        <Route path="/profile" component={ProfilePage} />
                         <Route path="/login" component={AuthPage} />
                         <Route path="/register" component={AuthPage} />
                         <Route exact path="/" component={HomePage} />

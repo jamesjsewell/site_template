@@ -2,6 +2,7 @@
 // Auth Actions
 //= =====================
 export const AUTH_USER = "auth_user",
+    GET_LOGGED_IN_USER = "get_logged_in_user",
     UNAUTH_USER = "unauth_user",
     AUTH_ERROR = "auth_error",
     LOGIN_ERROR = "login_error",
@@ -13,7 +14,9 @@ export const AUTH_USER = "auth_user",
 //= =====================
 // User Profile Actions
 //= =====================
-export const FETCH_USER = "fetch_user"
+export const FETCH_USER = "fetch_user",
+UPDATED_USER = "updated_user",
+UPDATE_USER_ERROR = "update_user_error"
 
 //= =====================
 // Messaging Actions
