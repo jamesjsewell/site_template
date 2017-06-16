@@ -16,7 +16,8 @@ class Navbar extends Component {
         this.state = {
             logoutPath: this.props.routes.logout,
             loginPath: this.props.routes.login,
-            homePath: this.props.routes.home
+            homePath: this.props.routes.home,
+            profilePath: this.props.routes.profile
         }
         
     }
@@ -67,6 +68,16 @@ class Navbar extends Component {
                                     id={this.state.homePath} //the url
                                     name="home"
                                     active={activeItem.includes(this.state.homePath)}
+                                    onClick={this.handleItemClick.bind(this)}
+                                />
+                            </Menu.Menu>
+
+                            <Menu.Menu>
+                                <Menu.Item
+                                    header
+                                    id={this.props.authenticated ? this.state.profilePath : ''} //the url
+                                    name={this.props.authenticated ? this.state.profilePath : ''}
+                                    active={activeItem.includes(this.state.profilePath)}
                                     onClick={this.handleItemClick.bind(this)}
                                 />
                             </Menu.Menu>

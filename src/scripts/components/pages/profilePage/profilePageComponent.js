@@ -42,7 +42,7 @@ class ProfilePage extends Component {
         return (
             <Grid container columns='equal' padded>
                 <Grid.Column>
-                  <h3>{this.props.user._id}</h3>
+                  <h3>{this.props.user.firstName} {this.props.user.lastName}</h3>
                 </Grid.Column>
             </Grid>
         )

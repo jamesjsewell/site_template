@@ -2,6 +2,7 @@ export const ROUTES = {
 
 	home: 'home',
 	login: 'login',
-	logout: 'logout'
+	logout: 'logout',
+	profile: 'profile'
 
 }

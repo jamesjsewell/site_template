@@ -24,7 +24,11 @@ const UserSchema = new Schema({
   },
   profile: {
     firstName: { type: String },
-    lastName: { type: String }
+    lastName: { type: String },
+    location: { type: String},
+    sex: { type: String},
+    age: { type: Number },
+    avatarUrl: { type: String}
   },
   role: {
     type: String,
