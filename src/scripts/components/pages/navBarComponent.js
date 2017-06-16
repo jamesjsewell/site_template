@@ -58,7 +58,7 @@ class Navbar extends Component {
                         <Menu
                             size={"massive"}
                             pointing
-                            primary
+                            secondary
                         >
 
                             <Menu.Menu>

@@ -25,15 +25,15 @@ class Login extends Component {
     renderAlert() {
         if (this.props.errorMessage) {
             return (
-                <div>
+                <Segment color="red" compact>
 
                     <span>
 
-                        <strong>Error!</strong> {this.props.errorMessage}
+                        <strong>Login Error: </strong> {'invalid email address or password'}
 
                     </span>
 
-                </div>
+                </Segment>
             )
         }
     }
@@ -59,8 +59,8 @@ class Login extends Component {
                         component={FormField}
                         type="text"
                         label="Email"
-                        validate={[required, email, minLength(2)]}
-                        warn={[required, minLength(2)]}
+                        validate={[required, email]}
+                        warn={[required]}
                     />
 
                     <Field
@@ -68,8 +68,8 @@ class Login extends Component {
                         component={FormField}
                         type="password"
                         label="Password"
-                        validate={[required, minLength(6)]}
-                        warn={[required, minLength(2)]}
+                        validate={[required ]}
+                        warn={[required ]}
                     />
 
                     <Button type="submit" className="btn btn-primary">
@@ -86,14 +86,13 @@ class Login extends Component {
 function mapStateToProps(state) {
     return {
         redux: state,
-        errorMessage: state.auth.error,
+        errorMessage: state.auth.login_error,
         message: state.auth.message,
         authenticated: state.auth.authenticated
     }
 }
 export default connect(mapStateToProps, { loginUser })(
     reduxForm({
-        form: "loginForm",
-        fields: ["email", "password"]
+        form: "loginForm"
     })(Login)
 )

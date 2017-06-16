@@ -27,11 +27,6 @@ export const minLength = min => value =>
         : undefined
 //export const minLength2 = minLength(2)
 
-
-
-
-
-
 export const number = value =>
     value && isNaN(Number(value)) ? "Must be a number" : undefined
 
@@ -46,6 +41,3 @@ export const aol = value =>
     value && /.+@aol\.com/.test(value)
         ? "Really? You still use AOL for your email?"
         : undefined
-
-
-

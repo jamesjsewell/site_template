@@ -1,5 +1,5 @@
 import { Field, reduxForm } from "redux-form"
-import { Button, Segment, Input, Form} from "semantic-ui-react"
+import { Button, Segment, Input, Form } from "semantic-ui-react"
 import React, { Component } from "react"
 
 export const FormField = ({
@@ -17,7 +17,13 @@ export const FormField = ({
             placeholder={label}
         />
         {touched &&
-            ((error && <Segment floated="right" compact attatched color="red"><span>{error}</span></Segment>) ||
-                (warning && <Segment><span>{warning}</span></Segment>))}
+            ((error &&
+                <Segment floated="right" compact color="red">
+                    <span>{error}</span>
+                </Segment>) ||
+                (warning &&
+                    <Segment floated="right" compact color="red">
+                        <span>{warning}</span>
+                    </Segment>))}
     </Form.Field>
 )

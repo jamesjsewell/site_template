@@ -5,6 +5,8 @@ import { API_URL, CLIENT_ROOT_URL, LOADING_DATA, DATA_LOADED, errorHandler } fro
 import {
     AUTH_USER,
     AUTH_ERROR,
+    LOGIN_ERROR,
+    REGISTER_ERROR,
     UNAUTH_USER,
     FORGOT_PASSWORD_REQUEST,
     RESET_PASSWORD_REQUEST,
@@ -32,7 +34,7 @@ export function loginUser({ email, password }) {
             })
             .catch(error => {
                 console.log(error)
-                errorHandler(dispatch, error.response, AUTH_ERROR)
+                errorHandler(dispatch, error.response, LOGIN_ERROR)
 
             })
     }
@@ -49,13 +51,14 @@ export function registerUser({ email, firstName, lastName, password }) {
             })
             .then(response => {
                 console.log(response)
+                console.log(response.data)
                 cookies.set("token", response.data.token, { path: "/" })
                 cookies.set("user", response.data.user, { path: "/" })
                 dispatch({ type: AUTH_USER })
                 //window.location.href = `${CLIENT_ROOT_URL}/dashboard`;
             })
             .catch(error => {
-                errorHandler(dispatch, error.response, AUTH_ERROR)
+                errorHandler(dispatch, error.response, REGISTER_ERROR)
             })
     }
 }

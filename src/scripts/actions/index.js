@@ -31,12 +31,14 @@ export function errorHandler(dispatch, error, type) {
     console.log(error)
 
     let errorMessage = error.response ? error.response.data : error
+    errorMessage = error.data ? error.data : error
+    errorMessage = error.data.error ? error.data.error : error
 
-    // NOT AUTHENTICATED ERROR
-    if (error.status === 401 || error.response.status === 401) {
-        errorMessage = "You are not authorized to do this."
-        return dispatch(logoutUser(errorMessage))
-    }
+    // // NOT AUTHENTICATED ERROR
+    // if (error.status === 401 || error.response.status === 401) {
+    //     errorMessage = "You are not authorized to do this."
+    //     return dispatch(logoutUser(errorMessage))
+    // }
 
     dispatch({
         type,

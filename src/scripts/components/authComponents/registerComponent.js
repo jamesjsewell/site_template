@@ -3,7 +3,7 @@ import { connect } from "react-redux"
 import { Field, reduxForm } from "redux-form"
 import { registerUser } from "../../actions/authActions.js"
 import { Button, Grid, Segment, Input, Form } from "semantic-ui-react"
-import { FormField } from '../helpers/formFields.js'
+import { FormField } from "../helpers/formFields.js"
 import {
     required,
     maxLength,
@@ -16,7 +16,6 @@ const form = reduxForm({
     form: "register"
 })
 
-
 class Register extends Component {
     handleFormSubmit(formProps) {
         this.props.registerUser(formProps)
@@ -25,11 +24,11 @@ class Register extends Component {
     renderAlert() {
         if (this.props.errorMessage) {
             return (
-                <div>
+                <Segment color="red" compact>
                     <span>
-                        <strong>Error!</strong> {this.props.errorMessage}
+                        <strong>Registration Error: </strong> {this.props.errorMessage}
                     </span>
-                </div>
+                </Segment>
             )
         }
     }
@@ -38,7 +37,10 @@ class Register extends Component {
         const { handleSubmit } = this.props
 
         return (
-            <Form onSubmit={handleSubmit(this.handleFormSubmit.bind(this))} inverted={this.props.isInverted}>
+            <Form
+                onSubmit={handleSubmit(this.handleFormSubmit.bind(this))}
+                inverted={this.props.isInverted}
+            >
                 {this.renderAlert()}
 
                 <Field
@@ -88,7 +90,7 @@ class Register extends Component {
 
 function mapStateToProps(state) {
     return {
-        errorMessage: state.auth.error,
+        errorMessage: state.auth.register_error,
         message: state.auth.message,
         authenticated: state.auth.authenticated
     }
