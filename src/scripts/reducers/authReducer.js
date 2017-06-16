@@ -12,7 +12,7 @@ export default function (state = INITIAL_STATE, action) {
     }
     
     case UNAUTH_USER: {
-      return _.extend( {}, state, { authenticated: false, error: action.payload } );
+      return _.extend( {}, state, { authenticated: false, login_error: undefined, register_error: undefined, error: action.payload } );
     }
     
     case AUTH_ERROR: {
@@ -20,7 +20,7 @@ export default function (state = INITIAL_STATE, action) {
     }
 
     case LOGIN_ERROR: {
-      return _.extend( {}, state, { login_error: action.payload } );
+      return _.extend( {}, state, { login_error: 'invalid email or password' } );
     }
 
     case REGISTER_ERROR: {
