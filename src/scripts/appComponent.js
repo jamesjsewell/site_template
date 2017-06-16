@@ -10,6 +10,7 @@ import Authentication from "./components/authComponents/requireAuthComponent.js"
 import HomePage from "./components/pages/homePage/homePageComponent.js"
 import AuthPage from "./components/pages/authPage/authPageComponent.js"
 import ProfilePage from "./components/pages/profilePage/profilePageComponent.js"
+import NotAuthenticatedPage from "./components/pages/notAuthenticatedPage/notAuthenticatedPageComponent.js"
 import {
     setActiveNavLink,
     hideSidebar,
@@ -78,7 +79,7 @@ class RouteConfig extends Component {
                     <Navbar />
 
                     <Switch>
-                        <Route path="/profile" component={ProfilePage} />
+                        <Route path="/profile" component={this.props.user? ProfilePage : NotAuthenticatedPage} />
                         <Route path="/login" component={AuthPage} />
                         <Route path="/register" component={AuthPage} />
                         <Route exact path="/" component={HomePage} />
@@ -94,6 +95,7 @@ class RouteConfig extends Component {
 
 function mapStateToProps(state) {
     return {
+        user: state.auth.user,
         sidebarVisible: state.nav.sidebarVisible,
         loadingData: state.data.loadingData
     }
