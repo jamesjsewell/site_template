@@ -6,15 +6,17 @@ export const FormField = ({
     input,
     label,
     type,
+    placeholder,
+    required,
     meta: { touched, error, warning, value }
 }) => (
-    <Form.Field required error={error && touched ? true : false}>
+    <Form.Field required={required} error={error && touched ? true : false}>
         <label>{label}</label>
         <Input
             type={type}
             value={input.value}
             onChange={(param, data) => input.onChange(data.value)}
-            placeholder={label}
+            placeholder={placeholder}
         />
         {touched &&
             ((error &&

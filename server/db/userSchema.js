@@ -25,10 +25,12 @@ const UserSchema = new Schema({
   profile: {
     firstName: { type: String },
     lastName: { type: String },
+    website: { type: String },
     location: { type: String},
-    sex: { type: String},
+    gender: { type: String},
     age: { type: Number },
-    avatarUrl: { type: String}
+    avatarUrl: { type: String},
+    relationshipStatus: { type: String }
   },
   role: {
     type: String,

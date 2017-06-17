@@ -47,27 +47,33 @@ class Register extends Component {
                     name="firstName"
                     component={FormField}
                     type="text"
-                    label="First Name"
+                    label="first name"
+                    placeholder="first name"
                     validate={[required, minLength(2), maxLength(14)]}
                     warn={[required, minLength(2)]}
+                    required={false}
                 />
 
                 <Field
                     name="lastName"
                     component={FormField}
                     type="text"
-                    label="Last Name"
+                    label="last name"
+                    placeholder="last name"
                     validate={[required, minLength(2), maxLength(14)]}
                     warn={[required, minLength(2)]}
+                    required={false}
                 />
 
                 <Field
                     name="email"
                     component={FormField}
                     type="text"
-                    label="Email"
+                    label="email"
+                    placeholder="email"
                     validate={[required, email, minLength(2)]}
                     warn={[required, minLength(2)]}
+                    required={false}
                 />
 
                 <Field
@@ -75,8 +81,10 @@ class Register extends Component {
                     component={FormField}
                     type="password"
                     label="Password"
+                    placeholder="password"
                     validate={[required, minLength(6), maxLength(14)]}
                     warn={[required, minLength(6)]}
+                    required={false}
                 />
 
                 <Button type="submit">

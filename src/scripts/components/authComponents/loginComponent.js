@@ -13,10 +13,6 @@ import {
 } from "../helpers/formValidation.js"
 import { FormField } from '../helpers/formFields.js'
 
-const form = reduxForm({
-    form: "loginForm"
-})
-
 class Login extends Component {
     handleFormSubmit(formProps) {
         var login = this.props.loginUser(formProps)
@@ -59,17 +55,21 @@ class Login extends Component {
                         component={FormField}
                         type="text"
                         label="Email"
+                        placeholder="email"
                         validate={[required, email]}
                         warn={[required]}
+                        required={false}
                     />
 
                     <Field
                         name="password"
                         component={FormField}
                         type="password"
-                        label="Password"
+                        label="password"
+                        placeholder="password"
                         validate={[required ]}
                         warn={[required ]}
+                        required={false}
                     />
 
                     <Button type="submit" className="btn btn-primary">

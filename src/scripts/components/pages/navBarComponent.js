@@ -19,7 +19,6 @@ class Navbar extends Component {
             homePath: this.props.routes.home,
             profilePath: this.props.routes.profile
         }
-        
     }
 
     handleItemClick(e) {
@@ -54,33 +53,45 @@ class Navbar extends Component {
 
                 <Grid.Row centered only="computer" padded>
 
-                    <Grid.Column >
+                    <Grid.Column>
 
-                        <Menu
-                            size={"massive"}
-                            pointing
-                            secondary
-                        >
+                        <Menu size={"massive"} pointing secondary>
 
                             <Menu.Menu>
                                 <Menu.Item
                                     header
                                     id={this.state.homePath} //the url
                                     name="home"
-                                    active={activeItem.includes(this.state.homePath)}
+                                    active={activeItem.includes(
+                                        this.state.homePath
+                                    )}
                                     onClick={this.handleItemClick.bind(this)}
                                 />
                             </Menu.Menu>
 
-                            <Menu.Menu>
-                                <Menu.Item
-                                    header
-                                    id={this.props.authenticated ? this.state.profilePath : ''} //the url
-                                    name={this.props.authenticated ? this.state.profilePath : ''}
-                                    active={activeItem.includes(this.state.profilePath)}
-                                    onClick={this.handleItemClick.bind(this)}
-                                />
-                            </Menu.Menu>
+                            {this.props.authenticated
+                                ? <Menu.Menu>
+                                      <Menu.Item
+                                          header
+                                          id={
+                                              this.props.authenticated
+                                                  ? this.state.profilePath
+                                                  : ""
+                                          } //the url
+                                          name={
+                                              this.props.authenticated
+                                                  ? this.state.profilePath
+                                                  : ""
+                                          }
+                                          active={activeItem.includes(
+                                              this.state.profilePath
+                                          )}
+                                          onClick={this.handleItemClick.bind(
+                                              this
+                                          )}
+                                      />
+                                  </Menu.Menu>
+                                : null}
 
                             <Menu.Menu position="right">
                                 <Menu.Item
@@ -108,8 +119,6 @@ class Navbar extends Component {
 
                     </Grid.Column>
 
-                   
-
                 </Grid.Row>
 
                 <Grid.Row>
@@ -134,7 +143,9 @@ class Navbar extends Component {
                                     header
                                     id={this.state.homePath} //the url
                                     name="home"
-                                    active={activeItem.includes(this.state.homePath)}
+                                    active={activeItem.includes(
+                                        this.state.homePath
+                                    )}
                                     onClick={this.handleItemClick.bind(this)}
                                 />
                             </Menu.Menu>
