@@ -1,5 +1,4 @@
 import axios from "axios"
-import cookie from "react-cookie"
 import { logoutUser } from "./authActions"
 import {
     STATIC_ERROR,
@@ -13,6 +12,11 @@ export const API_URL = "http://localhost:3000/api"
 export const CLIENT_ROOT_URL = "http://localhost:8080"
 import { SubmissionError } from "redux-form"
 
+import Cookies from "universal-cookie"
+const cookies = new Cookies()
+var token = cookies.get("token")
+var user = cookies.get("user")
+
 //= ===============================
 // Utility actions
 //= ===============================
@@ -21,9 +25,10 @@ export function fetchUser(uid) {
     return function(dispatch) {
         axios
             .get(`${API_URL}/user/${uid}`, {
-                headers: { Authorization: cookie.load("token") }
+                headers: { Authorization: token }
             })
             .then(response => {
+
                 dispatch({
                     type: FETCH_USER,
                     payload: response.data.user
@@ -69,7 +74,7 @@ export function postData(action, errorType, isAuthReq, url, dispatch, data) {
     let headers = {}
 
     if (isAuthReq) {
-        headers = { headers: { Authorization: cookie.load("token") } }
+        headers = { headers: { Authorization: token } }
     }
 
     axios
@@ -91,7 +96,7 @@ export function getData(action, errorType, isAuthReq, url, dispatch) {
     let headers = {}
 
     if (isAuthReq) {
-        headers = { headers: { Authorization: cookie.load("token") } }
+        headers = { headers: { Authorization: token } }
     }
 
     axios
@@ -111,14 +116,16 @@ export function getData(action, errorType, isAuthReq, url, dispatch) {
 export function putData(action, errorType, isAuthReq, url, dispatch, data) {
     const requestUrl = API_URL + url
     let headers = {}
-
+    console.log(requestUrl)
     if (isAuthReq) {
-        headers = { headers: { Authorization: cookie.load("token") } }
+        headers = { headers: { Authorization: token } }
     }
 
     axios
         .put(requestUrl, data, headers)
         .then(response => {
+            console.log(response.data)
+            console.log(action)
             dispatch({
                 type: action,
                 payload: response.data
@@ -135,7 +142,7 @@ export function deleteData(action, errorType, isAuthReq, url, dispatch) {
     let headers = {}
 
     if (isAuthReq) {
-        headers = { headers: { Authorization: cookie.load("token") } }
+        headers = { headers: { Authorization: token } }
     }
 
     axios

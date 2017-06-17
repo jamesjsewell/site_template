@@ -15,7 +15,7 @@ export const AUTH_USER = "auth_user",
 // User Profile Actions
 //= =====================
 export const FETCH_USER = "fetch_user",
-UPDATED_USER = "updated_user",
+UPDATE_USER = "update_user",
 UPDATE_USER_ERROR = "update_user_error"
 
 //= =====================

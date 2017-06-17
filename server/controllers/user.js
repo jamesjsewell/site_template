@@ -1,5 +1,6 @@
 const User = require('../db/userSchema.js')
 const setUserInfo = require('../config/helpers.js').setUserInfo;
+const _ = require('underscore')
 
 //= =======================================
 // User Routes
@@ -14,8 +15,37 @@ exports.viewProfile = function (req, res, next) {
       return next(err);
     }
 
-    const userToReturn = setUserInfo(user);
+    //const userToReturn = setUserInfo(user);
 
-    return res.status(200).json({ user: userToReturn });
+    return res.status(200).json({ user: user });
   });
 };
+
+exports.updateProfile = function (req, res, next) {
+
+    const userId = req.params.userId;
+
+    if (req.user._id.toString() !== userId) { return res.status(401).json({ error: 'You are not authorized to view this user profile.' }); }
+    User.findByIdAndUpdate(userId, req.body, function(err, record){
+
+        if (err) {
+
+          res.status(500).send(err)
+
+        }
+
+        else if (!record) {
+
+          res.status(400).send('no record found with that id')
+
+        }
+
+        else {
+
+          return res.status(200).json(_.extend(record, req.body, {}))
+
+        }
+
+    })
+
+}

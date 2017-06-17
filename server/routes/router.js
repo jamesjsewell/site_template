@@ -55,6 +55,8 @@ apiRoutes.use('/user', userRoutes);
 // View user profile route
 userRoutes.get('/:userId', requireAuth, UserController.viewProfile);
 
+userRoutes.put('/:userId', requireAuth, UserController.updateProfile);
+
 // Test protected route
 apiRoutes.get('/protected', requireAuth, (req, res) => {
 res.send({ authenticated: true });

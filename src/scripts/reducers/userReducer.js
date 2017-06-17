@@ -6,9 +6,10 @@ const INITIAL_STATE = { profile: {}, message: '', update_user_error: undefined }
 export default function (state = INITIAL_STATE, action) {
   switch (action.type) {
     case FETCH_USER:
-      return _.extend( {}, state, { profile: action.payload.user } );
+      return _.extend( {}, state, { profile: action.payload.profile } );
     case UPDATE_USER:
-      return _.extend( {}, state, { profile: action.payload.user } );
+    console.log(action.payload.profile)
+      return _.extend( {}, state, { profile: action.payload.profile } );
     case UPDATE_USER_ERROR:
       return _.extend( {}, state, { update_user_error: action.payload } );
 
