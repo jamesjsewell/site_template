@@ -19,7 +19,7 @@ ReactGA.initialize("UA-000000-01")
 function logPageView() {
     ReactGA.pageview(window.location.pathname)
 }
-
+console.log('is this working on heroku?')
 const middleware = applyMiddleware(thunk)
 const store = createStore(reducers, middleware)
 
