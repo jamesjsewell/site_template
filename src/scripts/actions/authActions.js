@@ -44,9 +44,7 @@ export function loginUser({ email, password }) {
             })
     }
 }
-//
-//
-//
+
 export function registerUser({ email, firstName, lastName, password }) {
     return function(dispatch) {
         axios
