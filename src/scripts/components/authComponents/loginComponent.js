@@ -3,7 +3,15 @@ import { connect } from "react-redux"
 import { Field, reduxForm } from "redux-form"
 import { Link } from "react-router-dom"
 import { loginUser } from "../../actions/authActions"
-import { Button, Grid, Segment, Input, Form, Header, Icon } from "semantic-ui-react"
+import {
+    Button,
+    Grid,
+    Segment,
+    Input,
+    Form,
+    Header,
+    Icon
+} from "semantic-ui-react"
 import {
     required,
     maxLength,
@@ -11,21 +19,29 @@ import {
     alphaNumeric,
     email
 } from "../helpers/formValidation.js"
-import { FormField } from '../helpers/formFields.js'
+import { FormField } from "../helpers/formFields.js"
 
 class Login extends Component {
+    constructor(props) {
+        super(props)
+        this.state = { dispatchedLogin: false   }
+    }
     handleFormSubmit(formProps) {
         var login = this.props.loginUser(formProps)
+        this.state.dispatchedLogin = true
     }
 
     renderAlert() {
         if (this.props.errorMessage) {
+
             return (
                 <Segment color="red" compact>
 
                     <span>
 
-                        <strong>Login Error: </strong> {'invalid email address or password'}
+                        <strong>Login Error: </strong>
+                        {" "}
+                        {"invalid email address or password"}
 
                     </span>
 
@@ -34,7 +50,11 @@ class Login extends Component {
         }
     }
 
-    componentWillUnMount() {}
+    componentWillReceiveProps(nextProps){
+        if(nextProps.errorMessage){
+            this.state.dispatchedLogin = false
+        }
+    }
 
     render() {
         const { handleSubmit, pristine, reset, submitting } = this.props
@@ -65,15 +85,16 @@ class Login extends Component {
                         component={FormField}
                         type="password"
                         placeholder="password"
-                        validate={[required ]}
-                        warn={[required ]}
+                        validate={[required]}
+                        warn={[required]}
                         required={false}
-                            
+                    />
+
+                    <Button
+                        type="submit"
+                        className="btn btn-primary"
+                        loading={this.state.dispatchedLogin ? true : false}
                     >
-
-                    </Field>
-
-                    <Button type="submit" className="btn btn-primary">
                         Login
                     </Button>
 
@@ -86,7 +107,6 @@ class Login extends Component {
 
 function mapStateToProps(state) {
     return {
-        redux: state,
         errorMessage: state.auth.login_error,
         message: state.auth.message,
         authenticated: state.auth.authenticated

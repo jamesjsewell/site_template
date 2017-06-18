@@ -17,8 +17,15 @@ const form = reduxForm({
 })
 
 class Register extends Component {
+
+    constructor(props){
+        super(props)
+        this.state = { dispatchedRegister: false }
+    }
+
     handleFormSubmit(formProps) {
         this.props.registerUser(formProps)
+        this.state.dispatchedRegister = true
     }
 
     renderAlert() {
@@ -30,6 +37,12 @@ class Register extends Component {
                     </span>
                 </Segment>
             )
+        }
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if(nextProps.errorMessage){
+            this.state.dispatchedRegister = false
         }
     }
 
@@ -87,7 +100,7 @@ class Register extends Component {
                     required={false}
                 />
 
-                <Button type="submit">
+                <Button type="submit" loading={this.state.dispatchedRegister}>
                     Register
                 </Button>
 
