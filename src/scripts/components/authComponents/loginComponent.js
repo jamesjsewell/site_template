@@ -3,7 +3,7 @@ import { connect } from "react-redux"
 import { Field, reduxForm } from "redux-form"
 import { Link } from "react-router-dom"
 import { loginUser } from "../../actions/authActions"
-import { Button, Grid, Segment, Input, Form, Header } from "semantic-ui-react"
+import { Button, Grid, Segment, Input, Form, Header, Icon } from "semantic-ui-react"
 import {
     required,
     maxLength,
@@ -54,7 +54,6 @@ class Login extends Component {
                         name="email"
                         component={FormField}
                         type="text"
-                        label="Email"
                         placeholder="email"
                         validate={[required, email]}
                         warn={[required]}
@@ -65,12 +64,14 @@ class Login extends Component {
                         name="password"
                         component={FormField}
                         type="password"
-                        label="password"
                         placeholder="password"
                         validate={[required ]}
                         warn={[required ]}
                         required={false}
-                    />
+                            
+                    >
+
+                    </Field>
 
                     <Button type="submit" className="btn btn-primary">
                         Login

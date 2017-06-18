@@ -55,7 +55,7 @@ class Navbar extends Component {
 
                     <Grid.Column>
 
-                        <Menu size={"massive"} pointing secondary>
+                        <Menu size={"big"} pointing secondary>
 
                             <Menu.Menu>
                                 <Menu.Item

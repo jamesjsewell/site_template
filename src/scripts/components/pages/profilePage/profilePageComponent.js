@@ -93,14 +93,14 @@ class ProfilePage extends Component {
                     <Grid.Row>
                         <Grid.Column width={4}>
                             <Segment>
-                                {this.props.profile
-                                    ? <Form
+                                 <Form
                                           onSubmit={handleSubmit(
                                               this.handleFormSubmit.bind(this)
                                           )}
                                           size="huge"
                                           padded
                                           inverted={this.props.isInverted}
+                                          loading={this.props.profile ? false : true}
                                       >
 
                                           {this.renderAlert()}
@@ -198,7 +198,7 @@ class ProfilePage extends Component {
                                           </Button>
 
                                       </Form>
-                                    : "loading data"}
+                                
                             </Segment>
                         </Grid.Column>
                     </Grid.Row>
