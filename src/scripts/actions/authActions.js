@@ -50,7 +50,7 @@ export function loginUser({ email, password }) {
 export function registerUser({ email, firstName, lastName, password }) {
     return function(dispatch) {
         axios
-            .post(`${API_URL}/api/auth/register`, {
+            .post(`${API_URL}/auth/register`, {
                 email,
                 firstName,
                 lastName,
