@@ -150,6 +150,30 @@ class Navbar extends Component {
                                 />
                             </Menu.Menu>
 
+                            {this.props.authenticated
+                                ? <Menu.Menu>
+                                      <Menu.Item
+                                          header
+                                          id={
+                                              this.props.authenticated
+                                                  ? this.state.profilePath
+                                                  : ""
+                                          } //the url
+                                          name={
+                                              this.props.authenticated
+                                                  ? this.state.profilePath
+                                                  : ""
+                                          }
+                                          active={activeItem.includes(
+                                              this.state.profilePath
+                                          )}
+                                          onClick={this.handleItemClick.bind(
+                                              this
+                                          )}
+                                      />
+                                  </Menu.Menu>
+                                : null}
+
                             <Menu.Menu position="right">
                                 <Menu.Item
                                     header
