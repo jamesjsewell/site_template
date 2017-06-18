@@ -8,7 +8,7 @@ import {
     LOADING_DATA,
     DATA_LOADED
 } from "./types"
-export const API_URL = ""
+export const API_URL = "/api"
 //
 //
 //export const API_URL = "https://website-starter.herokuapp.com/api"
