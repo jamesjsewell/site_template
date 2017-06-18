@@ -8,7 +8,8 @@ import {
     LOADING_DATA,
     DATA_LOADED
 } from "./types"
-export const API_URL = "https://localhost:3000/api"
+//export const API_URL = "https://localhost:3000/api"
+export const API_URL = "https://website-starter.herokuapp.com/api"
 export const CLIENT_ROOT_URL = "http://localhost:8080"
 import { SubmissionError } from "redux-form"
 
