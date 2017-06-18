@@ -6,12 +6,15 @@ import {
     REGISTER_ERROR,
     FETCH_USER,
     LOADING_DATA,
-    DATA_LOADED
+    DATA_LOADED,
+    AUTH_ERROR
 } from "./types"
 export const API_URL = "/api"
 //
 //
 ////
+//
+//
 //
 //
 //
