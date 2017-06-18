@@ -10,7 +10,7 @@ import {
 } from "./types"
 export const API_URL = "https://localhost:3000/api"
 //export const API_URL = "https://website-starter.herokuapp.com/api"
-export const CLIENT_ROOT_URL = "http://localhost:8080"
+export const CLIENT_ROOT_URL = "https://localhost:8080"
 import { SubmissionError } from "redux-form"
 
 import Cookies from "universal-cookie"
