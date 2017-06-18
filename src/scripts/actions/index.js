@@ -9,7 +9,7 @@ import {
     DATA_LOADED,
     AUTH_ERROR
 } from "./types"
-export const API_URL = "/api"
+//export const API_URL = "/api"
 //
 //
 ////
@@ -19,7 +19,7 @@ export const API_URL = "/api"
 //
 //
 //
-//export const API_URL = "https://website-starter.herokuapp.com/api"
+export const API_URL = "https://website-starter.herokuapp.com/api"
 export const CLIENT_ROOT_URL = "https://localhost:8080"
 import { SubmissionError } from "redux-form"
 
