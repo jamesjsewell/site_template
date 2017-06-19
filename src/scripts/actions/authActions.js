@@ -35,8 +35,9 @@ export function loginUser({ email, password }) {
                 cookies.set("token", response.data.token, { path: "/" })
                 cookies.set("user", response.data.user, { path: "/" })
                 dispatch({ type: AUTH_USER, payload: response.data.user })
-
+                //protectedTest(response.data.user) 
                 //window.location.href = `${CLIENT_ROOT_URL}/dashboard`;
+                console.log(cookies.get('user'))
             })
             .catch(error => {
                 console.log(error)
@@ -59,7 +60,8 @@ export function registerUser({ email, firstName, lastName, password }) {
                 console.log(response.data)
                 cookies.set("token", response.data.token, { path: "/" })
                 cookies.set("user", response.data.user, { path: "/" })
-                dispatch({ type: AUTH_USER })
+                dispatch({ type: AUTH_USER, payload: response.data.user })
+                //protectedTest(response.data.user) 
                 //window.location.href = `${CLIENT_ROOT_URL}/dashboard`;
             })
             .catch(error => {
@@ -73,7 +75,7 @@ export function logoutUser(error) {
         dispatch({ type: UNAUTH_USER, payload: error || "" })
         cookies.remove("token", { path: "/" })
         cookies.remove("user", { path: "/" })
-
+        console.log(cookies.get('user'))
         //window.location.href = `${CLIENT_ROOT_URL}/login`;
     }
 }

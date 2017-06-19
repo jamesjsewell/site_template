@@ -16,7 +16,7 @@ import { SubmissionError } from "redux-form"
 
 import Cookies from "universal-cookie"
 const cookies = new Cookies()
-var token = cookies.get("token")
+function getToken(){return cookies.get("token")}
 var user = cookies.get("user")
 
 //= ===============================
@@ -27,7 +27,7 @@ export function fetchUser(uid) {
     return function(dispatch) {
         axios
             .get(`${API_URL}/user/${uid}`, {
-                headers: { Authorization: token }
+                headers: { Authorization: getToken() }
             })
             .then(response => {
 
@@ -76,7 +76,7 @@ export function postData(action, errorType, isAuthReq, url, dispatch, data) {
     let headers = {}
 
     if (isAuthReq) {
-        headers = { headers: { Authorization: token } }
+        headers = { headers: { Authorization: getToken() } }
     }
 
     axios
@@ -98,7 +98,7 @@ export function getData(action, errorType, isAuthReq, url, dispatch) {
     let headers = {}
 
     if (isAuthReq) {
-        headers = { headers: { Authorization: token } }
+        headers = { headers: { Authorization: getToken() } }
     }
 
     axios
@@ -120,7 +120,7 @@ export function putData(action, errorType, isAuthReq, url, dispatch, data) {
     let headers = {}
     console.log(requestUrl)
     if (isAuthReq) {
-        headers = { headers: { Authorization: token } }
+        headers = { headers: { Authorization: getToken() } }
     }
 
     axios
@@ -144,7 +144,7 @@ export function deleteData(action, errorType, isAuthReq, url, dispatch) {
     let headers = {}
 
     if (isAuthReq) {
-        headers = { headers: { Authorization: token } }
+        headers = { headers: { Authorization: getToken() } }
     }
 
     axios

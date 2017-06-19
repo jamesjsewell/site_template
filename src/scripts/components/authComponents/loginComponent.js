@@ -107,7 +107,7 @@ class Login extends Component {
 
 function mapStateToProps(state) {
     return {
-        errorMessage: state.auth.login_error,
+        errorMessage: state.auth.loginError,
         message: state.auth.message,
         authenticated: state.auth.authenticated
     }

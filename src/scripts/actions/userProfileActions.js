@@ -1,5 +1,5 @@
 import {fetchUser, errorHandler, postData, getData, putData, deleteData} from './index.js'
-import {FETCH_USER, UPDATE_USER_ERROR, UPDATE_USER} from './types.js'
+import {FETCH_USER, UPDATE_USER_ERROR, UPDATE_USER, READY_TO_UPDATE_USER} from './types.js'
 
 export function updatePersonalInfo(userId, updatedInfo) {
 
@@ -11,3 +11,14 @@ export function updatePersonalInfo(userId, updatedInfo) {
 
 }	
 
+export function readyToUpdatePersonalInfo() {
+
+	return function(dispatch) {
+
+		dispatch({
+			type: READY_TO_UPDATE_USER
+		})
+
+	}
+
+}	

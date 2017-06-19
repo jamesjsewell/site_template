@@ -3,8 +3,11 @@ import { connect } from "react-redux"
 import { Field, reduxForm } from "redux-form"
 import { Link } from "react-router-dom"
 import { fetchUser } from "../../../actions/index.js"
-import { updatePersonalInfo } from "../../../actions/userProfileActions.js"
-import { UPDATED_USER, UPDATE_USER_ERROR } from "../../../actions/types.js"
+import {
+    updatePersonalInfo,
+    readyToUpdatePersonalInfo
+} from "../../../actions/userProfileActions.js"
+
 import {
     Button,
     Grid,
@@ -12,14 +15,16 @@ import {
     Input,
     Form,
     Header,
-    Container
+    Container,
+    Message
 } from "semantic-ui-react"
 import {
     required,
     maxLength,
     minLength,
     alphaNumeric,
-    email
+    email,
+    number
 } from "../../helpers/formValidation.js"
 import { FormField } from "../../helpers/formFields.js"
 import _ from "underscore"
@@ -27,23 +32,41 @@ import _ from "underscore"
 class ProfilePage extends Component {
     constructor(props) {
         super(props)
-        this.state = { loadedProfile: false }
+        this.state = { popupIsOpen: false }
     }
     componentWillMount() {
         this.props.fetchUser(this.props.user._id)
-        this.state.loadedProfile = false
     }
     componentWillReceiveProps(nextProps) {
-        // if (nextProps.profile != this.props.profile || !this.props.profile) {
-        //     this.props.fetchUser(this.props.user._id)
-        //     this.state.loadedProfile = false
-        // } else {
-        //     this.state.loadedProfile = true
-        // }
-        if(nextProps.profile){
-            this.state.loadedProfile = true
+        if (nextProps.updatedUser === true) {
+            if (this.props.anyTouched) {
+                this.props.untouch()
+                this.props.reset()
+                this.props.readyToUpdatePersonalInfo()
+                this.handleOpenPopup()
+            }
+        } else {
+            ///this.handleClosePopup()
         }
     }
+    handleOpenPopup() {
+        this.state.popupIsOpen = true
+
+        this.state.popupIsOpen = setTimeout(() => {
+            console.log("shit")
+            this.setState({popupIsOpen: false })
+            
+        }, 2500)
+        // setTimeout(() => {
+        //     this.state.popupIsOpen = false
+        // }, 2500)
+    }
+
+    handleClosePopup() {
+        this.state.popupIsOpen = false
+        clearTimeout(this.timeout)
+    }
+
     handleFormSubmit(formProps) {
         var userInput = formProps
 
@@ -95,24 +118,34 @@ class ProfilePage extends Component {
         console.log(this.props)
         const user = this.props.user
         const profile = this.props.profile
+        console.log(this.props)
 
         if (user) {
-            const userFistName = profile.firstName
+            const userFistName = profile && profile.firstName
                 ? profile.firstName
                 : undefined,
-                userLastName = profile.lastName ? profile.lastName : undefined,
-                userAge = profile.age ? profile.age : undefined,
-                userGender = profile.gender ? profile.gender : undefined,
-                userLocation = profile.location ? profile.location : undefined,
-                userRelationshipStatus = profile.relationshipStatus
+                userLastName = profile && profile.lastName
+                    ? profile.lastName
+                    : undefined,
+                userAge = profile && profile.age ? profile.age : undefined,
+                userGender = profile && profile.gender
+                    ? profile.gender
+                    : undefined,
+                userLocation = profile && profile.location
+                    ? profile.location
+                    : undefined,
+                userRelationshipStatus = profile && profile.relationshipStatus
                     ? profile.relationshipStatus
                     : undefined,
-                userWebsite = profile.website ? profile.website : undefined
+                userWebsite = profile && profile.website
+                    ? profile.website
+                    : undefined
 
             return (
                 <Grid container columns={1}>
                     <Grid.Row>
-                        <Grid.Column width={4}>
+                        <Grid.Column width={6}>
+
                             <Segment>
                                 <Form
                                     onSubmit={handleSubmit(
@@ -121,7 +154,7 @@ class ProfilePage extends Component {
                                     size="huge"
                                     padded
                                     inverted={this.props.isInverted}
-                                    loading={this.state.loadedProfile ? false : true}
+                                    loading={this.props.profile ? false : true}
                                 >
 
                                     {this.renderAlert()}
@@ -155,7 +188,7 @@ class ProfilePage extends Component {
                                             component={FormField}
                                             type="text"
                                             label="age"
-                                            validate={[alphaNumeric]}
+                                            validate={[alphaNumeric, number]}
                                         />
 
                                         <Field
@@ -209,12 +242,25 @@ class ProfilePage extends Component {
                                         />
                                     </Segment>
 
+                                    <Message
+                                        visible={
+                                            this.state.popupIsOpen
+                                                ? true
+                                                : false
+                                        }
+                                        hidden={
+                                            this.state.popupIsOpen
+                                                ? false
+                                                : true
+                                        }
+                                        floating
+                                        content="profile updated"
+                                    />
+
                                     <Button
                                         type="submit"
-                                        className="btn btn-primary"
-                                    >
-                                        Save Changes
-                                    </Button>
+                                        content="Save Changes"
+                                    />
 
                                 </Form>
 
@@ -232,11 +278,16 @@ class ProfilePage extends Component {
 function mapStateToProps(state) {
     return {
         user: state.auth.user,
+        updatedUser: state.user.updatedUser,
         profile: state.user.profile
     }
 }
 
-export default connect(mapStateToProps, { fetchUser, updatePersonalInfo })(
+export default connect(mapStateToProps, {
+    fetchUser,
+    updatePersonalInfo,
+    readyToUpdatePersonalInfo
+})(
     reduxForm({
         form: "profileForm"
     })(ProfilePage)

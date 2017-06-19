@@ -16,7 +16,8 @@ export const AUTH_USER = "auth_user",
 //= =====================
 export const FETCH_USER = "fetch_user",
 UPDATE_USER = "update_user",
-UPDATE_USER_ERROR = "update_user_error"
+UPDATE_USER_ERROR = "update_user_error",
+READY_TO_UPDATE_USER = "ready_to_update_user"
 
 //= =====================
 // Messaging Actions

@@ -7,14 +7,15 @@ import { protectedTest } from "../../actions/authActions"
 import { withRouter } from "react-router"
 
 const cookies = new Cookies()
-var token = cookies.get("token")
-var user = cookies.get("user")
+// var token = cookies.get("token")
+// var user = cookies.get("user")
 
 class Authentication extends Component {
     componentWillMount() {
+        var token = cookies.get("token")
+        var user = cookies.get("user")
         if (token) {
-            // Update application state. User has token and is probably authenticated
-            //store.dispatch({ type: AUTH_USER });
+
             if (!this.props.authenticated) {
                 this.props.protectedTest(user)
             }
@@ -24,25 +25,25 @@ class Authentication extends Component {
     componentDidMount() {}
 
     componentWillReceiveProps(nextProps) {
-        if (token) {
-            // Update application state. User has token and is probably authenticated
-            //store.dispatch({ type: AUTH_USER });
-            //nextProps.protectedTest()
-        }
+        var token = cookies.get("token")
+        var user = cookies.get("user")
 
-        if (nextProps.authenticated) {
-            if(this.props.location.pathname.includes(this.props.routes.login)){
-                this.props.history.push('/'+this.props.routes.home)
+        if (token) {
+
+            if (nextProps.authenticated) {
+                if(this.props.location.pathname.includes(this.props.routes.login)){
+                    this.props.history.push('/'+this.props.routes.home)
+                }
             }
-            // if(window.location.includes('login')){
-            //     this.context.router.push('/home');
-            // }
-            
+            else{
+                this.props.protectedTest(user) 
+            }
+
         }
     }
 
     render() {
-        //<h3>{this.props.authenticated ? "user is authenticated" : "not authenticated"}</h3>
+   
         return (
             <div>
                 
@@ -53,6 +54,7 @@ class Authentication extends Component {
 
 function mapStateToProps(state) {
     return { authenticated: state.auth.authenticated,
+        user: state.auth.user,
     routes: state.nav.routes }
 }
 
