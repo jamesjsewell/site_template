@@ -27,28 +27,47 @@ import _ from "underscore"
 class ProfilePage extends Component {
     constructor(props) {
         super(props)
+        this.state = { loadedProfile: false }
     }
     componentWillMount() {
         this.props.fetchUser(this.props.user._id)
+        this.state.loadedProfile = false
     }
     componentWillReceiveProps(nextProps) {
-        if (nextProps.profile != this.props.profile) {
-            this.props.fetchUser(this.props.user._id)
+        // if (nextProps.profile != this.props.profile || !this.props.profile) {
+        //     this.props.fetchUser(this.props.user._id)
+        //     this.state.loadedProfile = false
+        // } else {
+        //     this.state.loadedProfile = true
+        // }
+        if(nextProps.profile){
+            this.state.loadedProfile = true
         }
     }
     handleFormSubmit(formProps) {
-        console.log(this.props.profile)
         var userInput = formProps
 
         var parsedInput = {
             profile: {
-                firstName: userInput.firstName? userInput.firstName : this.props.profile.firstName,
-                lastName: userInput.lastName? userInput.lastName : this.props.profile.lastName,
-                age: userInput.age? userInput.age : this.props.profile.age,
-                gender: userInput.gender? userInput.gender : this.props.profile.gender,
-                location: userInput.location? userInput.location : this.props.profile.location,
-                relationshipStatus: userInput.relationshipStatus? userInput.relationshipStatus : this.props.profile.relationshipStatus,
-                website: userInput.website? userInput.website : this.props.profile.website
+                firstName: userInput.firstName
+                    ? userInput.firstName
+                    : this.props.profile.firstName,
+                lastName: userInput.lastName
+                    ? userInput.lastName
+                    : this.props.profile.lastName,
+                age: userInput.age ? userInput.age : this.props.profile.age,
+                gender: userInput.gender
+                    ? userInput.gender
+                    : this.props.profile.gender,
+                location: userInput.location
+                    ? userInput.location
+                    : this.props.profile.location,
+                relationshipStatus: userInput.relationshipStatus
+                    ? userInput.relationshipStatus
+                    : this.props.profile.relationshipStatus,
+                website: userInput.website
+                    ? userInput.website
+                    : this.props.profile.website
             }
         }
         var updatedInfo = _.extend({}, this.props.profile, parsedInput)
@@ -78,7 +97,9 @@ class ProfilePage extends Component {
         const profile = this.props.profile
 
         if (user) {
-            const userFistName = profile.firstName ? profile.firstName : undefined,
+            const userFistName = profile.firstName
+                ? profile.firstName
+                : undefined,
                 userLastName = profile.lastName ? profile.lastName : undefined,
                 userAge = profile.age ? profile.age : undefined,
                 userGender = profile.gender ? profile.gender : undefined,
@@ -93,112 +114,110 @@ class ProfilePage extends Component {
                     <Grid.Row>
                         <Grid.Column width={4}>
                             <Segment>
-                                 <Form
-                                          onSubmit={handleSubmit(
-                                              this.handleFormSubmit.bind(this)
-                                          )}
-                                          size="huge"
-                                          padded
-                                          inverted={this.props.isInverted}
-                                          loading={this.props.profile ? false : true}
-                                      >
+                                <Form
+                                    onSubmit={handleSubmit(
+                                        this.handleFormSubmit.bind(this)
+                                    )}
+                                    size="huge"
+                                    padded
+                                    inverted={this.props.isInverted}
+                                    loading={this.state.loadedProfile ? false : true}
+                                >
 
-                                          {this.renderAlert()}
+                                    {this.renderAlert()}
 
-                                          <Segment>
-                                              <Field
-                                                  placeholder={userFistName}
-                                                  name="firstName"
-                                                  component={FormField}
-                                                  type="text"
-                                                  label="first name"
-                                                  validate={[alphaNumeric]}
-                                              />
+                                    <Segment>
+                                        <Field
+                                            placeholder={userFistName}
+                                            name="firstName"
+                                            component={FormField}
+                                            type="text"
+                                            label="first name"
+                                            validate={[alphaNumeric]}
+                                        />
 
-                                              <Field
-                                                  placeholder={userLastName}
-                                                  name="lastName"
-                                                  component={FormField}
-                                                  type="text"
-                                                  label="last name"
-                                                  validate={[alphaNumeric]}
-                                              />
-                                          </Segment>
+                                        <Field
+                                            placeholder={userLastName}
+                                            name="lastName"
+                                            component={FormField}
+                                            type="text"
+                                            label="last name"
+                                            validate={[alphaNumeric]}
+                                        />
+                                    </Segment>
 
-                                          <Segment>
-                                              <Field
-                                                  placeholder={
-                                                      userAge
-                                                          ? userAge
-                                                          : "enter age"
-                                                  }
-                                                  name="age"
-                                                  component={FormField}
-                                                  type="text"
-                                                  label="age"
-                                                  validate={[alphaNumeric]}
-                                              />
+                                    <Segment>
+                                        <Field
+                                            placeholder={
+                                                userAge ? userAge : "enter age"
+                                            }
+                                            name="age"
+                                            component={FormField}
+                                            type="text"
+                                            label="age"
+                                            validate={[alphaNumeric]}
+                                        />
 
-                                              <Field
-                                                  placeholder={
-                                                      userGender
-                                                          ? userGender
-                                                          : "enter gender"
-                                                  }
-                                                  name="gender"
-                                                  component={FormField}
-                                                  type="text"
-                                                  label="gender"
-                                                  validate={[alphaNumeric]}
-                                              />
+                                        <Field
+                                            placeholder={
+                                                userGender
+                                                    ? userGender
+                                                    : "enter gender"
+                                            }
+                                            name="gender"
+                                            component={FormField}
+                                            type="text"
+                                            label="gender"
+                                            validate={[alphaNumeric]}
+                                        />
 
-                                              <Field
-                                                  placeholder={
-                                                      userLocation
-                                                          ? userLocation
-                                                          : "enter location"
-                                                  }
-                                                  name="location"
-                                                  component={FormField}
-                                                  type="text"
-                                                  label="location"
-                                              />
+                                        <Field
+                                            placeholder={
+                                                userLocation
+                                                    ? userLocation
+                                                    : "enter location"
+                                            }
+                                            name="location"
+                                            component={FormField}
+                                            type="text"
+                                            label="location"
+                                        />
 
-                                              <Field
-                                                  placeholder={
-                                                      userRelationshipStatus
-                                                          ? userRelationshipStatus
-                                                          : "enter relationship status"
-                                                  }
-                                                  name="relationshipStatus"
-                                                  component={FormField}
-                                                  type="text"
-                                                  label="relationship status"
-                                                  validate={[alphaNumeric]}
-                                              />
+                                        <Field
+                                            placeholder={
+                                                userRelationshipStatus
+                                                    ? userRelationshipStatus
+                                                    : "enter relationship status"
+                                            }
+                                            name="relationshipStatus"
+                                            component={FormField}
+                                            type="text"
+                                            label="relationship status"
+                                            validate={[alphaNumeric]}
+                                        />
 
-                                              <Field
-                                                  placeholder={
-                                                      userWebsite
-                                                          ? userWebsite
-                                                          : "enter your website"
-                                                  }
-                                                  name="website"
-                                                  component={FormField}
-                                                  type="text"
-                                                  label="your website"
-                                              />
-                                          </Segment>
+                                        <Field
+                                            placeholder={
+                                                userWebsite
+                                                    ? userWebsite
+                                                    : "enter your website"
+                                            }
+                                            name="website"
+                                            component={FormField}
+                                            type="text"
+                                            label="your website"
+                                        />
+                                    </Segment>
 
-                                          <Button
-                                              type="submit"
-                                              className="btn btn-primary"
-                                          >
-                                              Save Changes
-                                          </Button>
+                                    <Button
+                                        type="submit"
+                                        className="btn btn-primary"
+                                    >
+                                        Save Changes
+                                    </Button>
 
-                                      </Form>
-                                
+                                </Form>
+
                             </Segment>
                         </Grid.Column>
                     </Grid.Row>
@@ -216,6 +235,7 @@ function mapStateToProps(state) {
         profile: state.user.profile
     }
 }
+
 export default connect(mapStateToProps, { fetchUser, updatePersonalInfo })(
     reduxForm({
         form: "profileForm"
