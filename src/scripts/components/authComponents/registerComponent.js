@@ -1,7 +1,7 @@
 import React, { Component } from "react"
 import { connect } from "react-redux"
 import { Field, reduxForm } from "redux-form"
-import { registerUser } from "../../actions/authActions.js"
+import { registerUser, asyncValidate } from "../../actions/authActions.js"
 import { Button, Grid, Segment, Input, Form } from "semantic-ui-react"
 import { FormField } from "../helpers/formFields.js"
 import {
@@ -9,16 +9,19 @@ import {
     maxLength,
     minLength,
     alphaNumeric,
-    email
+    email,
+    shouldAsyncValidate
 } from "../helpers/formValidation.js"
 
 const form = reduxForm({
-    form: "register"
+    form: "register",
+    asyncValidate,
+    asyncBlurFields: ["email"],
+    shouldAsyncValidate
 })
 
 class Register extends Component {
-
-    constructor(props){
+    constructor(props) {
         super(props)
         this.state = { dispatchedRegister: false }
     }
@@ -33,7 +36,9 @@ class Register extends Component {
             return (
                 <Segment color="red" compact>
                     <span>
-                        <strong>Registration Error: </strong> {this.props.errorMessage}
+                        <strong>Registration Error: </strong>
+                        {" "}
+                        {this.props.errorMessage}
                     </span>
                 </Segment>
             )
@@ -41,13 +46,14 @@ class Register extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        if(nextProps.errorMessage){
+        if (nextProps.errorMessage) {
             this.state.dispatchedRegister = false
         }
     }
 
     render() {
         const { handleSubmit } = this.props
+        console.log(this.props)
 
         return (
             <Form

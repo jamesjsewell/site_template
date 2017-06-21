@@ -8,15 +8,18 @@ export const FormField = ({
     type,
     placeholder,
     required,
-    meta: { touched, error, warning, value }
+    asyncValidation,
+    meta: { touched, error, warning, value, asyncValidating }
 }) => (
-    <Form.Field required={required} error={error && touched ? true : false}>
+    <Form.Field className={asyncValidating ? 'async-validating' : ''} required={required} error={error && touched ? true : false} >
         <label>{label}</label>
         <Input
             type={type}
             value={input.value}
             onChange={(param, data) => input.onChange(data.value)}
             placeholder={placeholder}
+            onBlur={(param, data) => input.onBlur(param)}
+            
         />
         {touched &&
             ((error &&

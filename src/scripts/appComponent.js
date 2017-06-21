@@ -31,6 +31,15 @@ import {
     Divider
 } from "semantic-ui-react"
 
+class Blank extends Component {
+    render() {
+        return(
+            <div></div>
+        )
+        
+    }
+}
+
 class RouteConfig extends Component {
     handleHideSidebar() {
         this.props.hideSidebar()
@@ -79,7 +88,7 @@ class RouteConfig extends Component {
                     <Navbar />
 
                     <Switch>
-                        <Route path="/profile" component={this.props.user? ProfilePage : NotAuthenticatedPage} />
+                        <Route path="/profile" component={this.props.user? ProfilePage : Blank} />
                         <Route path="/login" component={AuthPage} />
                         <Route path="/register" component={AuthPage} />
                         <Route exact path="/" component={HomePage} />

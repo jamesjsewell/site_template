@@ -35,9 +35,9 @@ export function loginUser({ email, password }) {
                 cookies.set("token", response.data.token, { path: "/" })
                 cookies.set("user", response.data.user, { path: "/" })
                 dispatch({ type: AUTH_USER, payload: response.data.user })
-                //protectedTest(response.data.user) 
+                //protectedTest(response.data.user)
                 //window.location.href = `${CLIENT_ROOT_URL}/dashboard`;
-                console.log(cookies.get('user'))
+                console.log(cookies.get("user"))
             })
             .catch(error => {
                 console.log(error)
@@ -61,7 +61,7 @@ export function registerUser({ email, firstName, lastName, password }) {
                 cookies.set("token", response.data.token, { path: "/" })
                 cookies.set("user", response.data.user, { path: "/" })
                 dispatch({ type: AUTH_USER, payload: response.data.user })
-                //protectedTest(response.data.user) 
+                //protectedTest(response.data.user)
                 //window.location.href = `${CLIENT_ROOT_URL}/dashboard`;
             })
             .catch(error => {
@@ -70,12 +70,26 @@ export function registerUser({ email, firstName, lastName, password }) {
     }
 }
 
+export const asyncValidate = (values, dispatch) => {
+    console.log("values", values)
+    var request = axios.post(`${API_URL}/auth/validate-email`, {
+        values
+    })
+
+    return request.then(response => {return}).catch(error => {
+        if (error.response.data) {
+            console.log(error.response.data)
+            return { email: "this email is in use" }
+        }
+    })
+}
+
 export function logoutUser(error) {
     return function(dispatch) {
         dispatch({ type: UNAUTH_USER, payload: error || "" })
         cookies.remove("token", { path: "/" })
         cookies.remove("user", { path: "/" })
-        console.log(cookies.get('user'))
+        console.log(cookies.get("user"))
         //window.location.href = `${CLIENT_ROOT_URL}/login`;
     }
 }

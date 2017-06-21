@@ -86,6 +86,21 @@ exports.register = function (req, res, next) {
   });
 };
 
+exports.validateEmail = function (req, res, next) {
+  
+  const email = req.body.values.email;
+    
+  User.findOne({ email }, (err, existingUser) => {
+    if (err) { return next(err); }
+
+      // If user is not unique, return error
+    if (existingUser) {
+      return res.status(422).send({ error: 'That email address is already in use.' });
+    }
+
+  });
+};
+
 //= =======================================
 // Authorization Middleware
 //= =======================================

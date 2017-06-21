@@ -36,6 +36,8 @@ apiRoutes.use('/auth', authRoutes);
 // Registration route
 authRoutes.post('/register', AuthenticationController.register);
 
+authRoutes.post('/validate-email', AuthenticationController.validateEmail);
+
 // Login route
 authRoutes.post('/login', requireLogin, AuthenticationController.login);
 

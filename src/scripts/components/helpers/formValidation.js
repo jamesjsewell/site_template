@@ -41,3 +41,22 @@ export const aol = value =>
     value && /.+@aol\.com/.test(value)
         ? "Really? You still use AOL for your email?"
         : undefined
+
+export function shouldAsyncValidate(params) {
+   
+    if (!params.syncValidationPasses) {
+        return false
+    }
+    switch (params.trigger) {
+        case "blur":
+            // blurring
+            return true
+        case "submit":
+            // submitting, so only async validate if form is dirty or was never initialized
+            // conversely, DON'T async validate if the form is pristine just as it was initialized
+            //return !pristine || !initialized
+        return false
+        default:
+            return false
+    }
+}
