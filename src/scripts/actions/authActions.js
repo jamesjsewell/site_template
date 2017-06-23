@@ -70,20 +70,6 @@ export function registerUser({ email, firstName, lastName, password }) {
     }
 }
 
-export const asyncValidate = (values, dispatch) => {
-    console.log("values", values)
-    var request = axios.post(`${API_URL}/auth/validate-email`, {
-        values
-    })
-
-    return request.then(response => {return}).catch(error => {
-        if (error.response.data) {
-            console.log(error.response.data)
-            return { email: "this email is in use" }
-        }
-    })
-}
-
 export function logoutUser(error) {
     return function(dispatch) {
         dispatch({ type: UNAUTH_USER, payload: error || "" })

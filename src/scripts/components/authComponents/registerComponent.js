@@ -1,7 +1,7 @@
 import React, { Component } from "react"
 import { connect } from "react-redux"
 import { Field, reduxForm } from "redux-form"
-import { registerUser, asyncValidate } from "../../actions/authActions.js"
+import { registerUser } from "../../actions/authActions.js"
 import { Button, Grid, Segment, Input, Form } from "semantic-ui-react"
 import { FormField } from "../helpers/formFields.js"
 import {
@@ -10,13 +10,14 @@ import {
     minLength,
     alphaNumeric,
     email,
-    shouldAsyncValidate
+    shouldAsyncValidate,
+    asyncValidate
 } from "../helpers/formValidation.js"
 
 const form = reduxForm({
     form: "register",
     asyncValidate,
-    asyncBlurFields: ["email"],
+    asyncBlurFields: ["email", "passwordConfirm", "emailConfirm"],
     shouldAsyncValidate
 })
 
@@ -62,27 +63,6 @@ class Register extends Component {
             >
                 {this.renderAlert()}
 
-                <Field
-                    name="firstName"
-                    component={FormField}
-                    type="text"
-                    label="first name"
-                    placeholder="first name"
-                    validate={[required, minLength(2), maxLength(14)]}
-                    warn={[required, minLength(2)]}
-                    required={false}
-                />
-
-                <Field
-                    name="lastName"
-                    component={FormField}
-                    type="text"
-                    label="last name"
-                    placeholder="last name"
-                    validate={[required, minLength(2), maxLength(14)]}
-                    warn={[required, minLength(2)]}
-                    required={false}
-                />
 
                 <Field
                     name="email"
@@ -96,18 +76,38 @@ class Register extends Component {
                 />
 
                 <Field
+                    name="emailConfirm"
+                    component={FormField}
+                    type="text"
+                    placeholder="type your email again"
+                    validate={[required, email, minLength(2)]}
+                    warn={[required, minLength(2)]}
+                    required={false}
+                />
+
+                <Field
                     name="password"
                     component={FormField}
                     type="password"
-                    label="Password"
+                    label="password"
                     placeholder="password"
                     validate={[required, minLength(6), maxLength(14)]}
                     warn={[required, minLength(6)]}
                     required={false}
                 />
 
+                <Field
+                    name="passwordConfirm"
+                    component={FormField}
+                    type="password"
+                    placeholder="confirm password"
+                    validate={[required]}
+                    warn={[required]}
+                    required={false}
+                />
+
                 <Button type="submit" loading={this.state.dispatchedRegister}>
-                    Register
+                    register
                 </Button>
 
             </Form>
