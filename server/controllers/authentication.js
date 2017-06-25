@@ -6,6 +6,8 @@ const mailgun = require("../config/mailgun")
 const setUserInfo = require("../config/helpers").setUserInfo
 const getRole = require("../config/helpers").getRole
 const config = require("../config/secrets")
+const nodemailer = require("nodemailer")
+const xoauth2 = require("xoauth2")
 
 // Generate JWT
 // TO-DO Add issuer and audience
@@ -152,7 +154,9 @@ exports.roleAuthorization = function(requiredRole) {
 //= =======================================
 
 exports.forgotPassword = function(req, res, next) {
+    console.log(req.body.email)
     const email = req.body.email
+    console.log(process.env)
 
     User.findOne({ email }, (err, existingUser) => {
         // If user is not found, return error
@@ -178,17 +182,40 @@ exports.forgotPassword = function(req, res, next) {
             existingUser.save(err => {
                 // If error in saving token, return it
                 if (err) {
+                    console.log(err)
                     return next(err)
                 }
 
                 const message = {
-                    subject: "Reset Password",
-                    text: `${"You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n" + "Please click on the following link, or paste this into your browser to complete the process:\n\n" + "http://"}${req.headers.host}/reset-password/${resetToken}\n\n` +
+                    body: `${"You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n" + "Please click on the following link, or paste this into your browser to complete the process:\n\n" + "http://"}${req.headers.host}/reset-password/${resetToken}\n\n` +
                         `If you did not request this, please ignore this email and your password will remain unchanged.\n`
                 }
 
-                // Otherwise, send user email via Mailgun
-                mailgun.sendEmail(existingUser.email, message)
+                var helper = require("sendgrid").mail
+                var fromEmail = new helper.Email("jamesjosephsewell@gmail.com")
+                var toEmail = new helper.Email(existingUser.email)
+                var subject = "reset your password"
+                var content = new helper.Content(
+                    "text/plain",
+                    message.body
+                )
+                var mail = new helper.Mail(fromEmail, subject, toEmail, content)
+
+                var sg = require("sendgrid")(process.env.SENDGRID_API_KEY)
+                var request = sg.emptyRequest({
+                    method: "POST",
+                    path: "/v3/mail/send",
+                    body: mail.toJSON()
+                })
+
+                sg.API(request, function(error, response) {
+                    if (error) {
+                        console.log("Error response received")
+                    }
+                    console.log(response.statusCode)
+                    console.log(response.body)
+                    console.log(response.headers)
+                })
 
                 return res.status(200).json({
                     message: "Please check your email for the link to reset your password."

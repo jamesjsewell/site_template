@@ -81,6 +81,7 @@ export function logoutUser(error) {
 }
 
 export function getForgotPasswordToken({ email }) {
+    console.log({email})
     return function(dispatch) {
         axios
             .post(`${API_URL}/auth/forgot-password`, { email })

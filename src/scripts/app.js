@@ -24,6 +24,7 @@ const middleware = applyMiddleware(thunk)
 const store = createStore(reducers, middleware)
 
 ReactDOM.render(
+
     <Provider store={store}>
         <BrowserRouter>
             <RouteConfig />

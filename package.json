@@ -49,6 +49,7 @@
     "cookie-parser": "^1.4.3",
     "ejs": "^2.4.2",
     "email-verification": "^0.4.6",
+    "emailjs": "^1.0.10",
     "express": "^4.14.0",
     "express-history-api-fallback": "^2.2.1",
     "express-session": "^1.14.0",
@@ -56,6 +57,7 @@
     "mailgun-js": "^0.11.2",
     "mongoose": "^4.10.4",
     "morgan": "^1.8.1",
+    "nodemailer": "^4.0.1",
     "nodemon": "^1.11.0",
     "passport": "^0.3.2",
     "passport-jwt": "^2.2.1",
@@ -74,6 +76,9 @@
     "redux-form": "^6.7.0",
     "redux-thunk": "^2.2.0",
     "semantic-ui-react": "^0.68.5",
-    "universal-cookie": "^2.0.8"
+    "sendgrid": "^5.1.1",
+    "serve-static": "^1.12.3",
+    "universal-cookie": "^2.0.8",
+    "xoauth2": "^1.2.0"
   }
 }

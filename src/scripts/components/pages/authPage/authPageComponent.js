@@ -1,8 +1,9 @@
 import React, { Component } from "react"
 import { connect } from "react-redux"
 import { Link } from "react-router-dom"
-import { Button, Grid, Segment, Input, Header } from "semantic-ui-react"
+import { Button, Grid, Segment, Input, Header, Modal } from "semantic-ui-react"
 import Login from "../../authComponents/loginComponent.js"
+import ForgotPassword from "../../authComponents/forgotPasswordComponent.js"
 import Register from "../../authComponents/registerComponent.js"
 import Navbar from "../navBarComponent.js"
 
@@ -31,19 +32,30 @@ class AuthPage extends Component {
 
                     <Grid.Row stretched>
 
-                        <Grid.Column >
+                        <Grid.Column>
 
-                            <Segment  padded>
+                            <Segment padded>
                                 <Header>login</Header>
                                 <Login isInverted={false} />
 
+                                <Segment>
+                                <Modal trigger={<Button>forgot password?</Button>}>
+                                    <Modal.Header>Request password change</Modal.Header>
+                                    <Modal.Content>
+                                       
+                                        <Modal.Description>
+                                            <ForgotPassword />
+                                        </Modal.Description>
+                                    </Modal.Content>
+                                </Modal>
+                                </Segment>
                             </Segment>
 
                         </Grid.Column>
 
-                        <Grid.Column >
+                        <Grid.Column>
 
-                            <Segment  padded>
+                            <Segment padded>
                                 <Header>register</Header>
                                 <Register isInverted={false} />
                             </Segment>

@@ -1,35 +1,47 @@
 import React, { Component } from "react"
 import { connect } from "react-redux"
 import { Field, reduxForm } from "redux-form"
-import { getForgotPasswordToken } from "../../actions/authActions"
-import PropTypes from "prop-types"
+import { getForgotPasswordToken } from "../../actions/authActions.js"
+import { Button, Grid, Segment, Input, Form } from "semantic-ui-react"
+import { FormField } from "../helpers/formFields.js"
+import {
+    required,
+    maxLength,
+    minLength,
+    alphaNumeric,
+    email,
+    shouldAsyncValidate,
+    asyncValidate
+} from "../helpers/formValidation.js"
 
 const form = reduxForm({
-    form: "forgotPassword"
+    form: "forgotPassword",
+    validate,
+    blurFields: ["emailConfirm"]
 })
+
+function validate(formProps) {
+        const errors = {}
+
+        if (!formProps.email) {
+            errors.email = "enter your email"
+        }
+
+        if (!formProps.emailConfirm) {
+            errors.emailConfirm = "confirm your email"
+        }
+
+        if (formProps.email !== formProps.emailConfirm) {
+            errors.emailConfirm = "emails must match"
+        }
+
+        return errors
+    }
 
 class ForgotPassword extends Component {
     constructor(props) {
         super(props)
-        this.state = {
-            color: "red"
-        }
-
-        contextTypes = {
-            router: PropTypes.object.isRequired
-        }
-    }
-
-    componentWillMount() {
-        if (this.props.authenticated) {
-            this.context.router.push("/dashboard")
-        }
-    }
-
-    componentWillUpdate(nextProps) {
-        if (nextProps.authenticated) {
-            this.context.router.push("/dashboard")
-        }
+        this.state = { dispatchedSend: false }
     }
 
     handleFormSubmit(formProps) {
@@ -39,41 +51,67 @@ class ForgotPassword extends Component {
     renderAlert() {
         if (this.props.errorMessage) {
             return (
-                <div>
+                <Segment color="red" compact>
                     <span>
-                        <strong>Error!</strong> {this.props.errorMessage}
+                        <strong>Registration Error: </strong>
+                        {" "}
+                        {this.props.errorMessage}
                     </span>
-                </div>
+                </Segment>
             )
+        }
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.errorMessage) {
+            this.state.dispatchedSend = false
         }
     }
 
     render() {
         const { handleSubmit } = this.props
+        console.log(this.props)
 
         return (
-            <form onSubmit={handleSubmit(this.handleFormSubmit.bind(this))}>
-                <div>
-                    {this.renderAlert()}
-                    <label>Email</label>
-                    <Field
-                        name="email"
-                        className="form-control"
-                        component="input"
-                        type="text"
-                    />
-                </div>
-                <button type="submit" className="btn btn-primary">
-                    Reset Password
-                </button>
-            </form>
+            <Form
+                onSubmit={handleSubmit(this.handleFormSubmit.bind(this))}
+                inverted={this.props.isInverted}
+            >
+                {this.renderAlert()}
+
+                <Field
+                    name="email"
+                    component={FormField}
+                    type="text"
+                    label="enter your email"
+                    placeholder="enter email"
+                    validate={[required, email, minLength(2)]}
+                    warn={[required, minLength(2)]}
+                    required={false}
+                />
+
+                <Field
+                    name="emailConfirm"
+                    component={FormField}
+                    type="text"
+                    placeholder="confirm email"
+                    validate={[required, email, minLength(2)]}
+                    warn={[required, minLength(2)]}
+                    required={false}
+                />
+
+                <Button type="submit" loading={this.state.dispatchedSend}>
+                    send email
+                </Button>
+
+            </Form>
         )
     }
 }
 
 function mapStateToProps(state) {
     return {
-        errorMessage: state.auth.error,
+        errorMessage: state.auth.registerError,
         message: state.auth.message,
         authenticated: state.auth.authenticated
     }

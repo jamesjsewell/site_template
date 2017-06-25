@@ -7,10 +7,13 @@ import Navbar from "./components/pages/navBarComponent.js"
 import Register from "./components/authComponents/registerComponent.js"
 import Login from "./components/authComponents/loginComponent.js"
 import Authentication from "./components/authComponents/requireAuthComponent.js"
+import ResetPassword
+    from "./components/authComponents/resetPasswordComponent.js"
 import HomePage from "./components/pages/homePage/homePageComponent.js"
 import AuthPage from "./components/pages/authPage/authPageComponent.js"
 import ProfilePage from "./components/pages/profilePage/profilePageComponent.js"
-import NotAuthenticatedPage from "./components/pages/notAuthenticatedPage/notAuthenticatedPageComponent.js"
+import NotAuthenticatedPage
+    from "./components/pages/notAuthenticatedPage/notAuthenticatedPageComponent.js"
 import {
     setActiveNavLink,
     hideSidebar,
@@ -33,10 +36,7 @@ import {
 
 class Blank extends Component {
     render() {
-        return(
-            <div></div>
-        )
-        
+        return <div />
     }
 }
 
@@ -53,7 +53,7 @@ class RouteConfig extends Component {
 
                     <Dimmer active={this.props.loadingData} page>
 
-                        <Grid columns='equal' padded>
+                        <Grid columns="equal" padded>
 
                             <Grid.Row>
 
@@ -88,11 +88,21 @@ class RouteConfig extends Component {
                     <Navbar />
 
                     <Switch>
-                        <Route path="/profile" component={this.props.user? ProfilePage : Blank} />
+                        <Route
+                            location={location}
+                            key={location.key}
+                            path="/reset-password/:resetToken"
+                            component={ResetPassword}
+                        />
+                        <Route
+                            path="/profile"
+                            component={this.props.user ? ProfilePage : Blank}
+                        />
                         <Route path="/login" component={AuthPage} />
                         <Route path="/register" component={AuthPage} />
                         <Route exact path="/" component={HomePage} />
                         <Route path="*" component={HomePage} />
+
                     </Switch>
 
                 </div>
