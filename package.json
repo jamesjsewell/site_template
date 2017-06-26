@@ -76,7 +76,6 @@
     "redux-form": "^6.7.0",
     "redux-thunk": "^2.2.0",
     "semantic-ui-react": "^0.68.5",
-    "sendgrid": "^5.1.1",
     "serve-static": "^1.12.3",
     "universal-cookie": "^2.0.8",
     "xoauth2": "^1.2.0"

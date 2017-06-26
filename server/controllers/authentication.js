@@ -1,13 +1,12 @@
 const jwt = require("jsonwebtoken")
 const crypto = require("crypto")
 const User = require("../db/userSchema.js")
-const mailgun = require("../config/mailgun")
 // const mailchimp = require('../config/mailchimp');
 const setUserInfo = require("../config/helpers").setUserInfo
 const getRole = require("../config/helpers").getRole
 const config = require("../config/secrets")
 const nodemailer = require("nodemailer")
-const xoauth2 = require("xoauth2")
+
 
 // Generate JWT
 // TO-DO Add issuer and audience
@@ -154,9 +153,9 @@ exports.roleAuthorization = function(requiredRole) {
 //= =======================================
 
 exports.forgotPassword = function(req, res, next) {
-    console.log(req.body.email)
+  
     const email = req.body.email
-    console.log(process.env)
+
 
     User.findOne({ email }, (err, existingUser) => {
         // If user is not found, return error
@@ -191,30 +190,38 @@ exports.forgotPassword = function(req, res, next) {
                         `If you did not request this, please ignore this email and your password will remain unchanged.\n`
                 }
 
-                var helper = require("sendgrid").mail
-                var fromEmail = new helper.Email("jamesjosephsewell@gmail.com")
-                var toEmail = new helper.Email(existingUser.email)
-                var subject = "reset your password"
-                var content = new helper.Content(
-                    "text/plain",
-                    message.body
-                )
-                var mail = new helper.Mail(fromEmail, subject, toEmail, content)
+                const nodemailer = require("nodemailer")
 
-                var sg = require("sendgrid")(process.env.SENDGRID_API_KEY)
-                var request = sg.emptyRequest({
-                    method: "POST",
-                    path: "/v3/mail/send",
-                    body: mail.toJSON()
+                // create reusable transporter object using the default SMTP transport
+                let transporter = nodemailer.createTransport({
+                    service: "gmail",
+                    port: 25,
+                    secure: false, // secure:true for port 465, secure:false for port 587
+                    auth: {
+                        user: "nodemailjs@gmail.com",
+                        pass: "thewebsite"
+                    }
                 })
 
-                sg.API(request, function(error, response) {
+                // setup email data with unicode symbols
+                let mailOptions = {
+                    from: 'nodemailjs@gmail.com', // sender address
+                    to: existingUser.email, // list of receivers
+                    subject: "reset password", // Subject line
+                    text: message.body,
+                    html: "" // html body
+                }
+
+                // send mail with defined transport object
+                transporter.sendMail(mailOptions, (error, info) => {
                     if (error) {
-                        console.log("Error response received")
+                        return console.log(error)
                     }
-                    console.log(response.statusCode)
-                    console.log(response.body)
-                    console.log(response.headers)
+                    console.log(
+                        "Message %s sent: %s",
+                        info.messageId,
+                        info.response
+                    )
                 })
 
                 return res.status(200).json({
