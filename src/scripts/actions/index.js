@@ -16,7 +16,9 @@ import { SubmissionError } from "redux-form"
 
 import Cookies from "universal-cookie"
 const cookies = new Cookies()
-function getToken(){return cookies.get("token")}
+function getToken() {
+    return cookies.get("token")
+}
 var user = cookies.get("user")
 
 //= ===============================
@@ -30,7 +32,6 @@ export function fetchUser(uid) {
                 headers: { Authorization: getToken() }
             })
             .then(response => {
-
                 dispatch({
                     type: FETCH_USER,
                     payload: response.data.user
@@ -53,9 +54,11 @@ export function errorHandler(dispatch, error, type) {
         errorMessage = error.data.error ? error.data.error : error
     }
     if (type === AUTH_ERROR) {
-        if (error.status === 401 || error.response.status === 401) {
-            errorMessage = "You are not authorized to do this."
-            return dispatch(logoutUser(errorMessage))
+        if (error.status || error.response.status) {
+            if (error.status === 401 || error.response.status === 401) {
+                errorMessage = "You are not authorized to do this."
+                return dispatch(logoutUser(errorMessage))
+            }
         }
     }
 

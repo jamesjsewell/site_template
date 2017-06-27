@@ -2,7 +2,7 @@ import React, { Component } from "react"
 import { connect } from "react-redux"
 import { Field, reduxForm } from "redux-form"
 import { getForgotPasswordToken } from "../../actions/authActions.js"
-import { Button, Grid, Segment, Input, Form } from "semantic-ui-react"
+import { Button, Grid, Segment, Input, Form, Message } from "semantic-ui-react"
 import { FormField } from "../helpers/formFields.js"
 import {
     required,
@@ -39,45 +39,41 @@ function validate(formProps) {
     }
 
 class ForgotPassword extends Component {
+
     constructor(props) {
         super(props)
-        this.state = { dispatchedSend: false }
+        this.state = { messageShowing: false }
     }
 
     handleFormSubmit(formProps) {
         this.props.getForgotPasswordToken(formProps)
     }
 
-    renderAlert() {
-        if (this.props.errorMessage) {
-            return (
-                <Segment color="red" compact>
-                    <span>
-                        <strong>Registration Error: </strong>
-                        {" "}
-                        {this.props.errorMessage}
-                    </span>
-                </Segment>
-            )
-        }
+    handleShowMessage() {
+        this.state.messageShowing = true
+
+        this.state.messageShowing = setTimeout(() => {
+            this.setState({ messageShowing: false })
+        }, 2500)
     }
 
     componentWillReceiveProps(nextProps) {
-        if (nextProps.errorMessage) {
-            this.state.dispatchedSend = false
+        if (nextProps.didSend) {
+            this.handleShowMessage()
         }
     }
 
     render() {
-        const { handleSubmit } = this.props
-        console.log(this.props)
 
+        const { handleSubmit } = this.props
+     
         return (
             <Form
                 onSubmit={handleSubmit(this.handleFormSubmit.bind(this))}
                 inverted={this.props.isInverted}
             >
-                {this.renderAlert()}
+
+                {this.props.didSend ? <Segment>check your email and follow the link</Segment> : 
 
                 <Field
                     name="email"
@@ -88,9 +84,9 @@ class ForgotPassword extends Component {
                     validate={[required, email, minLength(2)]}
                     warn={[required, minLength(2)]}
                     required={false}
-                />
+                /> }
 
-                <Field
+                {this.props.didSend ? <div></div> : <Field
                     name="emailConfirm"
                     component={FormField}
                     type="text"
@@ -98,11 +94,19 @@ class ForgotPassword extends Component {
                     validate={[required, email, minLength(2)]}
                     warn={[required, minLength(2)]}
                     required={false}
+                /> }
+
+                <Message
+                    visible={this.state.messageShowing ? true : false}
+                    hidden={this.state.messageShowing ? false : true}
+                    floating
+                    content={this.props.stateOfSend}
                 />
 
                 <Button type="submit" loading={this.state.dispatchedSend}>
-                    send email
+                    {this.props.didSend ? "resend email" : "send email"}
                 </Button>
+
 
             </Form>
         )
@@ -111,9 +115,8 @@ class ForgotPassword extends Component {
 
 function mapStateToProps(state) {
     return {
-        errorMessage: state.auth.registerError,
-        message: state.auth.message,
-        authenticated: state.auth.authenticated
+        didSend: state.auth.didEmailSend,
+        stateOfSend: state.auth.stateOfEmailSend
     }
 }
 

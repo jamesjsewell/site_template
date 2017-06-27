@@ -2,7 +2,8 @@ import React, { Component } from "react"
 import { connect } from "react-redux"
 import { Field, reduxForm } from "redux-form"
 import { resetPassword } from "../../actions/authActions.js"
-import { Button, Grid, Segment, Input, Form } from "semantic-ui-react"
+import { Button, Grid, Segment, Input, Form, Message } from "semantic-ui-react"
+import { Link } from "react-router-dom"
 import { FormField } from "../helpers/formFields.js"
 import {
     required,
@@ -20,22 +21,22 @@ const form = reduxForm({
 })
 
 function validate(formProps) {
-        const errors = {}
+    const errors = {}
 
-        if (!formProps.password) {
-            errors.password = "enter your password"
-        }
-
-        if (!formProps.passwordConfirm) {
-            errors.passwordConfirm = "confirm your password"
-        }
-
-        if (formProps.password !== formProps.passwordConfirm) {
-            errors.passwordConfirm = "passwords must match"
-        }
-
-        return errors
+    if (!formProps.password) {
+        errors.password = "enter your password"
     }
+
+    if (!formProps.passwordConfirm) {
+        errors.passwordConfirm = "confirm your password"
+    }
+
+    if (formProps.password !== formProps.passwordConfirm) {
+        errors.passwordConfirm = "passwords must match"
+    }
+
+    return errors
+}
 
 class ResetPassword extends Component {
     constructor(props) {
@@ -44,42 +45,33 @@ class ResetPassword extends Component {
     }
 
     handleFormSubmit({ password }) {
-        console.log(this.props)
         const resetToken = this.props.match.params.resetToken
         this.props.resetPassword(resetToken, { password })
     }
 
-    renderAlert() {
-        if (this.props.errorMessage) {
-            return (
-                <Segment color="red" compact>
-                    <span>
-                        <strong>Registration Error: </strong>
-                        {" "}
-                        {this.props.errorMessage}
-                    </span>
-                </Segment>
-            )
-        }
+    handleShowMessage() {
+        this.state.messageShowing = true
+
+        this.state.messageShowing = setTimeout(() => {
+            this.setState({ messageShowing: false })
+        }, 2500)
     }
 
     componentWillReceiveProps(nextProps) {
-        if (nextProps.errorMessage) {
-            this.state.dispatchedReset = false
+        if (nextProps.didReset || nextProps.stateOfReset) {
+            this.handleShowMessage()
         }
     }
 
     render() {
+       
         const { handleSubmit } = this.props
-        console.log(this.props)
 
         return (
-            <div>
             <Form
                 onSubmit={handleSubmit(this.handleFormSubmit.bind(this))}
                 inverted={this.props.isInverted}
             >
-                {this.renderAlert()}
 
                 <Field
                     name="password"
@@ -102,21 +94,26 @@ class ResetPassword extends Component {
                     required={false}
                 />
 
-                <Button type="submit" loading={this.state.dispatchedReset}>
+                <Message
+                    visible={this.state.messageShowing ? true : false}
+                    hidden={this.state.messageShowing ? false : true}
+                    floating
+                    content={this.props.stateOfReset}
+                />
+
+                {this.props.didReset ? <Link to="/login">login</Link> : <Button type="submit" loading={this.state.dispatchedReset}>
                     reset password
-                </Button>
+                </Button> }
 
             </Form>
-            </div>
         )
     }
 }
 
 function mapStateToProps(state) {
     return {
-        errorMessage: state.auth.registerError,
-        message: state.auth.message,
-        authenticated: state.auth.authenticated
+        didReset: state.auth.didPasswordReset,
+        stateOfReset: state.auth.stateOfReset
     }
 }
 

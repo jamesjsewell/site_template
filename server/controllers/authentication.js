@@ -246,8 +246,10 @@ exports.verifyToken = function(req, res, next) {
             // If query returned no results, token expired or was invalid. Return error.
             if (!resetUser) {
                 res.status(422).json({
-                    error: "Your token has expired. Please attempt to reset your password again."
+                    error: "Your token has expired. Please request to reset your password again."
                 })
+
+                return next()
             }
 
             // Otherwise, save new password and clear resetToken from database
@@ -268,10 +270,11 @@ exports.verifyToken = function(req, res, next) {
                 }
 
                 // Otherwise, send user email confirmation of password change via Mailgun
-                mailgun.sendEmail(resetUser.email, message)
+                //mailgun.sendEmail(resetUser.email, message)
 
                 return res.status(200).json({
-                    message: "Password changed successfully. Please login with your new password."
+                    message: "Password changed successfully. Please login with your new password.",
+                    didReset: true
                 })
             })
         }

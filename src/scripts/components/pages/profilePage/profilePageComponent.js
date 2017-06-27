@@ -46,25 +46,18 @@ class ProfilePage extends Component {
                 this.handleOpenPopup()
             }
         } else {
-            ///this.handleClosePopup()
+        
         }
     }
     handleOpenPopup() {
         this.state.popupIsOpen = true
 
         this.state.popupIsOpen = setTimeout(() => {
-            console.log("shit")
+          
             this.setState({popupIsOpen: false })
             
         }, 2500)
-        // setTimeout(() => {
-        //     this.state.popupIsOpen = false
-        // }, 2500)
-    }
 
-    handleClosePopup() {
-        this.state.popupIsOpen = false
-        clearTimeout(this.timeout)
     }
 
     handleFormSubmit(formProps) {

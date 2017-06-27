@@ -33,7 +33,7 @@ class Navbar extends Component {
 
         this.props.hideSidebar()
 
-        this.props.history.push(selectedItem)
+        this.props.history.replace(`/${selectedItem}`)
     }
 
     showHideSideBar(e) {

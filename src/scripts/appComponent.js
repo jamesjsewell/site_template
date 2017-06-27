@@ -7,8 +7,8 @@ import Navbar from "./components/pages/navBarComponent.js"
 import Register from "./components/authComponents/registerComponent.js"
 import Login from "./components/authComponents/loginComponent.js"
 import Authentication from "./components/authComponents/requireAuthComponent.js"
-import ResetPassword
-    from "./components/authComponents/resetPasswordComponent.js"
+import ResetPasswordPage
+    from "./components/pages/resetPasswordPage/resetPasswordPageComponent.js"
 import HomePage from "./components/pages/homePage/homePageComponent.js"
 import AuthPage from "./components/pages/authPage/authPageComponent.js"
 import ProfilePage from "./components/pages/profilePage/profilePageComponent.js"
@@ -92,7 +92,7 @@ class RouteConfig extends Component {
                             location={location}
                             key={location.key}
                             path="/reset-password/:resetToken"
-                            component={ResetPassword}
+                            component={ResetPasswordPage}
                         />
                         <Route
                             path="/profile"
