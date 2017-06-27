@@ -10,7 +10,10 @@
     "stop": "bash kill.sh",
     "watch": "npm run watch-js && npm run watch-css && echo '\n\n===== watching js and scss files in src/, writing changes to dist/ =====\n\n'&",
     "watch-js": "./node_modules/.bin/watchify src/scripts/app.js --debug --verbose --transform babelify -o dist/assets/js/app.js&",
-    "watch-css": "./node_modules/.bin/node-sass -w --output-style compressed src/styles/style.scss dist/assets/css/style.css&"
+    "watch-css": "./node_modules/.bin/node-sass -w --output-style compressed src/styles/style.scss dist/assets/css/style.css&",
+    "build": "npm run build-js && npm run build-css && echo '\n\n===== building js and scss files for production =====\n\n'",
+    "build-js": "NODE_ENV=production browserify src/scripts/app.js --transform babelify --transform uglifyify | uglifyjs -c > dist/assets/js/app.js ",
+    "build-css": "node-sass --output-style compressed src/styles/style.scss dist/assets/css/style.css"
   },
   "browserify": {
     "transform": [
@@ -36,10 +39,13 @@
     "babel-preset-es2015": "^6.9.0",
     "babel-preset-react": "^6.5.0",
     "babelify": "^7.3.0",
+    "browserify": "^14.4.0",
+    "morgan": "^1.8.1",
     "node-sass": "^3.7.0",
-    "watchify": "^3.7.0",
     "nodemon": "^1.11.0",
-    "morgan": "^1.8.1"
+    "uglify-js": "^3.0.20",
+    "uglifyify": "^4.0.2",
+    "watchify": "^3.7.0"
   },
   "dependencies": {
     "axios": "^0.16.1",
