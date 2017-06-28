@@ -23,11 +23,11 @@ export const FormField = ({
         />
         {touched &&
             ((error &&
-                <Segment floated="right" compact color="red">
+                <Segment compact color="red">
                     <span>{error}</span>
                 </Segment>) ||
                 (warning &&
-                    <Segment floated="right" compact color="red">
+                    <Segment compact color="red">
                         <span>{warning}</span>
                     </Segment>))}
     </Form.Field>

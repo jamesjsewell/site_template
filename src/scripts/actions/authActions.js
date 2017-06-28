@@ -61,8 +61,6 @@ export function registerUser({ email, firstName, lastName, password }) {
                 cookies.set("token", response.data.token, { path: "/" })
                 cookies.set("user", response.data.user, { path: "/" })
                 dispatch({ type: AUTH_USER, payload: response.data.user })
-                //protectedTest(response.data.user)
-                //window.location.href = `${CLIENT_ROOT_URL}/dashboard`;
             })
             .catch(error => {
                 errorHandler(dispatch, error.response, REGISTER_ERROR)
@@ -81,20 +79,26 @@ export function logoutUser(error) {
 }
 
 export function getForgotPasswordToken({ email }) {
-
     return function(dispatch) {
-
         dispatch({
-                    type: FORGOT_PASSWORD_REQUEST,
-                    payload: { stateOfSend: 'sending email', sending: true, sendSuccessful: false }
-                })
+            type: FORGOT_PASSWORD_REQUEST,
+            payload: {
+                stateOfSend: "sending email",
+                sending: true,
+                sendSuccessful: false
+            }
+        })
 
         axios
             .post(`${API_URL}/auth/forgot-password`, { email })
             .then(response => {
                 dispatch({
                     type: FORGOT_PASSWORD_REQUEST,
-                    payload: { stateOfSend: 'email sent', sending: false, sendSuccessful: true }
+                    payload: {
+                        stateOfSend: "email sent",
+                        sending: false,
+                        sendSuccessful: true
+                    }
                 })
             })
             .catch(error => {

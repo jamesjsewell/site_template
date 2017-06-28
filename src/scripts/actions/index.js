@@ -1,4 +1,5 @@
 import axios from "axios"
+import _ from "underscore"
 import { logoutUser } from "./authActions"
 import {
     STATIC_ERROR,
@@ -118,10 +119,10 @@ export function getData(action, errorType, isAuthReq, url, dispatch) {
 }
 
 // Put Request
-export function putData(action, errorType, isAuthReq, url, dispatch, data) {
+export function putData(action, errorPayload, isAuthReq, url, dispatch, data, additionalPayload) {
     const requestUrl = API_URL + url
     let headers = {}
-    console.log(requestUrl)
+
     if (isAuthReq) {
         headers = { headers: { Authorization: getToken() } }
     }
@@ -129,15 +130,17 @@ export function putData(action, errorType, isAuthReq, url, dispatch, data) {
     axios
         .put(requestUrl, data, headers)
         .then(response => {
-            console.log(response.data)
-            console.log(action)
+        
             dispatch({
                 type: action,
-                payload: response.data
+                payload: _.extend({}, response.data, additionalPayload)
             })
         })
         .catch(error => {
-            errorHandler(dispatch, error.response, errorType)
+            dispatch({
+                type: action,
+                payload: _.extend({}, {error: error.response.data.error}, errorPayload)
+            })
         })
 }
 

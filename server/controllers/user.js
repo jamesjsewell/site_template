@@ -29,13 +29,13 @@ exports.updateProfile = function (req, res, next) {
 
         if (err) {
 
-          res.status(500).send(err)
+          res.status(400).json({error: 'server error, cannot update profile' })
 
         }
 
         else if (!record) {
 
-          res.status(400).send('no record found with that id')
+          res.status(400).json({error: 'no record found with that id' })
 
         }
 
