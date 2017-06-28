@@ -26,7 +26,14 @@ class ProfilePage extends Component {
             <Grid container columns={1}>
                 <Grid.Row>
                     <Grid.Column width={9}>
-                        <EditProfile />
+                        <Header attached="top" size="large" textAlign="center">
+                            <Header.Content>
+                                edit profile
+                            </Header.Content>
+                        </Header>
+                        <Segment attached>
+                            <EditProfile />
+                        </Segment>
                     </Grid.Column>
                 </Grid.Row>
             </Grid>
@@ -36,9 +43,8 @@ class ProfilePage extends Component {
 
 function mapStateToProps(state) {
     return {
-    undefined: undefined
+        undefined: undefined
     }
 }
 
 export default connect(mapStateToProps)(ProfilePage)
-

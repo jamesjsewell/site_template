@@ -34,8 +34,16 @@ class AuthPage extends Component {
 
                         <Grid.Column>
 
-                            <Segment padded>
-                                <Header>login</Header>
+                            <Header
+                                size="large"
+                                attached="top"
+                                textAlign="center"
+                            >
+                                login
+                            </Header>
+
+                            <Segment attached>
+
                                 <Login isInverted={false} />
 
                                 <Segment>
@@ -60,8 +68,13 @@ class AuthPage extends Component {
 
                         <Grid.Column>
 
-                            <Segment padded>
-                                <Header>register</Header>
+                            <Header attached="top" size="large" textAlign="center">
+                                <Header.Content>
+                                    register
+                                </Header.Content>
+                            </Header>
+
+                            <Segment attached>
                                 <Register isInverted={false} />
                             </Segment>
 

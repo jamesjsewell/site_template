@@ -3,7 +3,10 @@ import { connect } from "react-redux"
 import { Field, reduxForm } from "redux-form"
 import { Link } from "react-router-dom"
 import { fetchUser } from "../../../actions/index.js"
-import { updatePersonalInfo, resetStatusOfUpdate } from "../../../actions/userProfileActions.js"
+import {
+    updatePersonalInfo,
+    resetStatusOfUpdate
+} from "../../../actions/userProfileActions.js"
 
 import {
     Button,
@@ -30,31 +33,35 @@ import _ from "underscore"
 class EditProfile extends Component {
     constructor(props) {
         super(props)
-        this.state = { messageIsOpen: false, upToDateProfile: this.props.profile }
+        this.state = {
+            messageIsOpen: false,
+            upToDateProfile: this.props.profile
+        }
     }
     componentWillMount() {
         this.props.fetchUser(this.props.user._id)
     }
     componentWillReceiveProps(nextProps) {
-
-        if(nextProps.profile){
+        if (nextProps.profile) {
             this.state.upToDateProfile = nextProps.profile
         }
 
-        if (nextProps.updated === true || nextProps.updating === true || nextProps.errorUpdating === true) {
+        if (
+            nextProps.updated === true ||
+            nextProps.updating === true ||
+            nextProps.errorUpdating === true
+        ) {
             if (this.props.anyTouched) {
                 this.props.untouch()
                 this.props.reset()
                 this.handleOpenMessage()
             }
-
-        } 
-
+        }
     }
     handleOpenMessage() {
-        this.state.messageIsOpen= true
+        this.state.messageIsOpen = true
 
-        this.state.messageIsOpen= setTimeout(() => {
+        this.state.messageIsOpen = setTimeout(() => {
             this.setState({ messageIsOpen: false })
             this.props.resetStatusOfUpdate()
         }, 2500)
@@ -74,26 +81,21 @@ class EditProfile extends Component {
                     ? userInput.lastName
                     : profile.lastName,
                 age: userInput.age ? userInput.age : profile.age,
-                gender: userInput.gender
-                    ? userInput.gender
-                    : profile.gender,
+                gender: userInput.gender ? userInput.gender : profile.gender,
                 location: userInput.location
                     ? userInput.location
                     : profile.location,
                 relationshipStatus: userInput.relationshipStatus
                     ? userInput.relationshipStatus
                     : profile.relationshipStatus,
-                website: userInput.website
-                    ? userInput.website
-                    : profile.website
+                website: userInput.website ? userInput.website : profile.website
             }
         }
         var updatedInfo = _.extend({}, this.state.upToDateProfile, parsedInput)
-        
-        if(!this.props.updating && !this.props.updated){
+
+        if (!this.props.updating && !this.props.updated) {
             this.props.updatePersonalInfo(this.props.user._id, parsedInput)
         }
-        
     }
 
     renderAlert() {
@@ -113,20 +115,19 @@ class EditProfile extends Component {
     }
 
     render() {
-
         const { handleSubmit } = this.props
         const user = this.props.user
         const profile = this.state.upToDateProfile
-        
+
         if (user) {
             var messageToUser = ""
-            if(this.props.updating === true){
+            if (this.props.updating === true) {
                 messageToUser = "updating your profile"
             }
-            if(this.props.updated === true){
+            if (this.props.updated === true) {
                 messageToUser = "updated your profile"
             }
-            if(this.props.errorUpdating){
+            if (this.props.errorUpdating) {
                 messageToUser = this.props.errorUpdating
             }
             const userFistName = profile && profile.firstName
@@ -150,7 +151,8 @@ class EditProfile extends Component {
                     : undefined
 
             return (
-                <Segment>
+            
+
                     <Form
                         onSubmit={handleSubmit(
                             this.handleFormSubmit.bind(this)
@@ -158,31 +160,45 @@ class EditProfile extends Component {
                         size="huge"
                         padded
                         inverted={this.props.isInverted}
-                        loading={this.props.updating || !profile === true ? true : false}
+                        loading={
+                            this.props.updating || !profile === true
+                                ? true
+                                : false
+                        }
                     >
 
                         {this.renderAlert()}
 
                         <Item>
-                        <Item.Content verticalAlign="middle">
-                            <Field
-                                placeholder={userFistName}
-                                name="firstName"
-                                component={FormField}
-                                type="text"
-                                label="first name"
-                                validate={[alphaNumeric]}
-                            />
+                            <Item.Content verticalAlign="middle">
 
-                            <Field
-                                placeholder={userLastName}
-                                name="lastName"
-                                component={FormField}
-                                type="text"
-                                label="last name"
-                                validate={[alphaNumeric]}
-                            />
-                        </Item.Content>
+                                <Field
+                                    placeholder={userFistName}
+                                    name="userName"
+                                    component={FormField}
+                                    type="text"
+                                    label="username"
+                                    validate={[alphaNumeric]}
+                                />
+
+                                <Field
+                                    placeholder={userFistName}
+                                    name="firstName"
+                                    component={FormField}
+                                    type="text"
+                                    label="first name"
+                                    validate={[alphaNumeric]}
+                                />
+
+                                <Field
+                                    placeholder={userLastName}
+                                    name="lastName"
+                                    component={FormField}
+                                    type="text"
+                                    label="last name"
+                                    validate={[alphaNumeric]}
+                                />
+                            </Item.Content>
                         </Item>
 
                         <Segment>
@@ -245,22 +261,25 @@ class EditProfile extends Component {
                         </Segment>
 
                         <Message
-                            visible={this.state.messageIsOpen? true : false}
-                            hidden={this.state.messageIsOpen? false : true}
+                            visible={this.state.messageIsOpen ? true : false}
+                            hidden={this.state.messageIsOpen ? false : true}
                             floating
+                            compact
+                            success={this.props.updated ? true : false}
                             content={messageToUser}
                         />
 
-                        {this.props.updating? null : <Button
-                            type="submit"
-                            content="Save Changes"
-                            floated="right"
-                            loading={this.props.updating}
-                        />}
+                        <Segment>
+                        {this.props.updating
+                            ? null
+                            : <Button
+                                  type="submit"
+                                  content="Save Changes"
+                                  loading={this.props.updating}
+                              />}
+                        </Segment>
 
                     </Form>
-
-                </Segment>
             )
         } else {
             return <div>could not find user</div>

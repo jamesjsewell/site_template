@@ -1,5 +1,5 @@
 import { Field, reduxForm } from "redux-form"
-import { Button, Segment, Input, Form } from "semantic-ui-react"
+import { Button, Segment, Input, Form, Header} from "semantic-ui-react"
 import React, { Component } from "react"
 
 export const FormField = ({
@@ -12,7 +12,7 @@ export const FormField = ({
     meta: { touched, error, warning, value, asyncValidating }
 }) => (
     <Form.Field className={asyncValidating ? 'async-validating' : ''} required={required} error={error && touched ? true : false} >
-        <label>{label}</label>
+        <Header sub size="small">{label}</Header>
         <Input
             type={type}
             value={input.value}
