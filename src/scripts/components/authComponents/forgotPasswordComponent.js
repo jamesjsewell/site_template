@@ -45,6 +45,14 @@ class ForgotPassword extends Component {
         this.state = { messageShowing: false }
     }
 
+    componentWillReceiveProps(nextProps) {
+        
+        if (nextProps.sendSuccessful === true || nextProps.sendSuccessful === false) {
+
+            this.handleShowMessage()
+        }
+    }
+
     handleFormSubmit(formProps) {
         this.props.getForgotPasswordToken(formProps)
     }
@@ -57,12 +65,6 @@ class ForgotPassword extends Component {
         }, 2500)
     }
 
-    componentWillReceiveProps(nextProps) {
-        if (nextProps.didSend) {
-            this.handleShowMessage()
-        }
-    }
-
     render() {
 
         const { handleSubmit } = this.props
@@ -73,7 +75,7 @@ class ForgotPassword extends Component {
                 inverted={this.props.isInverted}
             >
 
-                {this.props.didSend ? <Segment>check your email and follow the link</Segment> : 
+                {this.props.sendSuccessful ? <Segment>check your email and follow the link</Segment> : 
 
                 <Field
                     name="email"
@@ -86,7 +88,7 @@ class ForgotPassword extends Component {
                     required={false}
                 /> }
 
-                {this.props.didSend ? <div></div> : <Field
+                {this.props.sendSuccessful ? <div></div> : <Field
                     name="emailConfirm"
                     component={FormField}
                     type="text"
@@ -103,8 +105,8 @@ class ForgotPassword extends Component {
                     content={this.props.stateOfSend}
                 />
 
-                <Button type="submit" loading={this.state.dispatchedSend}>
-                    {this.props.didSend ? "resend email" : "send email"}
+                <Button type="submit" loading={this.props.sending}>
+                    {this.props.sendSuccessful ? "resend email" : "send email"}
                 </Button>
 
 
@@ -115,8 +117,9 @@ class ForgotPassword extends Component {
 
 function mapStateToProps(state) {
     return {
-        didSend: state.auth.didEmailSend,
-        stateOfSend: state.auth.stateOfEmailSend
+        sending: state.auth.passwordSending,
+        stateOfSend: state.auth.stateOfPasswordSend,
+        sendSuccessful: state.auth.passwordSendSuccessful
     }
 }
 

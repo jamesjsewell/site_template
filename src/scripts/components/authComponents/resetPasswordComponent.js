@@ -47,6 +47,7 @@ class ResetPassword extends Component {
     handleFormSubmit({ password }) {
         const resetToken = this.props.match.params.resetToken
         this.props.resetPassword(resetToken, { password })
+        this.state.dispatchedReset = true
     }
 
     handleShowMessage() {
@@ -59,6 +60,7 @@ class ResetPassword extends Component {
 
     componentWillReceiveProps(nextProps) {
         if (nextProps.didReset || nextProps.stateOfReset) {
+            this.state.dispatchedReset = false
             this.handleShowMessage()
         }
     }

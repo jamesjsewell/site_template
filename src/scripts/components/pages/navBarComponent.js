@@ -137,6 +137,7 @@ class Navbar extends Component {
                             visible={this.props.sidebarVisible}
                             icon="labeled"
                             vertical
+                            stackable
                             inverted={false}
                         >
                             <Menu.Menu>

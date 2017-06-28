@@ -39,15 +39,20 @@ class AuthPage extends Component {
                                 <Login isInverted={false} />
 
                                 <Segment>
-                                <Modal trigger={<Button>forgot password?</Button>}>
-                                    <Modal.Header>Request password change</Modal.Header>
-                                    <Modal.Content>
-                                       
-                                        <Modal.Description>
-                                            <ForgotPassword />
-                                        </Modal.Description>
-                                    </Modal.Content>
-                                </Modal>
+                                    <Modal
+                                        trigger={
+                                            <Button>forgot password?</Button>
+                                        }
+                                    >
+                                        <Modal.Header>
+                                            Request password change
+                                        </Modal.Header>
+                                        <Modal.Content>
+                                            <Modal.Description>
+                                                <ForgotPassword />
+                                            </Modal.Description>
+                                        </Modal.Content>
+                                    </Modal>
                                 </Segment>
                             </Segment>
 

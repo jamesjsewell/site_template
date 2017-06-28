@@ -81,14 +81,20 @@ export function logoutUser(error) {
 }
 
 export function getForgotPasswordToken({ email }) {
-    console.log({ email })
+
     return function(dispatch) {
+
+        dispatch({
+                    type: FORGOT_PASSWORD_REQUEST,
+                    payload: { stateOfSend: 'sending email', sending: true, sendSuccessful: false }
+                })
+
         axios
             .post(`${API_URL}/auth/forgot-password`, { email })
             .then(response => {
                 dispatch({
                     type: FORGOT_PASSWORD_REQUEST,
-                    payload: { didSend: true, stateOfSend: 'email sent' }
+                    payload: { stateOfSend: 'email sent', sending: false, sendSuccessful: true }
                 })
             })
             .catch(error => {
@@ -97,7 +103,8 @@ export function getForgotPasswordToken({ email }) {
                     type: FORGOT_PASSWORD_REQUEST,
                     payload: {
                         stateOfSend: error.response.data.error,
-                        didSend: false
+                        sending: false,
+                        sendSuccessful: false
                     }
                 })
             })

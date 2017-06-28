@@ -1,7 +1,7 @@
 import { AUTH_USER, GET_LOGGED_IN_USER, UNAUTH_USER, AUTH_ERROR, FORGOT_PASSWORD_REQUEST, RESET_PASSWORD_REQUEST, PROTECTED_TEST, LOGIN_ERROR, REGISTER_ERROR} from '../actions/types.js';
 import _ from 'underscore'
 
-const INITIAL_STATE = { loginError: undefined, registerError: undefined, authError: undefined, message: undefined, content: undefined, authenticated: false, user: undefined, didPasswordReset: false, didEmailSend: false, stateOfEmailSend: undefined };
+const INITIAL_STATE = { loginError: undefined, registerError: undefined, authError: undefined, message: undefined, content: undefined, authenticated: false, user: undefined, didPasswordReset: false, passwordSendSuccessful: undefined, stateOfPasswordSend: undefined, sendingPassword: undefined };
 
 export default function (state = INITIAL_STATE, action) {
 
@@ -28,7 +28,7 @@ export default function (state = INITIAL_STATE, action) {
     }
     
     case FORGOT_PASSWORD_REQUEST: {
-      return _.extend( {}, state, { message: action.payload.message, didEmailSend: action.payload.didSend, stateOfEmailSend: action.payload.stateOfSend } );
+      return _.extend( {}, state, { stateOfPasswordSend: action.payload.stateOfSend, sendingPassword: action.payload.sending, passwordSendSuccessful: action.payload.sendSuccessful } );
     }
     
     case RESET_PASSWORD_REQUEST: {

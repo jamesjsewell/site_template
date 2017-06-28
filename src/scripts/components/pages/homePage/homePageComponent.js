@@ -2,8 +2,6 @@ import React, { Component } from "react"
 import { connect } from "react-redux"
 import { Link } from "react-router-dom"
 import { Button, Grid, Segment, Input, Container } from "semantic-ui-react"
-import Login from "../../authComponents/loginComponent.js"
-import Navbar from "../navBarComponent.js"
 import { dataIsLoading } from '../../../actions/testActions.js'
 
 
