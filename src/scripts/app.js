@@ -10,9 +10,6 @@ import ReactGA from "react-ga"
 import { AUTH_USER } from "./actions/types"
 import { protectedTest } from "./actions/authActions.js"
 
-// Import stylesheets
-//import './public/stylesheets/base.scss';
-
 // Initialize Google Analytics
 ReactGA.initialize("UA-000000-01")
 

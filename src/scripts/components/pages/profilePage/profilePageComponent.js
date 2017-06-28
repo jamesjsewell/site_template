@@ -137,7 +137,7 @@ class ProfilePage extends Component {
             return (
                 <Grid container columns={1}>
                     <Grid.Row>
-                        <Grid.Column width={6}>
+                        <Grid.Column width={9}>
 
                             <Segment>
                                 <Form

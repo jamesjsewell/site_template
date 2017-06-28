@@ -131,12 +131,13 @@ class Navbar extends Component {
 
                         <Sidebar
                             as={Menu}
+                            size='massive'
                             animation="push"
-                            width="thin"
+                            width="wide"
                             visible={this.props.sidebarVisible}
                             icon="labeled"
                             vertical
-                            inverted
+                            inverted={false}
                         >
                             <Menu.Menu>
                                 <Menu.Item
