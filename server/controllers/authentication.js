@@ -7,7 +7,6 @@ const getRole = require("../config/helpers").getRole
 const config = require("../config/secrets")
 const nodemailer = require("nodemailer")
 
-
 // Generate JWT
 // TO-DO Add issuer and audience
 function generateToken(user) {
@@ -94,31 +93,46 @@ exports.aSyncValidation = function(req, res, next) {
     const emailConfirm = req.body.values.emailConfirm
     const password = req.body.values.password
     const passwordConfirm = req.body.values.passwordConfirm
+    const username = req.body.values.username
     var errors = {}
 
-    User.findOne({ email }, (err, existingUser) => {
-        if (err) {
-        }
-
-        // If user is not unique, return error
-        if (existingUser) {
-            errors["email"] = "email already in use"
-        }
-
-        if (password && passwordConfirm) {
-            if (password != passwordConfirm) {
-                errors["passwordConfirm"] = "passwords must match"
+    if (!username) {
+        User.findOne({ email }, (err, existingUser) => {
+            if (err) {
             }
-        }
 
-        if (email && emailConfirm) {
-            if (email != emailConfirm) {
-                errors["emailConfirm"] = "emails must match"
+            // If user is not unique, return error
+            if (existingUser) {
+                errors["email"] = "email already in use"
             }
-        }
 
-        return res.status(422).send(errors)
-    })
+            if (password && passwordConfirm) {
+                if (password != passwordConfirm) {
+                    errors["passwordConfirm"] = "passwords must match"
+                }
+            }
+
+            if (email && emailConfirm) {
+                if (email != emailConfirm) {
+                    errors["emailConfirm"] = "emails must match"
+                }
+            }
+
+            return res.status(422).send(errors)
+        })
+    } else {
+        User.findOne({ username }, (err, existingUser) => {
+            if (err) {
+            }
+
+            // If user is not unique, return error
+            if (existingUser) {
+                errors["username"] = "username already in use"
+            }
+
+            return res.status(422).send(errors)
+        })
+    }
 }
 
 //= =======================================
@@ -153,9 +167,7 @@ exports.roleAuthorization = function(requiredRole) {
 //= =======================================
 
 exports.forgotPassword = function(req, res, next) {
-  
     const email = req.body.email
-
 
     User.findOne({ email }, (err, existingUser) => {
         // If user is not found, return error
@@ -205,7 +217,7 @@ exports.forgotPassword = function(req, res, next) {
 
                 // setup email data with unicode symbols
                 let mailOptions = {
-                    from: 'nodemailjs@gmail.com', // sender address
+                    from: "nodemailjs@gmail.com", // sender address
                     to: existingUser.email, // list of receivers
                     subject: "reset password", // Subject line
                     text: message.body,

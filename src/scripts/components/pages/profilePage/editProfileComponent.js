@@ -25,7 +25,9 @@ import {
     minLength,
     alphaNumeric,
     email,
-    number
+    number,
+    asyncValidate,
+    shouldAsyncValidate
 } from "../../helpers/formValidation.js"
 import { FormField } from "../../helpers/formFields.js"
 import _ from "underscore"
@@ -35,7 +37,8 @@ class EditProfile extends Component {
         super(props)
         this.state = {
             messageIsOpen: false,
-            upToDateProfile: this.props.profile
+            upToDateProfile: this.props.profile,
+            upToDateUsername: this.props.username
         }
     }
     componentWillMount() {
@@ -44,6 +47,11 @@ class EditProfile extends Component {
     componentWillReceiveProps(nextProps) {
         if (nextProps.profile) {
             this.state.upToDateProfile = nextProps.profile
+            this.state.upToDateUsername = nextProps.username
+        }
+
+        if(nextProps.username){
+            this.state.upToDateUsername = nextProps.username
         }
 
         if (
@@ -71,8 +79,10 @@ class EditProfile extends Component {
         var userInput = formProps
 
         const profile = this.state.upToDateProfile
+        const username = this.state.upToDateUsername
 
         var parsedInput = {
+            username: userInput.username ? userInput.username : username,
             profile: {
                 firstName: userInput.firstName
                     ? userInput.firstName
@@ -117,6 +127,7 @@ class EditProfile extends Component {
     render() {
         const { handleSubmit } = this.props
         const user = this.props.user
+        const username = this.state.upToDateUsername ? this.state.upToDateUsername : undefined
         const profile = this.state.upToDateProfile
 
         if (user) {
@@ -151,125 +162,115 @@ class EditProfile extends Component {
                     : undefined
 
             return (
-            
+                <Form
+                    onSubmit={handleSubmit(this.handleFormSubmit.bind(this))}
+                    size="huge"
+                    padded
+                    inverted={this.props.isInverted}
+                    loading={
+                        this.props.updating || !profile === true ? true : false
+                    }
+                >
 
-                    <Form
-                        onSubmit={handleSubmit(
-                            this.handleFormSubmit.bind(this)
-                        )}
-                        size="huge"
-                        padded
-                        inverted={this.props.isInverted}
-                        loading={
-                            this.props.updating || !profile === true
-                                ? true
-                                : false
-                        }
-                    >
+                    {this.renderAlert()}
 
-                        {this.renderAlert()}
-
-                        <Item>
-                            <Item.Content verticalAlign="middle">
-
-                                <Field
-                                    placeholder={userFistName}
-                                    name="userName"
-                                    component={FormField}
-                                    type="text"
-                                    label="username"
-                                    validate={[alphaNumeric]}
-                                />
-
-                                <Field
-                                    placeholder={userFistName}
-                                    name="firstName"
-                                    component={FormField}
-                                    type="text"
-                                    label="first name"
-                                    validate={[alphaNumeric]}
-                                />
-
-                                <Field
-                                    placeholder={userLastName}
-                                    name="lastName"
-                                    component={FormField}
-                                    type="text"
-                                    label="last name"
-                                    validate={[alphaNumeric]}
-                                />
-                            </Item.Content>
-                        </Item>
-
-                        <Segment>
-                            <Field
-                                placeholder={userAge ? userAge : "enter age"}
-                                name="age"
-                                component={FormField}
-                                type="text"
-                                label="age"
-                                validate={[alphaNumeric, number]}
-                            />
+                    <Item>
+                        <Item.Content verticalAlign="middle">
 
                             <Field
-                                placeholder={
-                                    userGender ? userGender : "enter gender"
-                                }
-                                name="gender"
+                                placeholder={username}
+                                name="username"
                                 component={FormField}
                                 type="text"
-                                label="gender"
+                                label="username"
                                 validate={[alphaNumeric]}
                             />
 
                             <Field
-                                placeholder={
-                                    userLocation
-                                        ? userLocation
-                                        : "enter location"
-                                }
-                                name="location"
+                                placeholder={userFistName}
+                                name="firstName"
                                 component={FormField}
                                 type="text"
-                                label="location"
-                            />
-
-                            <Field
-                                placeholder={
-                                    userRelationshipStatus
-                                        ? userRelationshipStatus
-                                        : "enter relationship status"
-                                }
-                                name="relationshipStatus"
-                                component={FormField}
-                                type="text"
-                                label="relationship status"
+                                label="first name"
                                 validate={[alphaNumeric]}
                             />
 
                             <Field
-                                placeholder={
-                                    userWebsite
-                                        ? userWebsite
-                                        : "enter your website"
-                                }
-                                name="website"
+                                placeholder={userLastName}
+                                name="lastName"
                                 component={FormField}
                                 type="text"
-                                label="your website"
+                                label="last name"
+                                validate={[alphaNumeric]}
                             />
-                        </Segment>
+                        </Item.Content>
+                    </Item>
 
-                        <Message
-                            visible={this.state.messageIsOpen ? true : false}
-                            hidden={this.state.messageIsOpen ? false : true}
-                            floating
-                            compact
-                            success={this.props.updated ? true : false}
-                            content={messageToUser}
+                    <Segment>
+                        <Field
+                            placeholder={userAge ? userAge : "enter age"}
+                            name="age"
+                            component={FormField}
+                            type="text"
+                            label="age"
+                            validate={[alphaNumeric, number]}
                         />
 
-                        <Segment>
+                        <Field
+                            placeholder={
+                                userGender ? userGender : "enter gender"
+                            }
+                            name="gender"
+                            component={FormField}
+                            type="text"
+                            label="gender"
+                            validate={[alphaNumeric]}
+                        />
+
+                        <Field
+                            placeholder={
+                                userLocation ? userLocation : "enter location"
+                            }
+                            name="location"
+                            component={FormField}
+                            type="text"
+                            label="location"
+                        />
+
+                        <Field
+                            placeholder={
+                                userRelationshipStatus
+                                    ? userRelationshipStatus
+                                    : "enter relationship status"
+                            }
+                            name="relationshipStatus"
+                            component={FormField}
+                            type="text"
+                            label="relationship status"
+                            validate={[alphaNumeric]}
+                        />
+
+                        <Field
+                            placeholder={
+                                userWebsite ? userWebsite : "enter your website"
+                            }
+                            name="website"
+                            component={FormField}
+                            type="text"
+                            label="your website"
+                        />
+                    </Segment>
+
+                    <Message
+                        visible={this.state.messageIsOpen ? true : false}
+                        hidden={this.state.messageIsOpen ? false : true}
+                        floating
+                        compact
+                        success={this.props.updated ? true : false}
+                        content={messageToUser}
+                    />
+
+                    <Segment>
                         {this.props.updating
                             ? null
                             : <Button
@@ -277,9 +278,9 @@ class EditProfile extends Component {
                                   content="Save Changes"
                                   loading={this.props.updating}
                               />}
-                        </Segment>
+                    </Segment>
 
-                    </Form>
+                </Form>
             )
         } else {
             return <div>could not find user</div>
@@ -291,6 +292,7 @@ function mapStateToProps(state) {
     return {
         user: state.auth.user,
         profile: state.user.profile,
+        username: state.user.username,
         updating: state.user.updatingProfile,
         updated: state.user.updateProfileSuccess,
         errorUpdating: state.user.updateProfileError
@@ -303,6 +305,9 @@ export default connect(mapStateToProps, {
     resetStatusOfUpdate
 })(
     reduxForm({
-        form: "profileForm"
+        form: "profileForm",
+        asyncValidate,
+        asyncBlurFields: ["username"],
+        shouldAsyncValidate
     })(EditProfile)
 )

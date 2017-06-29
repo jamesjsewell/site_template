@@ -57,6 +57,7 @@ export const asyncValidate = (values, dispatch, validationType) => {
             return
         })
         .catch(error => {
+            console.log(error.response)
             if (error.response.data) {
                 return(error.response.data)
             }
