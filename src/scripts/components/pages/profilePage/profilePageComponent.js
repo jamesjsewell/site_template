@@ -13,6 +13,7 @@ import {
 } from "semantic-ui-react"
 
 import EditProfile from "./editProfileComponent.js"
+import Profile from "./profileComponent.js"
 
 class ProfilePage extends Component {
     constructor(props) {
@@ -23,9 +24,9 @@ class ProfilePage extends Component {
 
     render() {
         return (
-            <Grid container columns={1}>
+            <Grid container columns={1} stackable>
                 <Grid.Row>
-                    <Grid.Column width={9}>
+                    <Grid.Column width={7}>
                         <Header attached="top" size="large" textAlign="center">
                             <Header.Content>
                                 edit profile
@@ -35,6 +36,17 @@ class ProfilePage extends Component {
                             <EditProfile />
                         </Segment>
                     </Grid.Column>
+
+                    <Grid.Column width={9}>
+                        <Header attached="top" size="large" textAlign="center">
+                            your profile
+                        </Header>
+                        <Segment attached>
+                            <Profile />
+                        </Segment>
+
+                    </Grid.Column>
+
                 </Grid.Row>
             </Grid>
         )

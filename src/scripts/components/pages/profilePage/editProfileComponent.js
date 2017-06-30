@@ -50,7 +50,7 @@ class EditProfile extends Component {
             this.state.upToDateUsername = nextProps.username
         }
 
-        if(nextProps.username){
+        if (nextProps.username) {
             this.state.upToDateUsername = nextProps.username
         }
 
@@ -127,7 +127,9 @@ class EditProfile extends Component {
     render() {
         const { handleSubmit } = this.props
         const user = this.props.user
-        const username = this.state.upToDateUsername ? this.state.upToDateUsername : undefined
+        const username = this.state.upToDateUsername
+            ? this.state.upToDateUsername
+            : undefined
         const profile = this.state.upToDateProfile
 
         if (user) {
@@ -174,7 +176,7 @@ class EditProfile extends Component {
 
                     {this.renderAlert()}
 
-                    <Item>
+                    <Segment>
                         <Item.Content verticalAlign="middle">
 
                             <Field
@@ -204,7 +206,7 @@ class EditProfile extends Component {
                                 validate={[alphaNumeric]}
                             />
                         </Item.Content>
-                    </Item>
+                    </Segment>
 
                     <Segment>
                         <Field

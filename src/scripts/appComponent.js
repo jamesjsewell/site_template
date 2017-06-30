@@ -73,7 +73,7 @@ class RouteConfig extends Component {
                                             this.props.dataIsLoading(false)
                                         }}
                                     >
-                                        Finish Testing
+                                        finish testing
                                     </Button>
                                 </Grid.Column>
 
