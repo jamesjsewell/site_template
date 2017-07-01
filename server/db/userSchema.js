@@ -32,7 +32,8 @@ const UserSchema = new Schema(
             gender: { type: String, default: "" },
             age: { type: Number, default: "" },
             avatarUrl: { type: String, default: "" },
-            relationshipStatus: { type: String, default: "" }
+            relationshipStatus: { type: String, default: "" },
+            aboutMe: { type: String, default: ""}
         },
         role: {
             type: String,

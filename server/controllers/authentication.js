@@ -210,8 +210,8 @@ exports.forgotPassword = function(req, res, next) {
                     port: 25,
                     secure: false, // secure:true for port 465, secure:false for port 587
                     auth: {
-                        user: "nodemailjs@gmail.com",
-                        pass: "thewebsite"
+                        user: config.nodemailerEamil,
+                        pass: config.nodemailerPass
                     }
                 })
 

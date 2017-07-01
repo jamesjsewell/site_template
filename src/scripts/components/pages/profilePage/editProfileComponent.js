@@ -17,7 +17,8 @@ import {
     Header,
     Container,
     Message,
-    Item
+    Item,
+    Label
 } from "semantic-ui-react"
 import {
     required,
@@ -101,7 +102,6 @@ class EditProfile extends Component {
                 website: userInput.website ? userInput.website : profile.website
             }
         }
-        var updatedInfo = _.extend({}, this.state.upToDateProfile, parsedInput)
 
         if (!this.props.updating && !this.props.updated) {
             this.props.updatePersonalInfo(this.props.user._id, parsedInput)
@@ -166,7 +166,7 @@ class EditProfile extends Component {
             return (
                 <Form
                     onSubmit={handleSubmit(this.handleFormSubmit.bind(this))}
-                    size="huge"
+                    size="large"
                     padded
                     inverted={this.props.isInverted}
                     loading={
@@ -176,39 +176,36 @@ class EditProfile extends Component {
 
                     {this.renderAlert()}
 
+                    <Segment.Group horizontal>
                     <Segment>
-                        <Item.Content verticalAlign="middle">
 
-                            <Field
-                                placeholder={username}
-                                name="username"
-                                component={FormField}
-                                type="text"
-                                label="username"
-                                validate={[alphaNumeric]}
-                            />
+                        <Field
+                            placeholder={username}
+                            name="username"
+                            component={FormField}
+                            type="text"
+                            label="username"
+                            validate={[alphaNumeric]}
+                        />
 
-                            <Field
-                                placeholder={userFistName}
-                                name="firstName"
-                                component={FormField}
-                                type="text"
-                                label="first name"
-                                validate={[alphaNumeric]}
-                            />
+                        <Field
+                            placeholder={userFistName}
+                            name="firstName"
+                            component={FormField}
+                            type="text"
+                            label="first name"
+                            validate={[alphaNumeric]}
+                        />
 
-                            <Field
-                                placeholder={userLastName}
-                                name="lastName"
-                                component={FormField}
-                                type="text"
-                                label="last name"
-                                validate={[alphaNumeric]}
-                            />
-                        </Item.Content>
-                    </Segment>
+                        <Field
+                            placeholder={userLastName}
+                            name="lastName"
+                            component={FormField}
+                            type="text"
+                            label="last name"
+                            validate={[alphaNumeric]}
+                        />
 
-                    <Segment>
                         <Field
                             placeholder={userAge ? userAge : "enter age"}
                             name="age"
@@ -217,6 +214,13 @@ class EditProfile extends Component {
                             label="age"
                             validate={[alphaNumeric, number]}
                         />
+
+                    </Segment>
+
+                    <Segment>
+                    </Segment>
+
+                    <Segment>
 
                         <Field
                             placeholder={
@@ -261,7 +265,23 @@ class EditProfile extends Component {
                             type="text"
                             label="your website"
                         />
+
                     </Segment>
+
+                    <Segment>
+                    </Segment>
+
+                    <Segment>
+                    <Header>about me</Header>
+                    <textarea
+                        name="aboutMe"
+                        value={'lol'}
+                        // onChange={this.handleChange.bind(this)}
+                    />  
+                    </Segment>
+
+
+                    </Segment.Group>
 
                     <Message
                         visible={this.state.messageIsOpen ? true : false}
@@ -272,15 +292,13 @@ class EditProfile extends Component {
                         content={messageToUser}
                     />
 
-                    <Segment>
-                        {this.props.updating
-                            ? null
-                            : <Button
-                                  type="submit"
-                                  content="Save Changes"
-                                  loading={this.props.updating}
-                              />}
-                    </Segment>
+                    {this.props.updating
+                        ? null
+                        : <Button
+                              type="submit"
+                              content="save"
+                              loading={this.props.updating}
+                          />}
 
                 </Form>
             )
