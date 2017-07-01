@@ -197,7 +197,8 @@ class EditProfile extends Component {
                         basic
                         horizontal
                         size="small"
-                        compact
+                        padded
+                    
                     >
                         <Segment basic compact>
 
@@ -239,7 +240,7 @@ class EditProfile extends Component {
 
                         </Segment>
 
-                        <Segment vertical section />
+                        
 
                         <Segment>
 
@@ -275,7 +276,7 @@ class EditProfile extends Component {
                                 name="relationshipStatus"
                                 component={FormField}
                                 type="text"
-                                label="relationship status"
+                                label="relationship"
                                 validate={[alphaNumeric]}
                             />
 
@@ -293,7 +294,7 @@ class EditProfile extends Component {
 
                         </Segment>
 
-                        <Segment vertical section />
+                        
 
                         <Segment>
                             <Header>about me</Header>
