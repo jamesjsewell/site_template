@@ -13,17 +13,7 @@ import {
 } from "semantic-ui-react"
 
 import EditProfile from "./editProfileComponent.js"
-import EditAboutMe from "./editAboutMeComponent.js"
 import Profile from "./profileComponent.js"
-
-// //<Header attached="top" size="large" textAlign="center">
-//                             <Header.Content>
-//                                 edit about me
-//                             </Header.Content>
-//                         </Header>
-//                         <Segment attached>
-//                             <EditAboutMe />
-//                         </Segment>
 
 class ProfilePage extends Component {
     constructor(props) {

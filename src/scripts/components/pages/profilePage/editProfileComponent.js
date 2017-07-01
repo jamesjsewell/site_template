@@ -17,6 +17,7 @@ import {
     Header,
     Container,
     Message,
+    Divider,
     Item,
     Label
 } from "semantic-ui-react"
@@ -39,16 +40,23 @@ class EditProfile extends Component {
         this.state = {
             messageIsOpen: false,
             upToDateProfile: this.props.profile,
-            upToDateUsername: this.props.username
+            upToDateUsername: this.props.username,
+            aboutMeText: this.props.profile && this.props.profile.aboutMe
+                ? this.props.profile.aboutMe
+                : ""
         }
     }
     componentWillMount() {
         this.props.fetchUser(this.props.user._id)
     }
+    handleAboutMeChange(event) {
+        this.setState({ aboutMeText: event.target.value })
+    }
     componentWillReceiveProps(nextProps) {
         if (nextProps.profile) {
             this.state.upToDateProfile = nextProps.profile
             this.state.upToDateUsername = nextProps.username
+           
         }
 
         if (nextProps.username) {
@@ -100,6 +108,13 @@ class EditProfile extends Component {
                     ? userInput.relationshipStatus
                     : profile.relationshipStatus,
                 website: userInput.website ? userInput.website : profile.website
+            }
+        }
+       
+        if (this.state.aboutMeText) {
+            
+            if (this.state.aboutMeText != this.state.upToDateProfile.aboutMe) {
+                parsedInput['profile']['aboutMe'] = this.state.aboutMeText
             }
         }
 
@@ -168,6 +183,7 @@ class EditProfile extends Component {
                     onSubmit={handleSubmit(this.handleFormSubmit.bind(this))}
                     size="large"
                     padded
+                    widths="equal"
                     inverted={this.props.isInverted}
                     loading={
                         this.props.updating || !profile === true ? true : false
@@ -176,110 +192,119 @@ class EditProfile extends Component {
 
                     {this.renderAlert()}
 
-                    <Segment.Group horizontal>
-                    <Segment>
+                    <Segment.Group
+                        as={Segment}
+                        basic
+                        horizontal
+                        size="small"
+                        compact
+                    >
+                        <Segment basic compact>
 
-                        <Field
-                            placeholder={username}
-                            name="username"
-                            component={FormField}
-                            type="text"
-                            label="username"
-                            validate={[alphaNumeric]}
-                        />
+                            <Field
+                                placeholder={username}
+                                name="username"
+                                component={FormField}
+                                type="text"
+                                label="username"
+                                validate={[alphaNumeric]}
+                            />
 
-                        <Field
-                            placeholder={userFistName}
-                            name="firstName"
-                            component={FormField}
-                            type="text"
-                            label="first name"
-                            validate={[alphaNumeric]}
-                        />
+                            <Field
+                                placeholder={userFistName}
+                                name="firstName"
+                                component={FormField}
+                                type="text"
+                                label="first name"
+                                validate={[alphaNumeric]}
+                            />
 
-                        <Field
-                            placeholder={userLastName}
-                            name="lastName"
-                            component={FormField}
-                            type="text"
-                            label="last name"
-                            validate={[alphaNumeric]}
-                        />
+                            <Field
+                                placeholder={userLastName}
+                                name="lastName"
+                                component={FormField}
+                                type="text"
+                                label="last name"
+                                validate={[alphaNumeric]}
+                            />
 
-                        <Field
-                            placeholder={userAge ? userAge : "enter age"}
-                            name="age"
-                            component={FormField}
-                            type="text"
-                            label="age"
-                            validate={[alphaNumeric, number]}
-                        />
+                            <Field
+                                placeholder={userAge ? userAge : "enter age"}
+                                name="age"
+                                component={FormField}
+                                type="text"
+                                label="age"
+                                validate={[alphaNumeric, number]}
+                            />
 
-                    </Segment>
+                        </Segment>
 
-                    <Segment>
-                    </Segment>
+                        <Segment vertical section />
 
-                    <Segment>
+                        <Segment>
 
-                        <Field
-                            placeholder={
-                                userGender ? userGender : "enter gender"
-                            }
-                            name="gender"
-                            component={FormField}
-                            type="text"
-                            label="gender"
-                            validate={[alphaNumeric]}
-                        />
+                            <Field
+                                placeholder={
+                                    userGender ? userGender : "enter gender"
+                                }
+                                name="gender"
+                                component={FormField}
+                                type="text"
+                                label="gender"
+                                validate={[alphaNumeric]}
+                            />
 
-                        <Field
-                            placeholder={
-                                userLocation ? userLocation : "enter location"
-                            }
-                            name="location"
-                            component={FormField}
-                            type="text"
-                            label="location"
-                        />
+                            <Field
+                                placeholder={
+                                    userLocation
+                                        ? userLocation
+                                        : "enter location"
+                                }
+                                name="location"
+                                component={FormField}
+                                type="text"
+                                label="location"
+                            />
 
-                        <Field
-                            placeholder={
-                                userRelationshipStatus
-                                    ? userRelationshipStatus
-                                    : "enter relationship status"
-                            }
-                            name="relationshipStatus"
-                            component={FormField}
-                            type="text"
-                            label="relationship status"
-                            validate={[alphaNumeric]}
-                        />
+                            <Field
+                                placeholder={
+                                    userRelationshipStatus
+                                        ? userRelationshipStatus
+                                        : "enter relationship status"
+                                }
+                                name="relationshipStatus"
+                                component={FormField}
+                                type="text"
+                                label="relationship status"
+                                validate={[alphaNumeric]}
+                            />
 
-                        <Field
-                            placeholder={
-                                userWebsite ? userWebsite : "enter your website"
-                            }
-                            name="website"
-                            component={FormField}
-                            type="text"
-                            label="your website"
-                        />
+                            <Field
+                                placeholder={
+                                    userWebsite
+                                        ? userWebsite
+                                        : "enter your website"
+                                }
+                                name="website"
+                                component={FormField}
+                                type="text"
+                                label="your website"
+                            />
 
-                    </Segment>
+                        </Segment>
 
-                    <Segment>
-                    </Segment>
+                        <Segment vertical section />
 
-                    <Segment>
-                    <Header>about me</Header>
-                    <textarea
-                        name="aboutMe"
-                        value={'lol'}
-                        // onChange={this.handleChange.bind(this)}
-                    />  
-                    </Segment>
-
+                        <Segment>
+                            <Header>about me</Header>
+                            <textarea
+                                id="aboutMe"
+                                name="aboutMe"
+                                value={this.state.aboutMeText}
+                                onChange={this.handleAboutMeChange.bind(this)}
+                                placeholder={profile && profile.aboutMe? profile.aboutMe : 'tell us about yourself'}
+                            />
+                        </Segment>
 
                     </Segment.Group>
 

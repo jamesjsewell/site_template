@@ -51,6 +51,7 @@ class Profile extends Component {
         if (nextProps.profile) {
             this.state.upToDateProfile = nextProps.profile
             this.state.upToDateUsername = nextProps.username
+            this.state.aboutMeText = nextProps.profile.aboutMe
         }
 
         if (nextProps.username) {
