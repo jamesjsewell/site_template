@@ -56,7 +56,6 @@ class EditProfile extends Component {
         if (nextProps.profile) {
             this.state.upToDateProfile = nextProps.profile
             this.state.upToDateUsername = nextProps.username
-           
         }
 
         if (nextProps.username) {
@@ -110,12 +109,14 @@ class EditProfile extends Component {
                 website: userInput.website ? userInput.website : profile.website
             }
         }
-       
+
         if (this.state.aboutMeText) {
-            
-            if (this.state.aboutMeText != this.state.upToDateProfile.aboutMe) {
-                parsedInput['profile']['aboutMe'] = this.state.aboutMeText
-            }
+            parsedInput["profile"]["aboutMe"] = this.state.aboutMeText
+        } else {
+            parsedInput["profile"]["aboutMe"] = this.state.upToDateProfile
+                .aboutMe
+                ? this.state.upToDateProfile.aboutMe
+                : ""
         }
 
         if (!this.props.updating && !this.props.updated) {
@@ -198,7 +199,6 @@ class EditProfile extends Component {
                         horizontal
                         size="small"
                         padded
-                    
                     >
                         <Segment basic compact>
 
@@ -239,8 +239,6 @@ class EditProfile extends Component {
                             />
 
                         </Segment>
-
-                        
 
                         <Segment>
 
@@ -294,8 +292,6 @@ class EditProfile extends Component {
 
                         </Segment>
 
-                        
-
                         <Segment>
                             <Header>about me</Header>
                             <textarea
@@ -303,7 +299,11 @@ class EditProfile extends Component {
                                 name="aboutMe"
                                 value={this.state.aboutMeText}
                                 onChange={this.handleAboutMeChange.bind(this)}
-                                placeholder={profile && profile.aboutMe? profile.aboutMe : 'tell us about yourself'}
+                                placeholder={
+                                    profile && profile.aboutMe
+                                        ? profile.aboutMe
+                                        : "tell us about yourself"
+                                }
                             />
                         </Segment>
 
