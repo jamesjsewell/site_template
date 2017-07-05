@@ -1,7 +1,7 @@
 // Importing Passport, strategies, and config
 const passport = require('passport'),
   User = require('../db/userSchema.js'),
-  jwtSecret = require('./secrets.js').jwtSecret,
+  jwtSecret = process.env.AUTH_SECRET,
   JwtStrategy = require('passport-jwt').Strategy,
   ExtractJwt = require('passport-jwt').ExtractJwt,
   LocalStrategy = require('passport-local');

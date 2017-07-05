@@ -10,7 +10,7 @@ const nodemailer = require("nodemailer")
 // Generate JWT
 // TO-DO Add issuer and audience
 function generateToken(user) {
-    return jwt.sign(user, config.jwtSecret, {
+    return jwt.sign(user, process.env.AUTH_SECRET, {
         expiresIn: 604800 // in seconds
     })
 }
@@ -210,8 +210,8 @@ exports.forgotPassword = function(req, res, next) {
                     port: 25,
                     secure: false, // secure:true for port 465, secure:false for port 587
                     auth: {
-                        user: config.nodemailerEamil,
-                        pass: config.nodemailerPass
+                        user: process.env.NODEMAILER_CREDS.username,
+                        pass: process.env.NODEMAILER_CREDS.pass
                     }
                 })
 

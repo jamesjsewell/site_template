@@ -33,6 +33,10 @@ import {
 } from "../../helpers/formValidation.js"
 import { FormField } from "../../helpers/formFields.js"
 import _ from "underscore"
+import filestack from 'filestack-js';
+console.log(window)
+const client = filestack.init(process.env.FILESTACK_KEY);
+
 
 class EditProfile extends Component {
     constructor(props) {
@@ -81,6 +85,21 @@ class EditProfile extends Component {
             this.setState({ messageIsOpen: false })
             this.props.resetStatusOfUpdate()
         }, 2500)
+    }
+
+    handleUpload(evt){
+
+        evt.preventDefault()
+
+        client.pick({
+        accept: ['image/*'], maxSize: 2*1024*1024
+        }).then(function(result) {
+
+        var theJson = JSON.parse(JSON.stringify(result.filesUploaded))
+       
+        ACTIONS.add_image_to_user(theJson[0].url)
+        })
+
     }
 
     handleFormSubmit(formProps) {
@@ -147,6 +166,7 @@ class EditProfile extends Component {
             ? this.state.upToDateUsername
             : undefined
         const profile = this.state.upToDateProfile
+        var imgUrl = profile.avatarUrl
 
         if (user) {
             var messageToUser = ""
@@ -293,6 +313,13 @@ class EditProfile extends Component {
                         </Segment>
 
                         <Segment>
+
+                            <Segment size="small">
+
+                                {imgUrl? <img src={imgUrl} /> : <Icon name="user circle outline" />}
+
+                            </Segment>
+
                             <Header>about me</Header>
                             <textarea
                                 id="aboutMe"

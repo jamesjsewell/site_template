@@ -6,7 +6,6 @@ const ROLE_MEMBER = require('../config/constants').ROLE_MEMBER;
 const ROLE_CLIENT = require('../config/constants').ROLE_CLIENT;
 const ROLE_OWNER = require('../config/constants').ROLE_OWNER;
 const ROLE_ADMIN = require('../config/constants').ROLE_ADMIN;
-
 const passportService = require('../config/passport');
 
 // Middleware to require login/auth

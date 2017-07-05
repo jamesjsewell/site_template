@@ -10,6 +10,9 @@ const fallback = require("express-history-api-fallback")
 const appMiddleWare = require("./server/config/middleware.js")
 const appSecrets = require("./server/config/secrets.js")
 const connectToDB = require("./server/config/db-setup.js").connectToDB
+const setVars = require("./setEnvironmentVars.js")
+
+setVars.setEnvironmentVariables()
 
 // Import Routers
 let indexRouter = require("./server/routes/indexRouter.js")
