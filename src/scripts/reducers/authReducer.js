@@ -1,4 +1,4 @@
-import { AUTH_USER, GET_LOGGED_IN_USER, UNAUTH_USER, AUTH_ERROR, FORGOT_PASSWORD_REQUEST, RESET_PASSWORD_REQUEST, PROTECTED_TEST, LOGIN_ERROR, REGISTER_ERROR} from '../actions/types.js';
+import { AUTH_USER, GET_LOGGED_IN_USER, UNAUTH_USER, AUTH_ERROR, FORGOT_PASSWORD_REQUEST, RESET_PASSWORD_REQUEST, PROTECTED_TEST, LOGIN_ERROR, REGISTER_ERROR, GET_API_KEY} from '../actions/types.js';
 import _ from 'underscore'
 
 const INITIAL_STATE = { loginError: undefined, registerError: undefined, authError: undefined, message: undefined, content: undefined, authenticated: false, user: undefined, didPasswordReset: false, passwordSendSuccessful: undefined, stateOfPasswordSend: undefined, sendingPassword: undefined };
@@ -37,6 +37,10 @@ export default function (state = INITIAL_STATE, action) {
     
     case PROTECTED_TEST: {
       return _.extend( {}, state, { content: action.payload.message } );
+    }
+
+    case GET_API_KEY: {
+      return _.extend( {}, state, { filestackAPIkey: action.payload})
     }
 
   }

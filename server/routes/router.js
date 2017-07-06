@@ -39,6 +39,10 @@ authRoutes.post('/forgot-password', AuthenticationController.forgotPassword);
 // Password reset route (change password using token)
 authRoutes.post('/reset-password/:token', AuthenticationController.verifyToken);
 
+// get an api key
+authRoutes.post('/request-api-key', AuthenticationController.fetchAPIkeys);
+
+
 //= ========================
 // User Routes
 //= ========================

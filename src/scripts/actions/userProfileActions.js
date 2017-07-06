@@ -8,7 +8,8 @@ import {
 } from "./index.js"
 import {
 	FETCH_USER,
-	UPDATE_USER_PROFILE
+	UPDATE_USER_PROFILE,
+	UPLOAD_FILE
 } from "./types.js"
 
 export function updatePersonalInfo(userId, updatedInfo) {
@@ -45,5 +46,12 @@ export function resetStatusOfUpdate(){
 				success: undefined
 			}
 		})
+	}
+}
+
+export function uploadFile(){
+	return function(dispatch){
+		
+		postData(UPLOAD_FILE, '', true, `/auth/upload-file`, dispatch, '')
 	}
 }

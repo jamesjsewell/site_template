@@ -9,13 +9,15 @@ export const AUTH_USER = "auth_user",
     REGISTER_ERROR = "register_error",
     FORGOT_PASSWORD_REQUEST = "forgot_password_request",
     RESET_PASSWORD_REQUEST = "reset_password_request",
-    PROTECTED_TEST = "protected_test"
+    PROTECTED_TEST = "protected_test",
+    GET_API_KEY = "get_api_key"
 
 //= =====================
 // User Profile Actions
 //= =====================
 export const FETCH_USER = "fetch_user",
-UPDATE_USER_PROFILE = "update_user"
+UPDATE_USER_PROFILE = "update_user",
+UPLOAD_FILE = "upload_file"
 
 //= =====================
 // Messaging Actions

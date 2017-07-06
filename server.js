@@ -10,9 +10,12 @@ const fallback = require("express-history-api-fallback")
 const appMiddleWare = require("./server/config/middleware.js")
 const appSecrets = require("./server/config/secrets.js")
 const connectToDB = require("./server/config/db-setup.js").connectToDB
-const setVars = require("./setEnvironmentVars.js")
 
+// set up environment variables and initialize services that depend on them
+const setVars = require("./setEnvironmentVars.js")
 setVars.setEnvironmentVariables()
+const initFilestack = require("./server/config/filestackInit.js")
+initFilestack.initialize()
 
 // Import Routers
 let indexRouter = require("./server/routes/indexRouter.js")

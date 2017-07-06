@@ -8,7 +8,8 @@ import {
     FETCH_USER,
     LOADING_DATA,
     DATA_LOADED,
-    AUTH_ERROR
+    AUTH_ERROR,
+    GET_API_KEY
 } from "./types"
 
 export const API_URL = "/api"
@@ -169,6 +170,23 @@ export function deleteData(action, errorType, isAuthReq, url, dispatch) {
 //= ===============================
 // Static Page actions
 //= ===============================
+export function getAPIkey(key){
+    return function(dispatch) {
+        axios.post(`${API_URL}/auth/request-api-key`, {
+            key
+        })
+        .then(response => {
+            dispatch({
+                type: GET_API_KEY,
+                payload: response.data.key
+            })
+        })
+        .catch(error => {
+            console.log(error)
+            errorHandler(dispatch, error.response, STATIC_ERROR)
+        })
+    }
+}
 export function sendContactForm({ name, emailAddress, message }) {
     return function(dispatch) {
         axios

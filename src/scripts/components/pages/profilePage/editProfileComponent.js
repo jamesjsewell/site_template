@@ -5,9 +5,12 @@ import { Link } from "react-router-dom"
 import { fetchUser } from "../../../actions/index.js"
 import {
     updatePersonalInfo,
-    resetStatusOfUpdate
+    resetStatusOfUpdate,
+    uploadFile
 } from "../../../actions/userProfileActions.js"
-
+import {
+    getAPIkey
+} from "../../../actions/index.js"
 import {
     Button,
     Grid,
@@ -19,7 +22,9 @@ import {
     Message,
     Divider,
     Item,
-    Label
+    Label,
+    Profile,
+    Icon
 } from "semantic-ui-react"
 import {
     required,
@@ -34,8 +39,6 @@ import {
 import { FormField } from "../../helpers/formFields.js"
 import _ from "underscore"
 import filestack from 'filestack-js';
-console.log(window)
-const client = filestack.init(process.env.FILESTACK_KEY);
 
 
 class EditProfile extends Component {
@@ -49,6 +52,8 @@ class EditProfile extends Component {
                 ? this.props.profile.aboutMe
                 : ""
         }
+        this.props.getAPIkey('FILESTACK_KEY')
+
     }
     componentWillMount() {
         this.props.fetchUser(this.props.user._id)
@@ -89,16 +94,17 @@ class EditProfile extends Component {
 
     handleUpload(evt){
 
-        evt.preventDefault()
+        const client = filestack.init(this.props.apiKey);
 
         client.pick({
         accept: ['image/*'], maxSize: 2*1024*1024
         }).then(function(result) {
 
         var theJson = JSON.parse(JSON.stringify(result.filesUploaded))
-       
+        console.log(theJson[0].url)
         ACTIONS.add_image_to_user(theJson[0].url)
         })
+        
 
     }
 
@@ -160,13 +166,14 @@ class EditProfile extends Component {
     }
 
     render() {
+        console.log(this.props)
         const { handleSubmit } = this.props
         const user = this.props.user
         const username = this.state.upToDateUsername
             ? this.state.upToDateUsername
             : undefined
         const profile = this.state.upToDateProfile
-        var imgUrl = profile.avatarUrl
+        var imgUrl = profile && profile.avatarUrl? profile.avatarUrl : undefined
 
         if (user) {
             var messageToUser = ""
@@ -316,7 +323,7 @@ class EditProfile extends Component {
 
                             <Segment size="small">
 
-                                {imgUrl? <img src={imgUrl} /> : <Icon name="user circle outline" />}
+                                <Button type="button" onClick={this.handleUpload.bind(this)}> { imgUrl? <img src={imgUrl} /> : <Icon name="user circle outline" /> } </Button>
 
                             </Segment>
 
@@ -368,14 +375,18 @@ function mapStateToProps(state) {
         username: state.user.username,
         updating: state.user.updatingProfile,
         updated: state.user.updateProfileSuccess,
-        errorUpdating: state.user.updateProfileError
+        errorUpdating: state.user.updateProfileError,
+        imgUrl: state.user.imgUrl,
+        apiKey: state.auth.filestackAPIkey
     }
 }
 
 export default connect(mapStateToProps, {
     fetchUser,
     updatePersonalInfo,
-    resetStatusOfUpdate
+    resetStatusOfUpdate,
+    getAPIkey,
+    uploadFile
 })(
     reduxForm({
         form: "profileForm",
