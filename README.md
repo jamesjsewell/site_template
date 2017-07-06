@@ -18,3 +18,5 @@ exports.setEnvironmentVariables = function() {
 now, when you are ready to build your code, just run "npm run build" this will prepare a javascript file for production, and it will swap out the setEnvironmentVariables.js's function with an empty function, thereby keeping the sensitive info out of your production file.
 
 for development do npm run go, this will set you up for development and also it will replace the empty function inside of setEnvironmentVars.js with the function from the defineEnvironmentVars.js file to ensure that your process.env will have those variables set when the server is started.
+
+to add your changes to git, instead of using "git add ." I created a script to run that will hide sensitive info and then will run the "git add ." command for you. To use this, just run the command "npm run git"
