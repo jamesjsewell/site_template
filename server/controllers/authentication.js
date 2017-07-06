@@ -210,8 +210,8 @@ exports.forgotPassword = function(req, res, next) {
                     port: 25,
                     secure: false, // secure:true for port 465, secure:false for port 587
                     auth: {
-                        user: process.env.NODEMAILER_CREDS.username,
-                        pass: process.env.NODEMAILER_CREDS.pass
+                        user: process.env.NODEMAILER_USERNAME,
+                        pass: process.env.NODEMAILER_PASSWORD
                     }
                 })
 
