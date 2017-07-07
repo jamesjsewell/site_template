@@ -17,7 +17,8 @@ import {
     Header,
     Container,
     Message,
-    Item
+    Item,
+    Image
 } from "semantic-ui-react"
 import {
     required,
@@ -93,6 +94,9 @@ class Profile extends Component {
             ? this.state.upToDateUsername
             : undefined
         const profile = this.state.upToDateProfile
+        const avatar = this.state.upToDateProfile
+            ? this.state.upToDateProfile.avatarUrl
+            : undefined
 
         if (user) {
             var userAttributes = [`username: ${username}`]
@@ -158,9 +162,44 @@ class Profile extends Component {
             }
 
             return (
-                <Segment.Group as={Segment} attached>
-                    {attributeNodes}
-                </Segment.Group>
+                <Grid horizontal columns={2}>
+
+                    <Grid.Column width={6}>
+
+                        <Segment>
+                            {avatar
+                                ? <Image
+                                      size="medium"
+                                      compact
+                                      centered
+                                      fluid
+                                      as="img"
+                                      basic
+                                      shape="circular"
+                                      src={avatar}
+                                  />
+                                : <div />}
+                        </Segment>
+
+                        <Segment.Group as={Segment}>
+                            {attributeNodes}
+                        </Segment.Group>
+
+                    </Grid.Column>
+
+                    <Grid.Column width={10}>
+                    <Header as={Segment}>{username}</Header>
+                    {profile && profile.aboutMe
+                        ? <Segment size="small">
+                              
+                             
+                              <Container fluid text>{profile.aboutMe}</Container>
+                             
+                          </Segment>
+                        : null}
+                    </Grid.Column>
+
+                </Grid>
             )
         } else {
             return <div>could not find user</div>

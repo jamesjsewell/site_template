@@ -2,7 +2,7 @@ import {
     FETCH_USER,
     UPDATE_USER_PROFILE,
     UNAUTH_USER,
-    UPLOAD_FILE
+    UPLOAD_PROFILE_IMAGE
 } from "../actions/types.js"
 import _ from "underscore"
 
@@ -13,7 +13,11 @@ const INITIAL_STATE = {
     updatingProfile: undefined,
     updateProfileSuccess: undefined,
     updateProfileError: undefined,
-    imgUrl: undefined
+    receivedUrl: undefined,
+    statusOfUpload: undefined,
+    uploadSuccess: undefined,
+    uploadFailure: undefined
+
 }
 
 export default function(state = INITIAL_STATE, action) {
@@ -34,8 +38,8 @@ export default function(state = INITIAL_STATE, action) {
             })
         case UNAUTH_USER:
             return _.extend({}, state, { profile: undefined })
-        case UPLOAD_FILE:
-            return _.extend({}, state, { imgUrl: action.payload.url })
+        case UPLOAD_PROFILE_IMAGE:
+            return _.extend({}, state, { statusOfUpload: action.payload.status, uploadSuccess: action.payload.success, uploadFailure: action.payload.failure, receivedUrl: action.payload.url})
     }
 
     return state

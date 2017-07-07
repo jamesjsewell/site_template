@@ -9,8 +9,10 @@ import {
 import {
 	FETCH_USER,
 	UPDATE_USER_PROFILE,
-	UPLOAD_FILE
+	UPLOAD_PROFILE_IMAGE
 } from "./types.js"
+
+import filestack from "filestack-js"
 
 export function updatePersonalInfo(userId, updatedInfo) {
 	return function(dispatch) {
@@ -26,32 +28,86 @@ export function updatePersonalInfo(userId, updatedInfo) {
 
 		putData(
 			UPDATE_USER_PROFILE,
-			{success: false},
+			{ success: false },
 			true,
 			`/user/${userId}`,
 			dispatch,
 			updatedInfo,
-			{updating: false, success: true, error: undefined}
+			{ updating: false, success: true, error: undefined }
 		)
 
-		
+		dispatch({
+			type: UPLOAD_PROFILE_IMAGE,
+			payload: {
+				status: "in action",
+				success: undefined,
+				failure: undefined,
+				url: undefined
+			}
+		})
 	}
 }
 
-export function resetStatusOfUpdate(){
-	return function(dispatch){
+export function resetStatusOfUpdate() {
+	return function(dispatch) {
 		dispatch({
 			type: UPDATE_USER_PROFILE,
-			payload:{
+			payload: {
 				success: undefined
 			}
 		})
 	}
 }
 
-export function uploadFile(){
-	return function(dispatch){
-		
-		postData(UPLOAD_FILE, '', true, `/auth/upload-file`, dispatch, '')
+export function uploadProfileImage(apiKey) {
+	return function(dispatch) {
+		dispatch({
+			type: UPLOAD_PROFILE_IMAGE,
+			payload: {
+				status: "in action",
+				success: undefined,
+				failure: undefined,
+				url: undefined
+			}
+		})
+
+		const client = filestack.init(apiKey)
+
+		client
+			.pick({
+				accept: ["image/*"],
+				maxSize: 2 * 1024 * 1024,
+				transformations: {
+					crop: { aspectRatio: 1 / 1, circle: true },
+					minDimensions: [200, 200]
+				}
+			})
+			.then(function(result) {
+				var theJson = JSON.parse(JSON.stringify(result.filesUploaded))
+				var theUrl = theJson[0].url
+				if (theUrl) {
+					dispatch({
+						type: UPLOAD_PROFILE_IMAGE,
+						payload: {
+							status: "complete",
+							success: true,
+							failure: false,
+							url: theUrl
+						}
+					})
+				} else {
+					dispatch({
+						type: UPLOAD_PROFILE_IMAGE,
+						payload: {
+							status: "failure",
+							success: false,
+							failure: true,
+							url: undefined
+						}
+					})
+				}
+			})
 	}
 }
+
+

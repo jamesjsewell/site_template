@@ -49,7 +49,7 @@ class RouteConfig extends Component {
         return (
             <Router>
 
-                <div>
+                <Container as={Segment} secondary stretched>
 
                     <Dimmer active={this.props.loadingData} page>
 
@@ -105,7 +105,7 @@ class RouteConfig extends Component {
 
                     </Switch>
 
-                </div>
+                </Container>
 
             </Router>
         )

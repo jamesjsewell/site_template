@@ -17,7 +17,7 @@ export const AUTH_USER = "auth_user",
 //= =====================
 export const FETCH_USER = "fetch_user",
 UPDATE_USER_PROFILE = "update_user",
-UPLOAD_FILE = "upload_file"
+UPLOAD_PROFILE_IMAGE = "upload_profile_image"
 
 //= =====================
 // Messaging Actions

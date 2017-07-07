@@ -6,11 +6,9 @@ import { fetchUser } from "../../../actions/index.js"
 import {
     updatePersonalInfo,
     resetStatusOfUpdate,
-    uploadFile
+    uploadProfileImage
 } from "../../../actions/userProfileActions.js"
-import {
-    getAPIkey
-} from "../../../actions/index.js"
+import { getAPIkey } from "../../../actions/index.js"
 import {
     Button,
     Grid,
@@ -24,7 +22,9 @@ import {
     Item,
     Label,
     Profile,
-    Icon
+    Icon,
+    Image,
+    Modal
 } from "semantic-ui-react"
 import {
     required,
@@ -38,37 +38,39 @@ import {
 } from "../../helpers/formValidation.js"
 import { FormField } from "../../helpers/formFields.js"
 import _ from "underscore"
-import filestack from 'filestack-js';
-
 
 class EditProfile extends Component {
     constructor(props) {
         super(props)
         this.state = {
             messageIsOpen: false,
+            removePicModalOpen: false,
+            receivedImgUrl: undefined,
             upToDateProfile: this.props.profile,
             upToDateUsername: this.props.username,
             aboutMeText: this.props.profile && this.props.profile.aboutMe
                 ? this.props.profile.aboutMe
                 : ""
         }
-        this.props.getAPIkey('FILESTACK_KEY')
-
+        this.props.getAPIkey("FILESTACK_KEY")
     }
+
     componentWillMount() {
         this.props.fetchUser(this.props.user._id)
     }
-    handleAboutMeChange(event) {
-        this.setState({ aboutMeText: event.target.value })
-    }
+
     componentWillReceiveProps(nextProps) {
         if (nextProps.profile) {
-            this.state.upToDateProfile = nextProps.profile
+            this.setState({ upToDateProfile: nextProps.profile })
             this.state.upToDateUsername = nextProps.username
         }
 
         if (nextProps.username) {
             this.state.upToDateUsername = nextProps.username
+        }
+
+        if (nextProps.receivedImgUrl) {
+            this.setState({ receivedImgUrl: nextProps.receivedImgUrl })
         }
 
         if (
@@ -83,6 +85,11 @@ class EditProfile extends Component {
             }
         }
     }
+
+    handleAboutMeChange(event) {
+        this.setState({ aboutMeText: event.target.value })
+    }
+
     handleOpenMessage() {
         this.state.messageIsOpen = true
 
@@ -92,20 +99,17 @@ class EditProfile extends Component {
         }, 2500)
     }
 
-    handleUpload(evt){
+    handleUpload(evt) {
+        evt.preventDefault()
+        this.props.uploadProfileImage(this.props.apiKey)
+    }
 
-        const client = filestack.init(this.props.apiKey);
-
-        client.pick({
-        accept: ['image/*'], maxSize: 2*1024*1024
-        }).then(function(result) {
-
-        var theJson = JSON.parse(JSON.stringify(result.filesUploaded))
-        console.log(theJson[0].url)
-        ACTIONS.add_image_to_user(theJson[0].url)
-        })
-        
-
+    removeProfileImage() {
+        this.state.receivedImgUrl = undefined
+        this.state.removePicModalOpen = false
+        var updated = { profile: this.state.upToDateProfile }
+        updated["profile"]["avatarUrl"] = undefined
+        this.props.updatePersonalInfo(this.props.user._id, updated)
     }
 
     handleFormSubmit(formProps) {
@@ -114,6 +118,13 @@ class EditProfile extends Component {
         const profile = this.state.upToDateProfile
         const username = this.state.upToDateUsername
 
+        var avatarUrl = this.state.receivedImgUrl
+
+        if (profile.avatarUrl && !this.state.receivedImgUrl) {
+            avatarUrl = profile.avatarUrl
+        }
+
+        console.log('heres the avatarURL', avatarUrl)
         var parsedInput = {
             username: userInput.username ? userInput.username : username,
             profile: {
@@ -131,7 +142,10 @@ class EditProfile extends Component {
                 relationshipStatus: userInput.relationshipStatus
                     ? userInput.relationshipStatus
                     : profile.relationshipStatus,
-                website: userInput.website ? userInput.website : profile.website
+                website: userInput.website
+                    ? userInput.website
+                    : profile.website,
+                avatarUrl: avatarUrl
             }
         }
 
@@ -144,7 +158,8 @@ class EditProfile extends Component {
                 : ""
         }
 
-        if (!this.props.updating && !this.props.updated) {
+        if (!this.props.updating) {
+            console.log('fuuuuuck')
             this.props.updatePersonalInfo(this.props.user._id, parsedInput)
         }
     }
@@ -173,7 +188,11 @@ class EditProfile extends Component {
             ? this.state.upToDateUsername
             : undefined
         const profile = this.state.upToDateProfile
-        var imgUrl = profile && profile.avatarUrl? profile.avatarUrl : undefined
+        var imgUrl = this.state.upToDateProfile &&
+            this.state.upToDateProfile.avatarUrl
+            ? this.state.upToDateProfile.avatarUrl
+            : undefined
+        imgUrl = this.state.receivedImgUrl ? this.state.receivedImgUrl : imgUrl
 
         if (user) {
             var messageToUser = ""
@@ -321,13 +340,86 @@ class EditProfile extends Component {
 
                         <Segment>
 
-                            <Segment size="small">
+                            <Segment>
+                                <Button.Group basic>
+                                    <Button
+                                        label={
+                                            imgUrl
+                                                ? null
+                                                : "add profile picture"
+                                        }
+                                        basic={imgUrl ? false : true}
+                                        type="button"
+                                        onClick={this.handleUpload.bind(this)}
+                                        content={
+                                            imgUrl
+                                                ? <Image
+                                                      size="tiny"
+                                                      compact
+                                                      centered
+                                                      fluid
+                                                      as="img"
+                                                      basic
+                                                      shape="circular"
+                                                      src={imgUrl}
+                                                  />
+                                                : <Icon
+                                                      size="large"
+                                                      name="camera"
+                                                  />
+                                        }
+                                    />
 
-                                <Button type="button" onClick={this.handleUpload.bind(this)}> { imgUrl? <img src={imgUrl} /> : <Icon name="user circle outline" /> } </Button>
+                                    {imgUrl
+                                        ? <Button
+                                              onClick={() => {
+                                                  this.setState({
+                                                      removePicModalOpen: true
+                                                  })
+                                              }}
+                                              size="mini"
+                                              icon="remove"
+                                              compact
+                                              type="button"
+                                          />
+                                        : null}
+                                </Button.Group>
+                                <Modal
+                                    open={
+                                        this.state.removePicModalOpen &&
+                                            this.state.upToDateProfile.avatarUrl
+                                            ? true
+                                            : false
+                                    }
+                                >
+                                    <Modal.Header>
+                                        Are you sure you want to remove this photo?
+                                    </Modal.Header>
+                                    <Modal.Content>
+
+                                        <Modal.Actions>
+                                            <Button
+                                                content="no"
+                                                onClick={() => {
+                                                    this.setState({
+                                                        removePicModalOpen: false
+                                                    })
+                                                }}
+                                            />
+                                            <Button
+                                                icon="check"
+                                                content="remove photo"
+                                                onClick={this.removeProfileImage.bind(
+                                                    this
+                                                )}
+                                            />
+
+                                        </Modal.Actions>
+                                    </Modal.Content>
+                                </Modal>
 
                             </Segment>
 
-                            <Header>about me</Header>
                             <textarea
                                 id="aboutMe"
                                 name="aboutMe"
@@ -355,6 +447,7 @@ class EditProfile extends Component {
                     {this.props.updating
                         ? null
                         : <Button
+                              basic
                               type="submit"
                               content="save"
                               loading={this.props.updating}
@@ -376,7 +469,7 @@ function mapStateToProps(state) {
         updating: state.user.updatingProfile,
         updated: state.user.updateProfileSuccess,
         errorUpdating: state.user.updateProfileError,
-        imgUrl: state.user.imgUrl,
+        receivedImgUrl: state.user.receivedUrl,
         apiKey: state.auth.filestackAPIkey
     }
 }
@@ -386,7 +479,7 @@ export default connect(mapStateToProps, {
     updatePersonalInfo,
     resetStatusOfUpdate,
     getAPIkey,
-    uploadFile
+    uploadProfileImage
 })(
     reduxForm({
         form: "profileForm",

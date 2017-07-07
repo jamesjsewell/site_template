@@ -55,7 +55,7 @@ class Navbar extends Component {
 
                     <Grid.Column>
 
-                        <Menu size={"big"} pointing secondary>
+                        <Menu size={"big"} pointing floating fluid secondary>
 
                             <Menu.Menu>
                                 <Menu.Item
@@ -131,7 +131,7 @@ class Navbar extends Component {
 
                         <Sidebar
                             as={Menu}
-                            size='massive'
+                            size="massive"
                             animation="push"
                             width="wide"
                             visible={this.props.sidebarVisible}
