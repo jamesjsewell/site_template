@@ -18,7 +18,8 @@ import {
     Container,
     Message,
     Item,
-    Image
+    Image,
+    Icon
 } from "semantic-ui-react"
 import {
     required,
@@ -99,64 +100,66 @@ class Profile extends Component {
             : undefined
 
         if (user) {
-            var userAttributes = [`username: ${username}`]
+            var userAttributes = [`${username}`]
             for (var attribute in profile) {
                 switch (attribute) {
                     case "firstName": {
                         if (profile.firstName && profile.lastName) {
-                            userAttributes[1] = `full name: ${profile.firstName} ${profile.lastName}`
+                            userAttributes[1] = `${profile.firstName} ${profile.lastName}`
                         } else {
                             if (profile.lastName && !profile.firstName) {
-                                userAttributes[1] = `last name: ${profile.lastName}`
+                                userAttributes[1] = `${profile.lastName}`
                             }
                             if (profile.firstName && !profile.lastName) {
-                                userAttributes[1] = `first name: ${profile.firstName}`
+                                userAttributes[1] = `${profile.firstName}`
                             }
                         }
                     }
 
                     case "age": {
                         userAttributes[2] = profile.age
-                            ? `age: ${profile.age}`
+                            ? `${profile.age}`
                             : undefined
                     }
 
                     case "gender": {
                         userAttributes[3] = profile.gender
-                            ? `gender: ${profile.gender}`
+                            ? `${profile.gender}`
                             : undefined
                     }
 
                     case "location": {
                         userAttributes[4] = profile.location
-                            ? `location: ${profile.location}`
+                            ? `${profile.location}`
                             : undefined
                     }
 
                     case "relationshipStatus": {
                         userAttributes[5] = profile.relationshipStatus
-                            ? `relationship: ${profile.relationshipStatus}`
+                            ? `${profile.relationshipStatus}`
                             : undefined
                     }
 
                     case "website": {
                         userAttributes[6] = profile.relationshipStatus
-                            ? `website: ${profile.website}`
+                            ? `${profile.website}`
                             : undefined
                     }
                 }
             }
 
+
+            var attributeIcons = ["at", "user" , "hourglass half" , "intersex", "marker", "heart" , "external"]
             var attributeNodes = []
 
             for (var attr = 0; attr < userAttributes.length; attr++) {
                 var theAttribute = userAttributes[attr]
                     ? userAttributes[attr].toString()
                     : undefined
-                console.log(theAttribute)
+                console.log(attr)
                 if (theAttribute && theAttribute.replace(/ /g, "")) {
                     attributeNodes.push(
-                        <Segment>{userAttributes[attr]}</Segment>
+                        <Segment><Icon name={attributeIcons[attr]} /> {userAttributes[attr]}</Segment>
                     )
                 }
             }
@@ -169,7 +172,7 @@ class Profile extends Component {
                         <Segment>
                             {avatar
                                 ? <Image
-                                      size="medium"
+                                      size="small"
                                       compact
                                       centered
                                       fluid
