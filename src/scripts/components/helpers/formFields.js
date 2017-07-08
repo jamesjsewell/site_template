@@ -12,7 +12,7 @@ export const FormField = ({
     meta: { touched, error, warning, value, asyncValidating }
 }) => (
     <Form.Field className={asyncValidating ? 'async-validating' : ''} required={required} error={error && touched ? true : false} >
-        <Header sub size="small">{label}</Header>
+        <Header sub size="tiny">{label}</Header>
         <Input
             type={type}
             value={input.value}

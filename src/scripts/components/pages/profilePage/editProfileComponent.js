@@ -124,7 +124,6 @@ class EditProfile extends Component {
             avatarUrl = profile.avatarUrl
         }
 
-        console.log('heres the avatarURL', avatarUrl)
         var parsedInput = {
             username: userInput.username ? userInput.username : username,
             profile: {
@@ -159,7 +158,6 @@ class EditProfile extends Component {
         }
 
         if (!this.props.updating) {
-            console.log('fuuuuuck')
             this.props.updatePersonalInfo(this.props.user._id, parsedInput)
         }
     }
@@ -338,89 +336,99 @@ class EditProfile extends Component {
 
                         </Segment>
 
-                        <Segment>
+                        <Segment compact size="tiny">
 
-                            <Segment>
-                                <Button.Group basic>
-                                    <Button
-                                        label={
-                                            imgUrl
-                                                ? null
-                                                : "add profile picture"
-                                        }
-                                        basic={imgUrl ? false : true}
-                                        type="button"
-                                        onClick={this.handleUpload.bind(this)}
-                                        content={
-                                            imgUrl
-                                                ? <Image
-                                                      size="tiny"
-                                                      compact
-                                                      centered
-                                                      fluid
-                                                      as="img"
-                                                      basic
-                                                      shape="circular"
-                                                      src={imgUrl}
-                                                  />
-                                                : <Icon
-                                                      size="large"
-                                                      name="camera"
-                                                  />
-                                        }
-                                    />
+                            {imgUrl
+                                ? <Segment.Group compact size="mini">
 
-                                    {imgUrl
-                                        ? <Button
-                                              onClick={() => {
-                                                  this.setState({
-                                                      removePicModalOpen: true
-                                                  })
-                                              }}
-                                              size="mini"
-                                              icon="remove"
-                                              compact
-                                              type="button"
+                                      <Image
+                                          size="tiny"
+                                          compact
+                                          centered
+                                          fluid
+                                          as="img"
+                                          basic
+                                          src={imgUrl}
+                                      />
+
+                                      <Segment size="mini" compact>
+
+                                          <Button.Group>
+                                              <Button
+                                                  onClick={this.handleUpload.bind(
+                                                      this
+                                                  )}
+                                                  icon="refresh"
+                                                  basic
+                                              />
+
+                                              {imgUrl === profile.avatarUrl? <Button
+                                                  onClick={() => {
+                                                      this.setState({
+                                                          removePicModalOpen: true
+                                                      })
+                                                  }}
+                                                  type="button"
+                                                  icon="remove"
+                                                  basic
+                                              /> : null}
+                                          </Button.Group>
+
+                                      </Segment>
+
+                                  </Segment.Group>
+                                : <Segment.Group compact size="mini">
+                                      <Segment>
+                                          <Button
+                                              onClick={this.handleUpload.bind(
+                                                  this
+                                              )}
+                                              icon="camera"
                                           />
-                                        : null}
-                                </Button.Group>
-                                <Modal
-                                    open={
-                                        this.state.removePicModalOpen &&
-                                            this.state.upToDateProfile.avatarUrl
-                                            ? true
-                                            : false
-                                    }
-                                >
-                                    <Modal.Header>
-                                        Are you sure you want to remove this photo?
-                                    </Modal.Header>
-                                    <Modal.Content>
+                                      </Segment>
+                                      <Segment>add profile picture</Segment>
+                                  </Segment.Group>}
 
-                                        <Modal.Actions>
-                                            <Button
-                                                content="no"
-                                                onClick={() => {
-                                                    this.setState({
-                                                        removePicModalOpen: false
-                                                    })
-                                                }}
-                                            />
-                                            <Button
-                                                icon="check"
-                                                content="remove photo"
-                                                onClick={this.removeProfileImage.bind(
-                                                    this
-                                                )}
-                                            />
+                            <Modal
+                                open={
+                                    this.state.removePicModalOpen &&
+                                        this.state.upToDateProfile.avatarUrl
+                                        ? true
+                                        : false
+                                }
+                            >
+                                <Modal.Header>
+                                    Are you sure you want to remove this photo?
+                                </Modal.Header>
+                                <Modal.Content>
 
-                                        </Modal.Actions>
-                                    </Modal.Content>
-                                </Modal>
+                                    <Modal.Actions>
+                                        <Button
+                                            content="no"
+                                            onClick={() => {
+                                                this.setState({
+                                                    removePicModalOpen: false
+                                                })
+                                            }}
+                                        />
+                                        <Button
+                                            icon="check"
+                                            content="remove photo"
+                                            onClick={this.removeProfileImage.bind(
+                                                this
+                                            )}
+                                        />
 
-                            </Segment>
+                                    </Modal.Actions>
+                                </Modal.Content>
+                            </Modal>
 
+                           
                             <textarea
+                                as={Segment}
+                                basic
+                                size="small"
+                                compact
                                 id="aboutMe"
                                 name="aboutMe"
                                 value={this.state.aboutMeText}
@@ -431,6 +439,7 @@ class EditProfile extends Component {
                                         : "tell us about yourself"
                                 }
                             />
+                        
                         </Segment>
 
                     </Segment.Group>

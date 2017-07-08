@@ -162,7 +162,7 @@ class Profile extends Component {
             }
 
             return (
-                <Grid horizontal columns={2}>
+                <Grid horizontal columns={2} container stackable>
 
                     <Grid.Column width={6}>
 
