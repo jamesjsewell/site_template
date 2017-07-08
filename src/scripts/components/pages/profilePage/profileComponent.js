@@ -178,7 +178,6 @@ class Profile extends Component {
                                       fluid
                                       as="img"
                                       basic
-                                      shape="circular"
                                       src={avatar}
                                   />
                                 : <div />}
