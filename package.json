@@ -13,7 +13,7 @@
     "watch-css": "./node_modules/.bin/node-sass -w --output-style compressed src/styles/style.scss dist/assets/css/style.css&",
     "build": "echo '\n\n===== building js and scss files for production =====\n\n' && npm run hide-sensitive && npm run build-js && npm run build-css",
     "hide-sensitive": "echo 'exports.setEnvironmentVariables = function() {}' > setEnvironmentVars.js",
-    "build-js": "NODE_ENV=production browserify -i setEnvironmentVars.js src/scripts/app.js --transform babelify --transform uglifyify | uglifyjs -c > dist/assets/js/app.js ",
+    "build-js": "NODE_ENV=production browserify -i setEnvironmentVars.js src/scripts/app.js --transform babelify | uglifyjs -c > dist/assets/js/app.js ",
     "build-css": "node-sass --output-style compressed src/styles/style.scss dist/assets/css/style.css",
     "git": "npm run hide-sensitive && npm run build && npm run addToGit",
     "addToGit": "git add ."
