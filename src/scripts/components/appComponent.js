@@ -3,23 +3,23 @@ import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom"
 import { connect } from "react-redux"
 import { withRouter } from "react-router"
 import createHistory from "history/createBrowserHistory"
-import Navbar from "./components/pages/navBarComponent.js"
-import Register from "./components/authComponents/registerComponent.js"
-import Login from "./components/authComponents/loginComponent.js"
-import Authentication from "./components/authComponents/requireAuthComponent.js"
+import Navbar from "./pages/navBarComponent.js"
+import Register from "./authComponents/registerComponent.js"
+import Login from "./authComponents/loginComponent.js"
+import Authentication from "./authComponents/requireAuthComponent.js"
 import ResetPasswordPage
-    from "./components/pages/resetPasswordPage/resetPasswordPageComponent.js"
-import HomePage from "./components/pages/homePage/homePageComponent.js"
-import AuthPage from "./components/pages/authPage/authPageComponent.js"
-import ProfilePage from "./components/pages/profilePage/profilePageComponent.js"
+    from "./pages/resetPasswordPage/resetPasswordPageComponent.js"
+import HomePage from "./pages/homePage/homePageComponent.js"
+import AuthPage from "./pages/authPage/authPageComponent.js"
+import ProfilePage from "./pages/profilePage/profilePageComponent.js"
 import NotAuthenticatedPage
-    from "./components/pages/notAuthenticatedPage/notAuthenticatedPageComponent.js"
+    from "./pages/notAuthenticatedPage/notAuthenticatedPageComponent.js"
 import {
     setActiveNavLink,
     hideSidebar,
     activateSidebar
-} from "./actions/navActions.js"
-import { dataIsLoading } from "./actions/testActions.js"
+} from "../actions/navActions.js"
+import { dataIsLoading } from "../actions/testActions.js"
 import {
     Menu,
     Segment,
