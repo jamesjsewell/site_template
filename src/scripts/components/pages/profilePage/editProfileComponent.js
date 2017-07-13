@@ -404,6 +404,7 @@ class EditProfile extends Component {
 
                                     <Modal.Actions>
                                         <Button
+                                            type="button"
                                             content="no"
                                             onClick={() => {
                                                 this.setState({
@@ -412,6 +413,7 @@ class EditProfile extends Component {
                                             }}
                                         />
                                         <Button
+                                            type="button"
                                             icon="check"
                                             content="remove photo"
                                             onClick={this.removeProfileImage.bind(
