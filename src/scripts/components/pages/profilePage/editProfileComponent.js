@@ -355,6 +355,7 @@ class EditProfile extends Component {
 
                                           <Button.Group>
                                               <Button
+                                                    type="button"
                                                   onClick={this.handleUpload.bind(
                                                       this
                                                   )}
