@@ -8,9 +8,9 @@ create a file in the main directory and name it defineEnvironmentVars.js  inside
 *add any extra environment variables inside of the function*
 
 exports.setEnvironmentVariables = function() {
-	process.env["FILESTACK_KEY"] = "yourFilestackKey",
-	process.env["NODEMAILER_USERNAME"] = "yourEmailForNodeMailerDelivery",
-	process.env["NODEMAILER_PASSWORD"] = "yourPass",
+	process.env["FILESTACK_KEY"] = "yourFilestackKey"
+	process.env["NODEMAILER_USERNAME"] = "yourEmailForNodeMailerDelivery"
+	process.env["NODEMAILER_PASSWORD"] = "yourPass"
 	process.env["AUTH_SECRET"] = "yourSecret"
 }
 
